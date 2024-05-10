@@ -111,6 +111,43 @@ class ItemDB
                 name = "CopperOre"; // 구리
                 type = "재료";
                 return;
+            case 14:
+                sellPrice = 10;
+                buyPrice = 20;
+                name = "SpringSeed1"; // 봄작물 1
+                type = "재료";
+                return;
+            case 15:
+                sellPrice = 20;
+                buyPrice = 40;
+                name = "SpringSeed2"; // 봄작물2
+                type = "재료";
+                return;
+            case 16:
+                sellPrice = 11;
+                buyPrice = 22;
+                name = "SummerSeed1"; // 여름작물1
+                type = "재료";
+                return;
+            case 17:
+                sellPrice = 22;
+                buyPrice = 44;
+                name = "SummerSeed2"; // 여름작물2
+                type = "재료";
+                return;
+            case 18:
+                sellPrice = 13;
+                buyPrice = 26;
+                name = "FallSeed1"; // 가을작물1
+                type = "재료";
+                return;
+            case 19:
+                sellPrice = 26;
+                buyPrice = 52;
+                name = "FallSeed2"; // 가을작물2
+                type = "재료";
+                return;
+
         }
 	}
 }
