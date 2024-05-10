@@ -16,7 +16,6 @@ public class FarmLandControl : MonoBehaviour
         playerInventroy = collision.GetComponentInParent<PlayerInventroy>();
         onHandItem = new ItemDB(playerInventroy.currentInventoryItem);
         onHandItem.itemSetting();
-
         if (onHandItem.toolType == this.toolType)
         {
                 Debug.Log("¶¥À» ÆÍ´Ù.");   

@@ -70,7 +70,6 @@ class FieldTreeObject : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         playerInventroy = collision.GetComponentInParent<PlayerInventroy>();
-
         onHandItem = new ItemDB(playerInventroy.currentInventoryItem);
         onHandItem.itemSetting();
         if(onHandItem.toolType == this.toolType)
