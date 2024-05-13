@@ -147,6 +147,23 @@ class ItemDB
                 name = "FallSeed2"; // 가을작물2
                 type = "재료";
                 return;
+            case 20:
+                sellPrice = 100;
+                buyPrice = 200;
+                name = "FishingRod"; // 낚싯대
+                type = "도구";
+                grade = 1; // 1레벨 낚싯대
+                toolType = 9; // 9번 툴 낚싯대
+                staminaRestor = 10; //스테소모
+                return;
+
+
+            case 50:
+                sellPrice = 10;
+                buyPrice = 0;
+                name = "GreenSlimeDrop"; // 초록슬라임 드랍
+                type = "재료";
+                return;
 
         }
 	}
