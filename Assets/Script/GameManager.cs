@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,7 +12,7 @@ public class GameManager : MonoBehaviour
     int currentMinute; // 7초에 10분? 계산하기 편하게 10초에 10분으로 하자 1분에 한시간
     string ampm;
     bool dayOff;
-
+    bool tempinvenonoff = false;
     GameObject inventory;
 
     int gold;
@@ -111,16 +112,18 @@ public class GameManager : MonoBehaviour
 
     void OpenInventory()
     {
-        if (Input.GetKeyDown(KeyCode.E)) // 인벤토리가 켜져있는 동안에는 게임이 일시정지된다.
+        if (Input.GetKeyDown(KeyCode.E) && tempinvenonoff == false ) // 인벤토리가 켜져있는 동안에는 게임이 일시정지된다.
         {
             // 인벤토리 창을 만들어야 하겠다
             // 인벤토리오브젝트.SetActive
             // 인벤토리 오브젝트가 켜짐
             inventory.SetActive(true);
+            tempinvenonoff = true;
         }
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
+        else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) && tempinvenonoff == true)
         {
             inventory.SetActive(false);
+            tempinvenonoff = false;
         }
     }
 }
