@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerInventroy : MonoBehaviour
+public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 {
-    Inventory[] pInventory;
-    public int currentInventoryItem; // 현재인벤에 들어있는 아이템ID
-    int currentInventory; // 현재인벤 번호
-    int itemCount;
-    ItemDB currentItemDB;
-    void MakePlayerInventory()
+    Inventory[] pInventory = new Inventory[36]; // 36칸의 인벤토리
+    int currentInventory; // 현재인벤
+    public int currentInventoryItem; // 현재인벤의 아이템ID
+    public int itemCount; // 현재 인벤의 아이템 수
+    ItemDB currentItemDB; // 아이템 정보 호출용
+    void MakePlayerInventory() // 시작할때 주는 도구 = 1회성
     {
-        pInventory = new Inventory[12];// 인벤토리는 12칸
         pInventory[0] = new Inventory(4); // 아이템ID 4 = 도끼
         pInventory[1] = new Inventory(5); // 아이템ID 5 = 괭이
         pInventory[2] = new Inventory(6); // 아이템ID 6 = 물뿌리개
@@ -26,15 +25,17 @@ public class PlayerInventroy : MonoBehaviour
     
     void Start()
     {
-        MakePlayerInventory(); // 플레이어 인벤토리를 생성한다
+        MakePlayerInventory(); // 기본아이템을 생성한다
         currentInventory = 0;
-        currentInventoryItem = pInventory[currentInventory].itemID; // 현재인벤토리가 선택한 물건은 currentInventory번인벤토리가 가진 아이템ID이다.
+        //현재 아이템 = 현재 인벤토리의 아이템ID
+        currentInventoryItem = pInventory[currentInventory].itemID;
     }
     void Update()
     {
-        currentInventoryItem = pInventory[currentInventory].itemID;
-        currentItemDB = new ItemDB(currentInventoryItem); // 현재고른 아이템의 ID를 이용해 정보를 뽑아옴
-
+        ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
+    }
+    void ChangeInventory() // 인벤토리를 바꾸고 아이템을 선택
+    {
         if (Input.GetKeyDown(KeyCode.Alpha1)) { currentInventory = 0; } // 만약 1번키를 누른다면 플레이어인벤[0]의 아이템ID가 현재 아이템이다. 그걸 1234567890-=로 반복한다.
         if (Input.GetKeyDown(KeyCode.Alpha2)) { currentInventory = 1; }
         if (Input.GetKeyDown(KeyCode.Alpha3)) { currentInventory = 2; }
@@ -59,6 +60,14 @@ public class PlayerInventroy : MonoBehaviour
             currentInventory = currentInventory + 1;
             if (currentInventory == 12) { currentInventory = 0; }
         } //당길때
+
+        currentInventoryItem = pInventory[currentInventory].itemID; // 아이템ID 호출
+        currentItemDB = new ItemDB(currentInventoryItem); // ID를 기반으로 정보 호출
+    }
+
+    void Bags()
+    {
+        
     }
 
     void addItem(int itemID)  // 필드에서 접촉한 아이템을 인벤토리에 넣는법

@@ -17,6 +17,7 @@ class ItemDB
     public ItemDB(int itemID)
     {
         this.itemID = itemID;
+        itemSetting();
     }
 
 	public void itemSetting (){
@@ -52,7 +53,7 @@ class ItemDB
             case 5:
                 name = "±ªÀÌ";
                 type = "µµ±¸";
-                grade = 1;
+                grade = 2;
                 toolType = 2;
                 staminaRestor = 10;
                 return;
