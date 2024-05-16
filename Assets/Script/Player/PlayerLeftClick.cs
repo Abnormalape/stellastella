@@ -12,17 +12,21 @@ class PlayerLeftClick : MonoBehaviour
     PlayerMovement pMov;
     PlayerInventroy pInven;
     ItemDB currentData;
-    float coolDownTime = 0.5f;
+    public float coolDownTime = 0.5f;
     float passedTime = 0f;
     float chargeTime = 0f;
     float throwPower = 0f;
     public bool toolUsed;
+    public bool toolSwing;
     bool onCharge = false;
+
     private void Awake()
     {
         pCon = this.gameObject.GetComponent<PlayerController>();
         pMov = this.gameObject.GetComponent<PlayerMovement>();
         pInven = this.gameObject.GetComponent<PlayerInventroy>();
+
+        this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = false;
     }
     private void Update()
     {
@@ -56,24 +60,37 @@ class PlayerLeftClick : MonoBehaviour
             }
         }
 
-        if (toolUsed)
-        {
-            passedTime += Time.deltaTime;
-        }
+        // 도구를 사용한 시점부터 시간 체크
+        if (toolUsed) { passedTime += Time.deltaTime; }
         CoolDown();
 
-        if (onCharge && Input.GetMouseButtonUp(0))
-        {
-            MakeChargeColliderAct();
-        }
-    }
-    // 키를 떼었을때 동작 => 괭이 물뿌리개 낚시대
-    // 키를 누르는 동안은 차징
-    // 키를 눌렀을때 동작
+        if (onCharge && Input.GetMouseButtonUp(0)) // 차지중인 상태에서 좌클릭을 뗀다면
+        {   //낚싯대 이거나, 다른 도구이거나
 
+            if (currentData.toolType == 9) // 낚싯대라면
+            {
+                MakeThrowColliderAct(); // 던지는 콜라이더 생성
+            }
+            else    // 그 외라면
+            {
+                MakeChargeColliderAct(); // 범위 콜라이더 생성
+            }
+            onCharge = false;
+        }
+
+        if (this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled == true && !toolSwing) // 엣지가 켜졌는데 휘두르는게 아니면 = 콜라이더가 즉시 생기지 않는 부류
+        { Invoke("ColliderOff", 0.1f); }        // 곧바로 꺼라
+        else if (toolSwing)                     // 콜라이더가 즉시 생기는 부류
+        { Debug.Log("ASD"); Invoke("ColliderOff", coolDownTime);  // 쿨타임이 지난후 꺼라, 
+            toolSwing = false;}                 // 휘두르기도 꺼라
+    }
+    private void LateUpdate()
+    {
+
+    }
     void UseAxe() // 완료
     {
-        MakeCollider();
+        Invoke("MakeCollider", coolDownTime);
         StopPlayer();
         StaminaUse();
     }
@@ -84,7 +101,7 @@ class PlayerLeftClick : MonoBehaviour
         {
             StopPlayer();
             StaminaUse();
-            MakeCollider();
+            Invoke("MakeCollider", coolDownTime);
         }
         else if (currentData.grade > 1)
         {
@@ -99,7 +116,7 @@ class PlayerLeftClick : MonoBehaviour
         {
             StopPlayer();
             StaminaUse();
-            MakeCollider();
+            Invoke("MakeCollider", coolDownTime);
         }
         else if (currentData.grade > 1)
         {
@@ -111,7 +128,7 @@ class PlayerLeftClick : MonoBehaviour
     //물 채우기 가능
     void UsePickAxe() // 완료
     {
-        MakeCollider();
+        Invoke("MakeCollider", coolDownTime);
         StopPlayer();
         StaminaUse();
     }
@@ -119,15 +136,19 @@ class PlayerLeftClick : MonoBehaviour
     void UseSickle()
     {
         StopPlayer();
+        MakeMovingColliderSickle();
     }
     //n초후 바라보는 방향에 콜라이더 생성 후 제거, 휘두르는 동안 다른 움직임 불가
     void UseFishingRod()
     {
-
+        MakeThrowColliderCharge();
     }
     //charge후 전방에 콜라이더 생성, 
 
-    void StaminaUse() { } // 플레이어 컨트롤에 체력 스테미너 놓기
+    void StaminaUse()// 플레이어 컨트롤에 체력 스테미너 놓기
+    {
+        pCon.currentStamina -= currentData.staminaRestor; // 플레이어 컨트롤의 현재 스테미너가 현재아이템데이터의 스테미나 회복량만큼 감소
+    }
 
     void StopPlayer() { toolUsed = true; } // toolUsed가 true일때 도구사용불가, 이동불가, 등등
 
@@ -140,7 +161,7 @@ class PlayerLeftClick : MonoBehaviour
         {
             this.gameObject.GetComponent<PlayerMovement>().chargeMove = true;// 움직임의 차징상태를 true로 변경
             chargeTime += Time.deltaTime;
-            onCharge = true;
+            onCharge = true; // 차징 종료시 동작을 위한 bool
         }
 
     } // 범위용 박스콜라이더
@@ -153,6 +174,7 @@ class PlayerLeftClick : MonoBehaviour
         }
         else if (chargeTime >= 1f && currentData.grade >= 2) //1단계 차지, 등급 2 이상시 3칸
         {
+            //this.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true; // 잠깐 콜라이더를 킨다. 근데 지금은 일단 꺼두자.
             //콜라이더 크기 조정 -> getchildcomponent<boxcollider>.size
             //콜라이더 위치 조정 -> transform.position
         }
@@ -172,26 +194,44 @@ class PlayerLeftClick : MonoBehaviour
         StopPlayer();
         chargeTime = 0f;
         this.gameObject.GetComponent<PlayerMovement>().chargeMove = false;
-        //this.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true; // 잠깐 콜라이더를 킨다. 근데 지금은 일단 꺼두자.
     }
 
-    void MakeThrowColliderCharge()
+    void MakeThrowColliderCharge()  //낚싯대일때는 무조건 차징, 다른 차징도구와 다르게 움직이는것 불가
+                                    //차징파워만 계산
     {
-
+        pMov.chargeFishing = true; // 낚싯대 차징중
+        chargeTime += Time.deltaTime; // 1초? 2초? 일때 풀 차징
+        if (chargeTime > 2f) { chargeTime = 0f; } //2초 이상에서 초기화
+        else if (chargeTime < 1f) //1초까지 증가
+        {throwPower = chargeTime;}
+        else { throwPower = 2f - chargeTime; } //1~2초 감소
+        
+        onCharge = true; // 차징종료시 행동을 위한 bool
     }
 
-    void MakeThrowColliderAct()
+    void MakeThrowColliderAct() //낚싯대사용, 차징파워에 따라 찌 생성위치 변경
     {
-
+        Debug.Log(throwPower);
+        Debug.Log("Throw bobble");
+        pMov.chargeFishing = false; // 낚싯대 차징중 아님
+        StaminaUse();
+        StopPlayer();
+        throwPower = 0f;
+        chargeTime = 0f;
     }
-    void MakeMovingCollider() // 이거 판정을 모르겠다
+    void MakeMovingColliderSickle() //낫
+    {
+        this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = true;
+        toolSwing = true;
+    }
+    void MakeMovingColliderWeapon() //무기
     {
         this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = true;
     }
 
-    void WaterLevel()
+    void WaterLevel() //물뿌리개
     {
-
+        // 얘가 자기 앞의 오브젝트? 레이어? 아무튼 판정해서 물이면 나의 물 레벨을 채운다... 인데
     }
 
     void CoolDown()
@@ -202,4 +242,5 @@ class PlayerLeftClick : MonoBehaviour
             passedTime = 0;
         }
     }
+    void ColliderOff() { this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = false; }
 }

@@ -6,15 +6,19 @@ using UnityEngine.UIElements.Experimental;
 
 class PlayerMovement : MonoBehaviour
 {
-    float speed = 5f;
+    float speed;
+    float currentSpeed;
     float faceX = 0f;
     float faceY = -1f;
     float timeCheck = 0f;
+    float timeCheckSwing = 0f;
     public bool chargeMove = false;
+    public bool chargeFishing = false;
 
     Rigidbody2D rb;
     GameObject toolChild;
     PlayerLeftClick pLClick;
+    PlayerController pController;
     Vector2 nowFacing;
     
     
@@ -28,30 +32,34 @@ class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         toolChild = transform.GetChild(0).gameObject;
         pLClick = this.gameObject.GetComponent<PlayerLeftClick>();
+        pController = this.gameObject.GetComponent<PlayerController>();
+        currentSpeed = 5f;
     }
     private void Update()
     {
-        if(chargeMove && pLClick.toolUsed == false)
-        {
-            ChargeMovement();
-        }
-        else if (pLClick.toolUsed == false)
+        PlayerSpeed(); // 이동속도 제어기
+
+
+        if(chargeMove && pLClick.toolUsed == false) // 차징중이며, 도구사용 모션이 들어가지 않았을때
+        {ChargeMovement();}
+        else if (pLClick.toolUsed == true || chargeFishing) // 도구사용 모션에 들어갔거나, 낚싯대를 차징중일때
+        { rb.velocity = Vector2.zero; }
+        else if (pLClick.toolSwing) // 휘두르기 상태라면
+        {SwingTool();}
+        else if (pLClick.toolUsed == false) // 일반상태
         {
             float x;
             float y;
             x = Input.GetAxisRaw("Horizontal");
             y = Input.GetAxisRaw("Vertical");
-            rb.velocity = new Vector2(x * speed, y * speed);
+            rb.velocity = new Vector2(x * currentSpeed, y * currentSpeed);
             Facing(x, y);
             nowFacing = new Vector2(faceX, faceY);
-            toolChild.transform.position = new Vector2(faceX + this.transform.position.x, faceY + this.transform.position.y);
-            if (Mathf.Abs(faceX) > 0) { toolChild.transform.rotation = Quaternion.Euler(0, 0, 0f); }
-            else if (Mathf.Abs(faceY) > 0) { toolChild.transform.rotation = Quaternion.Euler(0, 0, 90); }
+            
+            if (Mathf.Abs(faceX) > 0) { toolChild.transform.rotation = Quaternion.Euler(0, 0, faceX * 90); }
+            else if (Mathf.Abs(faceY) > 0) { toolChild.transform.rotation = Quaternion.Euler(0, 0, 270 - 90 * faceY); }
         }
-        else if (pLClick.toolUsed == true)
-        {
-            rb.velocity = Vector2.zero;
-        }
+        
 
         if (!chargeMove && timeCheck!=0)
         {
@@ -93,5 +101,20 @@ class PlayerMovement : MonoBehaviour
         }
     }
 
+    void PlayerSpeed() // 이동속도제어 : 탈진,기본,커피,말 등등
+    {
+        if (pController.currentStamina > 0) {speed = 5f;}
+        else {speed = 1f;}
+        
+        currentSpeed = speed;
+    }
+
+    void SwingTool()
+    {
+        rb.velocity = Vector2.zero;
+        timeCheckSwing += Time.deltaTime;
+        toolChild.transform.rotation = Quaternion.Euler(0, 0, this.transform.rotation.z + 90 - timeCheck / pLClick.coolDownTime * 180);
+        if(timeCheck > pLClick.coolDownTime) { timeCheckSwing = 0;}
+    }
 
 }

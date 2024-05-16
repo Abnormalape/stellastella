@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.VisualScripting;
 
 class WaterControl : MonoBehaviour
-{
+{/* 나중에 다시 돌아오마
     GameObject bobber;
     PlayerInventroy fishingrod;
     PlayerController playerController;
@@ -47,5 +47,5 @@ class WaterControl : MonoBehaviour
                         // switch문 돌려서 날씨 계절 시간 판정하고 육지부터 거리 판정해서 일정 이상일때만 특정 물고기, 멀리 던질수록 높은 등급나오게
     {
         
-    }
+    }*/
 }

@@ -423,6 +423,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93336330}
   m_CullTransparentMesh: 1
+--- !u!1001 &226028293
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6309410461677335739, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.3306568
+      objectReference: {fileID: 0}
+    - target: {fileID: 6309410461677335739, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.2288842
+      objectReference: {fileID: 0}
+    - target: {fileID: 6309410461677335739, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6309410461677335739, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6309410461677335739, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6309410461677335739, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6309410461677335739, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6309410461677335739, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6309410461677335739, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6309410461677335739, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205433213385571190, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
+      propertyPath: m_Name
+      value: MapleTree
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 66b2ecceebaa18b469ce283fabc6b793, type: 3}
 --- !u!1 &288940788
 GameObject:
   m_ObjectHideFlags: 0
@@ -15759,6 +15816,7 @@ GameObject:
   - component: {fileID: 1288004547}
   - component: {fileID: 1288004548}
   - component: {fileID: 1288004549}
+  - component: {fileID: 1288004550}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -15908,6 +15966,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1df8bd04861ef244ba317f28b90894f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chargeMove: 0
+  chargeFishing: 0
 --- !u!114 &1288004548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15935,6 +15995,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentInventoryItem: 0
   itemCount: 0
+--- !u!114 &1288004550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288004541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2e47942d8b3854d97187429f27f046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxStamina: 200
+  maxHp: 200
+  currentStamina: 200
+  currentHp: 200
+  exhaust: 0
+  dead: 0
 --- !u!1 &1290017462
 GameObject:
   m_ObjectHideFlags: 0
@@ -19922,7 +20000,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1288004546}
@@ -19962,8 +20040,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.49999997, y: 0}
-  - {x: 0.49999997, y: 0}
+  - {x: 0.000000029802322, y: -0.5}
+  - {x: -0.000000029802322, y: 0}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -20567,3 +20645,4 @@ SceneRoots:
   - {fileID: 1288004546}
   - {fileID: 1522620696}
   - {fileID: 1491528656}
+  - {fileID: 226028293}

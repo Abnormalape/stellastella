@@ -7,10 +7,14 @@ using UnityEngine;
 public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 {
     Inventory[] pInventory = new Inventory[36]; // 36칸의 인벤토리
+    ItemDB currentItemDB; // 아이템 정보 호출용
     int currentInventory; // 현재인벤
     public int currentInventoryItem; // 현재인벤의 아이템ID
     public int itemCount; // 현재 인벤의 아이템 수
-    ItemDB currentItemDB; // 아이템 정보 호출용
+
+    PlayerLeftClick PLClick;
+
+
     void MakePlayerInventory() // 시작할때 주는 도구 = 1회성
     {
         pInventory[0] = new Inventory(4); // 아이템ID 4 = 도끼
@@ -22,7 +26,11 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         pInventory[6] = new Inventory(10); // 아이템ID 10 = 강화곡괭이
         pInventory[7] = new Inventory(20); // 아이템ID 20 = 낚싯대, 툴 ID=9
     }
-    
+
+    private void Awake()
+    {
+        PLClick = this.GetComponent<PlayerLeftClick>();
+    }
     void Start()
     {
         MakePlayerInventory(); // 기본아이템을 생성한다
@@ -32,37 +40,41 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     }
     void Update()
     {
+        Debug.Log(currentInventoryItem);
         ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
     }
-    void ChangeInventory() // 인벤토리를 바꾸고 아이템을 선택
+    void ChangeInventory() // 인벤토리를 바꾸고 아이템을 선택, 도구 사용중일때는 예외
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) { currentInventory = 0; } // 만약 1번키를 누른다면 플레이어인벤[0]의 아이템ID가 현재 아이템이다. 그걸 1234567890-=로 반복한다.
-        if (Input.GetKeyDown(KeyCode.Alpha2)) { currentInventory = 1; }
-        if (Input.GetKeyDown(KeyCode.Alpha3)) { currentInventory = 2; }
-        if (Input.GetKeyDown(KeyCode.Alpha4)) { currentInventory = 3; }
-        if (Input.GetKeyDown(KeyCode.Alpha5)) { currentInventory = 4; }
-        if (Input.GetKeyDown(KeyCode.Alpha6)) { currentInventory = 5; }
-        if (Input.GetKeyDown(KeyCode.Alpha7)) { currentInventory = 6; }
-        if (Input.GetKeyDown(KeyCode.Alpha8)) { currentInventory = 7; }
-        if (Input.GetKeyDown(KeyCode.Alpha9)) { currentInventory = 8; }
-        if (Input.GetKeyDown(KeyCode.Alpha0)) { currentInventory = 9; }
-        if (Input.GetKeyDown(KeyCode.Minus)) { currentInventory = 10; }
-        if (Input.GetKeyDown(KeyCode.Equals)) { currentInventory = 11; }
-
-        float wheelscroll = Input.GetAxis("Mouse ScrollWheel");
-        if (wheelscroll > 0)
+        if (!PLClick.toolUsed)
         {
-            currentInventory = currentInventory - 1;
-            if (currentInventory == -1) { currentInventory = 11; }
-        } //밀때
-        else if (wheelscroll < 0)
-        {
-            currentInventory = currentInventory + 1;
-            if (currentInventory == 12) { currentInventory = 0; }
-        } //당길때
+            if (Input.GetKeyDown(KeyCode.Alpha1)) { currentInventory = 0; } // 만약 1번키를 누른다면 플레이어인벤[0]의 아이템ID가 현재 아이템이다. 그걸 1234567890-=로 반복한다.
+            if (Input.GetKeyDown(KeyCode.Alpha2)) { currentInventory = 1; }
+            if (Input.GetKeyDown(KeyCode.Alpha3)) { currentInventory = 2; }
+            if (Input.GetKeyDown(KeyCode.Alpha4)) { currentInventory = 3; }
+            if (Input.GetKeyDown(KeyCode.Alpha5)) { currentInventory = 4; }
+            if (Input.GetKeyDown(KeyCode.Alpha6)) { currentInventory = 5; }
+            if (Input.GetKeyDown(KeyCode.Alpha7)) { currentInventory = 6; }
+            if (Input.GetKeyDown(KeyCode.Alpha8)) { currentInventory = 7; }
+            if (Input.GetKeyDown(KeyCode.Alpha9)) { currentInventory = 8; }
+            if (Input.GetKeyDown(KeyCode.Alpha0)) { currentInventory = 9; }
+            if (Input.GetKeyDown(KeyCode.Minus)) { currentInventory = 10; }
+            if (Input.GetKeyDown(KeyCode.Equals)) { currentInventory = 11; }
 
-        currentInventoryItem = pInventory[currentInventory].itemID; // 아이템ID 호출
-        currentItemDB = new ItemDB(currentInventoryItem); // ID를 기반으로 정보 호출
+            float wheelscroll = Input.GetAxis("Mouse ScrollWheel");
+            if (wheelscroll > 0)
+            {
+                currentInventory = currentInventory - 1;
+                if (currentInventory == -1) { currentInventory = 11; }
+            } //밀때
+            else if (wheelscroll < 0)
+            {
+                currentInventory = currentInventory + 1;
+                if (currentInventory == 12) { currentInventory = 0; }
+            } //당길때
+
+            currentInventoryItem = pInventory[currentInventory].itemID; // 아이템ID 호출
+            currentItemDB = new ItemDB(currentInventoryItem); // ID를 기반으로 정보 호출
+        }
     }
 
     void Bags()
