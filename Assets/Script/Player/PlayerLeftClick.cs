@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Unity;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,7 +19,9 @@ class PlayerLeftClick : MonoBehaviour
     float throwPower = 0f;
     public bool toolUsed;
     public bool toolSwing;
-    bool onCharge = false;
+    public bool chargeTool;
+    public bool chargeFishing;
+    bool checkMouse;
 
     private void Awake()
     {
@@ -30,6 +33,7 @@ class PlayerLeftClick : MonoBehaviour
     }
     private void Update()
     {
+        Debug.Log(toolUsed);
         currentData = new ItemDB(pInven.currentInventoryItem);
 
         if (!toolUsed)
@@ -60,29 +64,25 @@ class PlayerLeftClick : MonoBehaviour
             }
         }
 
-        // 도구를 사용한 시점부터 시간 체크
-        if (toolUsed) { passedTime += Time.deltaTime; }
-        CoolDown();
-
-        if (onCharge && Input.GetMouseButtonUp(0)) // 차지중인 상태에서 좌클릭을 뗀다면
-        {   //낚싯대 이거나, 다른 도구이거나
-
-            if (currentData.toolType == 9) // 낚싯대라면
+        if (Input.GetMouseButtonUp(0))
+        {
+            switch (currentData.toolType)
             {
-                MakeThrowColliderAct(); // 던지는 콜라이더 생성
+                case 2:
+                    UseHoe();
+                    return;
+                case 3:
+                    UseWaterCan();
+                    return;
+                case 9:
+                    UseFishingRod();
+                    return;
             }
-            else    // 그 외라면
-            {
-                MakeChargeColliderAct(); // 범위 콜라이더 생성
-            }
-            onCharge = false;
         }
-
-        if (this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled == true && !toolSwing) // 엣지가 켜졌는데 휘두르는게 아니면 = 콜라이더가 즉시 생기지 않는 부류
-        { Invoke("ColliderOff", 0.1f); }        // 곧바로 꺼라
-        else if (toolSwing)                     // 콜라이더가 즉시 생기는 부류
-        { Debug.Log("ASD"); Invoke("ColliderOff", coolDownTime);  // 쿨타임이 지난후 꺼라, 
-            toolSwing = false;}                 // 휘두르기도 꺼라
+        
+        if(toolSwing == true) { passedTime += Time.deltaTime;
+        if(passedTime > 0.5f) { ColliderSwingOff(); }
+        }
     }
     private void LateUpdate()
     {
@@ -90,89 +90,104 @@ class PlayerLeftClick : MonoBehaviour
     }
     void UseAxe() // 완료
     {
-        Invoke("MakeCollider", coolDownTime);
-        StopPlayer();
+        DoMotion();
         StaminaUse();
+        Invoke("MakeCollider", 0.5f); // 0.5f는 기본적으로 정해진 도구 사용 시간이다.
     }
-    //n초후 바라보는 방향에 콜라이더 생성 후 제거, 휘두르는 동안 다른 움직임 불가, 스테미너 소모
+
+    void UsePickAxe() // 완료
+    {
+        DoMotion();
+        StaminaUse();
+        Invoke("MakeCollider", 0.5f);
+    }
+
     void UseHoe() // 미완 : boxcollider
     {
-        if (currentData.grade == 1)
+        if(currentData.grade == 1) // 얘는 1단계 일때 도끼와 같이 행동
         {
-            StopPlayer();
+            DoMotion();
             StaminaUse();
-            Invoke("MakeCollider", coolDownTime);
+            Invoke("MakeCollider", 0.5f);
         }
-        else if (currentData.grade > 1)
+        else // 그 외엔 차징 후, 모션 후 콜라이더 생성
         {
             MakeChargeColliderCharge();
         }
     }
-    //charge후 내 위치를 기준으로 전방에 다수의 콜라이더 생성 후 제거,n초후 바라보는 방향에 콜라이더 생성 후 제거,
-    //차징중 움직임 변경, 사용중 다른 움직임 불가, 스테미너 소모
+    
     void UseWaterCan() // 미완 : boxcollider
     {
         if (currentData.grade == 1)
         {
-            StopPlayer();
+            DoMotion();
             StaminaUse();
-            Invoke("MakeCollider", coolDownTime);
+            Invoke("MakeCollider", 0.5f);
         }
-        else if (currentData.grade > 1)
+        else
         {
             MakeChargeColliderCharge();
         }
     }
-    //charge후 내 위치를 기준으로 전방에 다수의 콜라이더 생성 후 제거,n초후 바라보는 방향에 콜라이더 생성 후 제거,
-    //차징중 움직임 변경, 사용중 다른 움직임 불가, 스테미너 소모
-    //물 채우기 가능
-    void UsePickAxe() // 완료
-    {
-        Invoke("MakeCollider", coolDownTime);
-        StopPlayer();
-        StaminaUse();
-    }
-    //n초동안 움직이는 콜라이더 생성 이후 제거, 휘두르는 동안 다른 움직임 불가, 스테미너 소모
+    
     void UseSickle()
     {
-        StopPlayer();
-        MakeMovingColliderSickle();
+        DoMotion();
+        MakeMovingColliderSwing();
     }
-    //n초후 바라보는 방향에 콜라이더 생성 후 제거, 휘두르는 동안 다른 움직임 불가
+    
     void UseFishingRod()
     {
         MakeThrowColliderCharge();
     }
-    //charge후 전방에 콜라이더 생성, 
+    
 
     void StaminaUse()// 플레이어 컨트롤에 체력 스테미너 놓기
     {
-        pCon.currentStamina -= currentData.staminaRestor; // 플레이어 컨트롤의 현재 스테미너가 현재아이템데이터의 스테미나 회복량만큼 감소
+        pCon.currentStamina -= currentData.staminaRestor;
     }
 
-    void StopPlayer() { toolUsed = true; } // toolUsed가 true일때 도구사용불가, 이동불가, 등등
+    
+    void DoMotion() // 모션(휘두르기), 휘두르기 시간은 무기 제외 0.5초로 고정
+    {
+        toolUsed = true;
+    }
 
-    void MakeCollider() //엣지콜라이더 킴, 위치, 회전은 movement에서
-    { this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = true; }
+    
+    void MakeCollider() // 모션 '후' 콜라이더 생성, 도구 사용 종료
+    {   this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = true;
+        toolUsed = false;
+        Invoke("ColliderOff", 0.1f);
+    }
 
-    void MakeChargeColliderCharge() //범위용 박스 콜라이더를 생성, 필요시 크기 위치 변경
+    void MakeChargeColliderCharge() // 차징 - 괭이 물뿌리개
     { // 등급이 2이상이면 클릭하거나 누르고 있을때, 차징 시간이 계산되며, 뗐을때 조건에 맞는 크기의 콜라이더가 생성된다.
         if (Input.GetMouseButton(0)) // 누르고 있는동안 아래를 실행
         {
-            this.gameObject.GetComponent<PlayerMovement>().chargeMove = true;// 움직임의 차징상태를 true로 변경
+            chargeTool = true;// 움직임의 차징상태를 true로 변경
             chargeTime += Time.deltaTime;
-            onCharge = true; // 차징 종료시 동작을 위한 bool
         }
 
-    } // 범위용 박스콜라이더
-
-    void MakeChargeColliderAct()
-    {
-        if (chargeTime < 1f)
+        if (Input.GetMouseButtonUp(0)) // 마우스를 떼었을때 Act
         {
-            MakeCollider();
+            StaminaUse();
+            DoMotion();
+            if (chargeTime < 1f) // 차징이 1초 미만이라면 일반 사용과 같고
+            {
+                StaminaUse();
+                Invoke("MakeCollider", 0.5f);
+            }
+            else
+            {
+                Invoke("MakeChargeColliderAct", 0.5f);
+            }
+            chargeTool = false;
         }
-        else if (chargeTime >= 1f && currentData.grade >= 2) //1단계 차지, 등급 2 이상시 3칸
+    }
+
+    void MakeChargeColliderAct() // 차징 후, 모션 후 콜라이더 생성 - 괭이 물뿌리개
+    {
+        if (chargeTime >= 1f && currentData.grade >= 2) //1단계 차지, 등급 2 이상시 3칸
         {
             //this.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true; // 잠깐 콜라이더를 킨다. 근데 지금은 일단 꺼두자.
             //콜라이더 크기 조정 -> getchildcomponent<boxcollider>.size
@@ -190,46 +205,61 @@ class PlayerLeftClick : MonoBehaviour
         {
 
         }
-        StaminaUse();
-        StopPlayer();
         chargeTime = 0f;
-        this.gameObject.GetComponent<PlayerMovement>().chargeMove = false;
+        toolUsed = false;
+        Invoke("ColliderOff", 0.1f);
     }
 
-    void MakeThrowColliderCharge()  //낚싯대일때는 무조건 차징, 다른 차징도구와 다르게 움직이는것 불가
-                                    //차징파워만 계산
+    void MakeThrowColliderCharge()  // 차징 - 낚싯대
     {
-        pMov.chargeFishing = true; // 낚싯대 차징중
-        chargeTime += Time.deltaTime; // 1초? 2초? 일때 풀 차징
-        if (chargeTime > 2f) { chargeTime = 0f; } //2초 이상에서 초기화
-        else if (chargeTime < 1f) //1초까지 증가
-        {throwPower = chargeTime;}
-        else { throwPower = 2f - chargeTime; } //1~2초 감소
+        chargeFishing = true; // 낚싯대 차징중
+        if (Input.GetMouseButton(0))
+        {
+            chargeTime += Time.deltaTime; // 1초일때 풀 차징
+            if (chargeTime > 2f) { chargeTime = 0f; } //2초 이상에서 초기화
+            else if (chargeTime < 1f) //1초까지 증가
+            { throwPower = chargeTime; }
+            else { throwPower = 2f - chargeTime; } //1~2초 감소
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            DoMotion();
+            Invoke("MakeThrowColliderAct", 0.5f); // throwpower에 비례해 던지는 시간 길어짐
+            chargeFishing = false;
+        }
         
-        onCharge = true; // 차징종료시 행동을 위한 bool
     }
 
-    void MakeThrowColliderAct() //낚싯대사용, 차징파워에 따라 찌 생성위치 변경
+    void MakeThrowColliderAct() // 차징 후, 모션 후 콜라이더 생성 - 낚싯대
     {
         Debug.Log(throwPower);
         Debug.Log("Throw bobble");
-        pMov.chargeFishing = false; // 낚싯대 차징중 아님
+
+        // throwpower에 맞는 거리에 collider 생성
+        
         StaminaUse();
-        StopPlayer();
         throwPower = 0f;
         chargeTime = 0f;
+        chargeFishing = false; // 낚싯대 차징중 아님
+        toolUsed = false;
+        Invoke("ColliderOff", 0.1f);
     }
-    void MakeMovingColliderSickle() //낫
+    void MakeMovingColliderSwing() // 모션 중 콜라이더 생성
     {
-        this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = true;
         toolSwing = true;
     }
-    void MakeMovingColliderWeapon() //무기
-    {
-        this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = true;
-    }
 
-    void WaterLevel() //물뿌리개
+    void ColliderSwingOff()
+    {
+        toolUsed = false;
+        toolSwing = false;
+        passedTime = 0f;
+        Debug.Log("SwingColliderEnd");
+        ColliderOff();
+    }
+    
+
+    void WaterLevel() // 물뿌리개
     {
         // 얘가 자기 앞의 오브젝트? 레이어? 아무튼 판정해서 물이면 나의 물 레벨을 채운다... 인데
     }

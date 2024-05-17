@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine;
 public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 {
     Inventory[] pInventory = new Inventory[36]; // 36칸의 인벤토리
+    int[] pInventoryCount = new int[36];
     ItemDB currentItemDB; // 아이템 정보 호출용
     int currentInventory; // 현재인벤
     public int currentInventoryItem; // 현재인벤의 아이템ID
@@ -17,6 +19,11 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 
     void MakePlayerInventory() // 시작할때 주는 도구 = 1회성
     {
+        for (int i = 8; i < 36; i++)
+        {
+            pInventory[i] = new Inventory(0);
+        }
+
         pInventory[0] = new Inventory(4); // 아이템ID 4 = 도끼
         pInventory[1] = new Inventory(5); // 아이템ID 5 = 괭이
         pInventory[2] = new Inventory(6); // 아이템ID 6 = 물뿌리개
@@ -25,15 +32,16 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         pInventory[5] = new Inventory(9); // 아이템ID 9 = 강화도끼
         pInventory[6] = new Inventory(10); // 아이템ID 10 = 강화곡괭이
         pInventory[7] = new Inventory(20); // 아이템ID 20 = 낚싯대, 툴 ID=9
+        for (int i = 0; i < 8; i++) { pInventory[i].itemCount = 1; }
     }
 
     private void Awake()
     {
         PLClick = this.GetComponent<PlayerLeftClick>();
+        MakePlayerInventory(); // 기본아이템을 생성한다
     }
     void Start()
     {
-        MakePlayerInventory(); // 기본아이템을 생성한다
         currentInventory = 0;
         //현재 아이템 = 현재 인벤토리의 아이템ID
         currentInventoryItem = pInventory[currentInventory].itemID;
@@ -74,6 +82,34 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 
             currentInventoryItem = pInventory[currentInventory].itemID; // 아이템ID 호출
             currentItemDB = new ItemDB(currentInventoryItem); // ID를 기반으로 정보 호출
+            itemCount = pInventory[currentInventory].itemCount;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("FieldDropItem")) // 충돌체가 아이템 이라면
+        {
+            for (int i = 0; i < 36; i++) // 인벤토리를 훑어서
+            {
+                if (collision.gameObject.GetComponent<FieldItem>().itemID == pInventory[i].itemID) // 같은 ID를 보유중인 인벤토리에
+                {
+                    pInventory[i].itemCount += 1; // 카운트를 올리고
+                    Destroy(collision.gameObject); // 그놈을 제거하고
+                    return; // 메서드 종료
+                }
+            }
+            for (int i = 0; i < 36; i++) // 일치가 하나도 안된다면
+            {
+                if (pInventory[i].itemID == 0) // 인벤토리의 아이템 아이디가 비어있는곳을 찾아 (개인적으론 null쓰고싶긴한데)
+                {
+                    pInventory[i].itemID = collision.gameObject.GetComponent<FieldItem>().itemID; // 그 인벤토리의 아이템ID를 충돌체의 ID로 바꾸고
+                    pInventory[i].itemCount += 1; // 카운트를 올린다 (0이었으니까)
+                    Destroy(collision.gameObject);
+                    return; // 메서드 종료
+                }
+            }
+            return; // 그냥 종료
         }
     }
 

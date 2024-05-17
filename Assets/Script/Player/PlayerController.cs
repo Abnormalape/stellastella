@@ -15,10 +15,13 @@ public class PlayerController : MonoBehaviour
     public bool exhaust;
     public bool dead;
 
+    PlayerInventroy pInven;
+
     private void Awake()
     {
         currentHp = maxHp;
         currentStamina = maxStamina;
+        pInven = GetComponent<PlayerInventroy>();
     }
 
     void Start()
@@ -31,8 +34,6 @@ public class PlayerController : MonoBehaviour
     {
         CurrentMax(currentHp,maxHp);
         CurrentMax(currentStamina, maxStamina);
-
-
     }
 
     void CurrentMax(int current, int max)
@@ -57,4 +58,6 @@ public class PlayerController : MonoBehaviour
         // 다음날 스테미너 회복에 악영향을 끼침
         // 스테미나가 0 이상이 되면 이동속도 패널티는 사라짐
     }
+
+    
 }

@@ -116,37 +116,37 @@ class ItemDB
                 sellPrice = 10;
                 buyPrice = 20;
                 name = "SpringSeed1"; // º½ÀÛ¹° 1
-                type = "Àç·á";
+                type = "¾¾¾Ñ";
                 return;
             case 15:
                 sellPrice = 20;
                 buyPrice = 40;
                 name = "SpringSeed2"; // º½ÀÛ¹°2
-                type = "Àç·á";
+                type = "¾¾¾Ñ";
                 return;
             case 16:
                 sellPrice = 11;
                 buyPrice = 22;
                 name = "SummerSeed1"; // ¿©¸§ÀÛ¹°1
-                type = "Àç·á";
+                type = "¾¾¾Ñ";
                 return;
             case 17:
                 sellPrice = 22;
                 buyPrice = 44;
                 name = "SummerSeed2"; // ¿©¸§ÀÛ¹°2
-                type = "Àç·á";
+                type = "¾¾¾Ñ";
                 return;
             case 18:
                 sellPrice = 13;
                 buyPrice = 26;
                 name = "FallSeed1"; // °¡À»ÀÛ¹°1
-                type = "Àç·á";
+                type = "¾¾¾Ñ";
                 return;
             case 19:
                 sellPrice = 26;
                 buyPrice = 52;
                 name = "FallSeed2"; // °¡À»ÀÛ¹°2
-                type = "Àç·á";
+                type = "¾¾¾Ñ";
                 return;
             case 20:
                 sellPrice = 100;

@@ -6,14 +6,14 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
                                             // 추가로 1회만 획득 가능한 별방울, 해골열쇠, 가방등의 자료도 얘가 받는다.
 {
     // 시간관리
-    int currentYear; // year
-    int currentSeason; // = month
-    int currentMonth;
-    int currentDay; // 28
-    int currentHour; // 06:00 ~ 02:00
-    int currentMinute; // 1min real = 1hour
+    public int currentYear; // year
+    public int currentSeason; // = month
+    public int currentMonth;
+    public int currentDay; // 28
+    public int currentHour; // 06:00 ~ 02:00
+    public int currentMinute; // 1min real = 1hour
     string ampm;
-    bool dayOff; // 날이 끝났음을 전달, 혹은 씬의 변경?
+    public bool dayOff; // 날이 끝났음을 전달, 혹은 씬의 변경?
 
     // 인벤토리 관리
     bool tempinvenonoff = false;
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
     bool wetherTotemUse; // 날씨 토템
     float luck; // 행운
     int wetherTotemNum;
-    int weather; // 날씨 : 숫자로 관리
+    public int weather; // 날씨 : 숫자로 관리
     int nextdayweather; // 다음날 날씨, 조건에 따라 확률적 배정
 
     // 시간체크
