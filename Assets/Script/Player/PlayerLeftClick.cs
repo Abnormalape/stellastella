@@ -107,9 +107,9 @@ class PlayerLeftClick : MonoBehaviour
         Invoke("MakeCollider", 0.5f);
     }
 
-    void UseHoe() // 미완 : boxcollider
+    void UseHoe() 
     {
-        if(currentData.grade == 1) // 얘는 1단계 일때 도끼와 같이 행동
+        if(currentData.grade == 1) // 1단계 일때 도끼와 같이 행동
         {
             DoMotion();
             StaminaUse();
@@ -121,7 +121,7 @@ class PlayerLeftClick : MonoBehaviour
         }
     }
     
-    void UseWaterCan() // 미완 : boxcollider
+    void UseWaterCan() 
     {
         if (currentData.grade == 1)
         {
@@ -148,15 +148,11 @@ class PlayerLeftClick : MonoBehaviour
     
 
     void StaminaUse()// 플레이어 컨트롤에 체력 스테미너 놓기
-    {
-        pCon.currentStamina -= currentData.staminaRestor;
-    }
+    {pCon.currentStamina -= currentData.staminaRestor;}
 
     
     void DoMotion() // 모션(휘두르기), 휘두르기 시간은 무기 제외 0.5초로 고정
-    {
-        toolUsed = true;
-    }
+    {toolUsed = true;}
 
     
     void MakeCollider() // 모션 '후' 콜라이더 생성, 도구 사용 종료
@@ -194,33 +190,33 @@ class PlayerLeftClick : MonoBehaviour
     {
         if (chargeTime >= 4f && currentData.grade >= 5) //4단계 차지 18칸
         {
+            chargeLevel =4.5f;
             gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(6, 3);
             chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
-            chargeLevel = 4;
         }
         else if (chargeTime >= 3f && currentData.grade >= 4) //3단계 차지 9칸
         {
+            chargeLevel = 2;
             gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(3, 3);
             chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
-            chargeLevel = 2;
         }
         else if (chargeTime >= 2f && currentData.grade >= 3) //2단계 차지 5칸
         {
+            chargeLevel = 3.5f;
             gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(5, 1);
             chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
-            chargeLevel = 3.5f;
         }
         else if (chargeTime >= 1f && currentData.grade >= 2) //1단계 차지, 등급 2 이상시 3칸
         {
+            chargeLevel = 2f;
             gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(3, 1);
             chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
-            chargeLevel = 2f;
-            //콜라이더 위치 조정 -> transform.position
         }
 
         chargeTime = 0f;
         toolUsed = false;
         Invoke("ColliderOff", 0.1f);
+        Invoke("BoxColliderOff", 0.1f);
     }
 
     void MakeThrowColliderCharge()  // 차징 - 낚싯대
@@ -286,4 +282,5 @@ class PlayerLeftClick : MonoBehaviour
         }
     }
     void ColliderOff() { this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = false; }
+    void BoxColliderOff() { this.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false; }
 }

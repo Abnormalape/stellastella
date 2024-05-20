@@ -45,12 +45,6 @@ class PlayerMovement : MonoBehaviour
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
 
-
-        
-
-        
-
-
         if (pLClick.toolUsed || pLClick.chargeFishing) // 정지상태, 도구 모션, 낚싯대 차징
         {
             x = 0; y = 0;
@@ -123,8 +117,6 @@ class PlayerMovement : MonoBehaviour
         if (xx > this.transform.position.x) { xx -= 0.5; } else { xx += 0.5; }
         double yy = math.round(this.transform.position.y);
         if (yy > this.transform.position.y) { yy -= 0.5; } else { yy += 0.5; }
-
-        
         chargedHitBox.transform.position = new Vector2((float)xx, (float)yy) + nowFacing * pLClick.chargeLevel;
     }
 

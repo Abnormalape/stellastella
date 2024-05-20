@@ -19543,7 +19543,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -19551,6 +19551,27 @@ TextureImporter:
       bones: []
       spriteID: 315a118bb9861184e8310901d073e577
       internalID: 517136327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Block
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 496
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01fec04a92b0e9d479bed6bcc7cd13c1
+      internalID: 100697462
       vertices: []
       indices: 
       edges: []
@@ -19566,6 +19587,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Block: 100697462
       springobjects_0: 2047995878
       springobjects_1: 305772572
       springobjects_10: -1711075632
