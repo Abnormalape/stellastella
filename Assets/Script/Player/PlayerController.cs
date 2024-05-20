@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public bool exhaust;
     public bool dead;
 
+    public int farmLevel;
+
     PlayerInventroy pInven;
 
     private void Awake()

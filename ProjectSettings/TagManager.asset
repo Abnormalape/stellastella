@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tool
   - Tree
+  - FarmLand
   layers:
   - Default
   - TransparentFX

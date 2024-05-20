@@ -1,7 +1,7 @@
 [System.Serializable]
 class ItemDB
 {
-    int itemID;
+    protected int itemID;
     public int hpRestore=0; // 무기 및 도구류일 경우 데미지로 사용
     public int staminaRestor=0; // 도구류일 경우 스테미너 소모로 사용
     public int sellPrice = 0;
@@ -53,7 +53,7 @@ class ItemDB
             case 5:
                 name = "괭이";
                 type = "도구";
-                grade = 2;
+                grade = 5;
                 toolType = 2;
                 staminaRestor = 10;
                 return;

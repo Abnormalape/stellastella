@@ -34,20 +34,35 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
             Destroy(this.gameObject.GetComponentInChildren<Transform>());
         }
         else if(seeded && watered && currentDate!=gameManager.currentDay) // 심어진 상태로 물이 뿌려진 상태로 날이 바뀌었다면.
-        {   //자식오브젝트의 성장단계를 +1한다.
-            // gameManager.GetComponentInChildren<seedGrowth>().growth++;
+        {
+            //자식오브젝트의 성장단계를 +1한다.
+            gameManager.GetComponentInChildren<CropControl>().days++;
             watered = false; // 물뿌림을 초기화 한다.
-        }   // 심어진 상태로 물이 뿌려지지 않았다면... 냅둔다
-
+        }   
+        // 심어진 상태로 물이 뿌려지지 않았다면... 냅둔다
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) // 플레이어가 "씨앗"을 들고 "우클릭"시 생성되는 트리거에 접촉했을때
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        itemDB = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem);
+        itemDB = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem); // 플레이어가 들고있는 아이템의 정보
+
+        // 플레이어가 "씨앗"을 들고 "우클릭"시 생성되는 트리거에 접촉했을때
         if (itemDB.type == "씨앗")
         {
             collision.gameObject.GetComponentInParent<PlayerInventroy>().itemCount--; // 갯수를 하나 줄이고.
-            Instantiate(gameObject,this.transform.position,Quaternion.identity).transform.parent = this.transform; //내가 가진 아이템 ID와 맞는 프리팹을 만들어서 그놈의 부모를 나로 만들어라.
+            string seedName;
+            seedName = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem).name; // 현재 인벤토리의 번호에 맞는 이름
+            Instantiate(Resources.Load($"Prefabs/{seedName}") as GameObject // 프리팹의 경로 설정과 가져올 프리팹의 이름
+                , this.transform.position,Quaternion.identity).transform.parent = this.transform; //내가 가진 아이템 ID와 맞는 프리팹을 만들어서 그놈의 부모를 나로 만들어라.
+        }
+        else if (itemDB.type == "비료")
+        {
+
+        }
+        // 도구이면서 물뿌리개 일때 = 플레이어가 물뿌리개로 트리거를 만들었을때
+        else if (itemDB.type == "도구" && itemDB.toolType == 3)
+        {
+            this.watered = true;
         }
         else { return; }
     }

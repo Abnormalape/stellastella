@@ -13,13 +13,14 @@ class PlayerMovement : MonoBehaviour
     float faceY = -1f;
     float timeCheck = 0f;
     float timeCheckSwing = 0f;
-    
+
 
     Rigidbody2D rb;
     GameObject toolChild;
     PlayerLeftClick pLClick;
     PlayerController pController;
-    Vector2 nowFacing;
+    BoxCollider2D chargedHitBox;
+    public Vector2 nowFacing;
     Rotate nowRotation;
 
     public PlayerMovement()
@@ -33,6 +34,7 @@ class PlayerMovement : MonoBehaviour
         toolChild = transform.GetChild(0).gameObject;
         pLClick = this.gameObject.GetComponent<PlayerLeftClick>();
         pController = this.gameObject.GetComponent<PlayerController>();
+        chargedHitBox = this.gameObject.GetComponentInChildren<BoxCollider2D>();
         currentSpeed = 5f;
     }
     private void Update()
@@ -42,7 +44,12 @@ class PlayerMovement : MonoBehaviour
         float y;
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
+
+
         
+
+        
+
 
         if (pLClick.toolUsed || pLClick.chargeFishing) // 정지상태, 도구 모션, 낚싯대 차징
         {
@@ -51,7 +58,8 @@ class PlayerMovement : MonoBehaviour
         }
         else if (pLClick.chargeTool)
         {
-            ChargeMovement();
+            ChargeMovement(); // 차징 동작을 하는 상태 : 물뿌리개, 괭이
+            ChargeHitBox(); // 차징중 히트 박스의 위치
         }
         else
         {
@@ -82,7 +90,7 @@ class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(x * currentSpeed, y * currentSpeed);
         Facing(x, y);
         nowFacing = new Vector2(faceX, faceY);
-        
+
         if (Mathf.Abs(faceX) > 0) { toolChild.transform.rotation = Quaternion.Euler(0, 0, faceX * 90); }
         else if (Mathf.Abs(faceY) > 0) { toolChild.transform.rotation = Quaternion.Euler(0, 0, 270 - 90 * faceY); }
     }
@@ -109,6 +117,17 @@ class PlayerMovement : MonoBehaviour
         else { timeCheck = 0; }
     }
 
+    void ChargeHitBox()
+    {
+        double xx = math.round(this.transform.position.x);
+        if (xx > this.transform.position.x) { xx -= 0.5; } else { xx += 0.5; }
+        double yy = math.round(this.transform.position.y);
+        if (yy > this.transform.position.y) { yy -= 0.5; } else { yy += 0.5; }
+
+        
+        chargedHitBox.transform.position = new Vector2((float)xx, (float)yy) + nowFacing * pLClick.chargeLevel;
+    }
+
     void PlayerSpeed() // 이동속도제어 : 탈진,기본,커피,말 등등
     {
         if (pController.currentStamina > 0) { speed = 5f; }
@@ -124,7 +143,7 @@ class PlayerMovement : MonoBehaviour
         timeCheck += Time.deltaTime;
         if (MathF.Abs(faceX) == 1) // 좌우를 보는 상태라면
         {
-            toolChild.transform.rotation = Quaternion.Euler(0, 0, 0 - (timeCheck/0.5f) * 180 * (-faceX));
+            toolChild.transform.rotation = Quaternion.Euler(0, 0, 0 - (timeCheck / 0.5f) * 180 * (-faceX));
         }
         else
         {

@@ -13,6 +13,8 @@ class PlayerLeftClick : MonoBehaviour
     PlayerMovement pMov;
     PlayerInventroy pInven;
     ItemDB currentData;
+    GameObject chargedHitBox;
+    public float chargeLevel;
     public float coolDownTime = 0.5f;
     float passedTime = 0f;
     float chargeTime = 0f;
@@ -28,12 +30,15 @@ class PlayerLeftClick : MonoBehaviour
         pCon = this.gameObject.GetComponent<PlayerController>();
         pMov = this.gameObject.GetComponent<PlayerMovement>();
         pInven = this.gameObject.GetComponent<PlayerInventroy>();
-
+        chargedHitBox = this.gameObject.GetComponentInChildren<BoxCollider2D>().transform.gameObject; // 내 게임 오브젝트의 자식중 박스콜라이더를 찾아서 그놈의 게임오브젝트를 반환
+        chargedHitBox.GetComponent<BoxCollider2D>().enabled = false;
         this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = false;
     }
     private void Update()
     {
-        Debug.Log(toolUsed);
+        Debug.Log(chargeTime);
+
+        
         currentData = new ItemDB(pInven.currentInventoryItem);
 
         if (!toolUsed)
@@ -187,24 +192,32 @@ class PlayerLeftClick : MonoBehaviour
 
     void MakeChargeColliderAct() // 차징 후, 모션 후 콜라이더 생성 - 괭이 물뿌리개
     {
-        if (chargeTime >= 1f && currentData.grade >= 2) //1단계 차지, 등급 2 이상시 3칸
+        if (chargeTime >= 4f && currentData.grade >= 5) //4단계 차지 18칸
         {
-            //this.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true; // 잠깐 콜라이더를 킨다. 근데 지금은 일단 꺼두자.
-            //콜라이더 크기 조정 -> getchildcomponent<boxcollider>.size
-            //콜라이더 위치 조정 -> transform.position
-        }
-        else if (chargeTime >= 2f && currentData.grade >= 3) //2단계 차지 5칸
-        {
-
+            gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(6, 3);
+            chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
+            chargeLevel = 4;
         }
         else if (chargeTime >= 3f && currentData.grade >= 4) //3단계 차지 9칸
         {
-
+            gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(3, 3);
+            chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
+            chargeLevel = 2;
         }
-        else if (chargeTime >= 4f && currentData.grade >= 5) //4단계 차지 18칸
+        else if (chargeTime >= 2f && currentData.grade >= 3) //2단계 차지 5칸
         {
-
+            gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(5, 1);
+            chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
+            chargeLevel = 3.5f;
         }
+        else if (chargeTime >= 1f && currentData.grade >= 2) //1단계 차지, 등급 2 이상시 3칸
+        {
+            gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(3, 1);
+            chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
+            chargeLevel = 2f;
+            //콜라이더 위치 조정 -> transform.position
+        }
+
         chargeTime = 0f;
         toolUsed = false;
         Invoke("ColliderOff", 0.1f);

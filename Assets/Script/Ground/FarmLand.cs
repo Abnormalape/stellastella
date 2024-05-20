@@ -1,7 +1,10 @@
 using System;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEditor.PlayerSettings;
 using static UnityEditor.Progress;
+using Random = UnityEngine.Random;
 public class FarmLand : MonoBehaviour   // 다른 Land들은 자식오브젝트가 없을 때 프리팹을 자식 오브젝트로 만든다
                                         // 얘의 기능은 농장외부에선 보물 프리팹은 만드는 역할이고
                                         // 농장 내부에선 괭이질을 받았을때 경작지 프리팹을 생성하는 역할이다
@@ -22,9 +25,13 @@ public class FarmLand : MonoBehaviour   // 다른 Land들은 자식오브젝트가 없을 때 
     }
     public void OutSideFarm() // 농장외부에선 보물이 발견된다.
     {
-        if (currentDate != gameManager.currentDay) // 날이 바뀔때 확률적으로 보물 프리팹을 생성한다.
+        if (currentDate != gameManager.currentDay && transform.childCount == 0) // 날이 바뀔때, 자식 오브젝트(보물, 경작지)가 없다면
         {
-            // 보물 프리팹은 따로 만든다
+            int judge = Random.Range(0, 100);
+            if (judge >= 90) //10% 확률
+            {
+                Instantiate(gameObject); //TreasureControl을 가진 보물 프리팹을 만든다
+            }
             currentDate = gameManager.currentDay;
         }
     }
@@ -39,6 +46,7 @@ public class FarmLand : MonoBehaviour   // 다른 Land들은 자식오브젝트가 없을 때 
             if (itemDB.toolType == 2) // 그것이 괭이일때.
             {
                 GameObject.Instantiate(gameObject, Vector3.zero, Quaternion.identity).transform.parent = this.transform; // 경작지 프리팹을 만들어서 그놈의 부모를 나와 같게하라.
+                // 경작지 프리팹은 FarmLnadControl을 가지는 게임 오브젝트이다.
             }
         }
     }
