@@ -10,9 +10,9 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     Inventory[] pInventory = new Inventory[36]; // 36칸의 인벤토리
     int[] pInventoryCount = new int[36];
     ItemDB currentItemDB; // 아이템 정보 호출용
-    int currentInventory; // 현재인벤
-    public int currentInventoryItem; // 현재인벤의 아이템ID
-    public int itemCount; // 현재 인벤의 아이템 수
+    [SerializeField] int currentInventory; // 현재인벤
+    [SerializeField] public int currentInventoryItem; // 현재인벤의 아이템ID
+    [SerializeField] public int itemCount; // 현재 인벤의 아이템 수
 
     PlayerLeftClick PLClick;
 
@@ -32,7 +32,9 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         pInventory[5] = new Inventory(9); // 아이템ID 9 = 강화도끼
         pInventory[6] = new Inventory(10); // 아이템ID 10 = 강화곡괭이
         pInventory[7] = new Inventory(20); // 아이템ID 20 = 낚싯대, 툴 ID=9
+        pInventory[8] = new Inventory(14); // 봄작물1 씨앗 ,10개.
         for (int i = 0; i < 8; i++) { pInventory[i].itemCount = 1; }
+        pInventory[8].itemCount = 10;
     }
 
     private void Awake()
@@ -48,7 +50,6 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     }
     void Update()
     {
-        Debug.Log(currentInventoryItem);
         ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
     }
     void ChangeInventory() // 인벤토리를 바꾸고 아이템을 선택, 도구 사용중일때는 예외

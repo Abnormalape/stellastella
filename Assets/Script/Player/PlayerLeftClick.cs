@@ -14,6 +14,7 @@ class PlayerLeftClick : MonoBehaviour
     PlayerInventroy pInven;
     ItemDB currentData;
     GameObject chargedHitBox;
+    public Vector2 colSize;
     public float chargeLevel;
     public float coolDownTime = 0.5f;
     float passedTime = 0f;
@@ -36,8 +37,6 @@ class PlayerLeftClick : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(chargeTime);
-
         
         currentData = new ItemDB(pInven.currentInventoryItem);
 
@@ -64,6 +63,9 @@ class PlayerLeftClick : MonoBehaviour
                         return;
                     case 9:
                         UseFishingRod();
+                        return;
+                    case 0: //임시
+                        UseAxe();
                         return;
                 }
             }
@@ -166,9 +168,29 @@ class PlayerLeftClick : MonoBehaviour
         if (Input.GetMouseButton(0)) // 누르고 있는동안 아래를 실행
         {
             chargeTool = true;// 움직임의 차징상태를 true로 변경
-            chargeTime += Time.deltaTime;
-        }
 
+            chargeTime += Time.deltaTime;
+            if (chargeTime >= 4f && currentData.grade >= 5)
+            {
+                colSize = new Vector2(5.8f, 2.8f); ;
+                chargeLevel = 3.5f;
+            }
+            else if (chargeTime >= 3f && currentData.grade >= 4)
+            {
+                colSize = new Vector2(2.8f, 2.8f);
+                chargeLevel = 2f;
+            }
+            else if (chargeTime >= 2f && currentData.grade >= 3)
+            {
+                colSize = new Vector2(4.8f, 0.8f);
+                chargeLevel = 3f;
+            }
+            else if (chargeTime >= 1f && currentData.grade >= 2)
+            {
+                colSize = new Vector2(2.8f, 0.8f);
+                chargeLevel = 2f;
+            }
+        }
         if (Input.GetMouseButtonUp(0)) // 마우스를 떼었을때 Act
         {
             StaminaUse();
@@ -176,6 +198,7 @@ class PlayerLeftClick : MonoBehaviour
             if (chargeTime < 1f) // 차징이 1초 미만이라면 일반 사용과 같고
             {
                 StaminaUse();
+                chargeTime = 0f;
                 Invoke("MakeCollider", 0.5f);
             }
             else
@@ -188,31 +211,7 @@ class PlayerLeftClick : MonoBehaviour
 
     void MakeChargeColliderAct() // 차징 후, 모션 후 콜라이더 생성 - 괭이 물뿌리개
     {
-        if (chargeTime >= 4f && currentData.grade >= 5) //4단계 차지 18칸
-        {
-            chargeLevel =4.5f;
-            gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(6, 3);
-            chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
-        }
-        else if (chargeTime >= 3f && currentData.grade >= 4) //3단계 차지 9칸
-        {
-            chargeLevel = 2;
-            gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(3, 3);
-            chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
-        }
-        else if (chargeTime >= 2f && currentData.grade >= 3) //2단계 차지 5칸
-        {
-            chargeLevel = 3.5f;
-            gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(5, 1);
-            chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
-        }
-        else if (chargeTime >= 1f && currentData.grade >= 2) //1단계 차지, 등급 2 이상시 3칸
-        {
-            chargeLevel = 2f;
-            gameObject.GetComponentInChildren<BoxCollider2D>().size = new Vector2(3, 1);
-            chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
-        }
-
+        chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
         chargeTime = 0f;
         toolUsed = false;
         Invoke("ColliderOff", 0.1f);
@@ -241,9 +240,6 @@ class PlayerLeftClick : MonoBehaviour
 
     void MakeThrowColliderAct() // 차징 후, 모션 후 콜라이더 생성 - 낚싯대
     {
-        Debug.Log(throwPower);
-        Debug.Log("Throw bobble");
-
         // throwpower에 맞는 거리에 collider 생성
         
         StaminaUse();
@@ -263,7 +259,6 @@ class PlayerLeftClick : MonoBehaviour
         toolUsed = false;
         toolSwing = false;
         passedTime = 0f;
-        Debug.Log("SwingColliderEnd");
         ColliderOff();
     }
     

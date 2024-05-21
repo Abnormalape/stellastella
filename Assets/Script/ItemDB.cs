@@ -11,6 +11,7 @@ class ItemDB
     public string name = "";
     public string type = "";
     
+    // 씨앗류 아이템은 자라는데 걸리는 시간, 성장단계 등을 추가로 DB로 가져야 한다
 
     // 아이템 속성이 들어간다
 
@@ -115,38 +116,38 @@ class ItemDB
             case 14:
                 sellPrice = 10;
                 buyPrice = 20;
-                name = "SpringSeed1"; // 봄작물 1
-                type = "씨앗";
+                name = "SpringCrop1Seed"; // 봄작물 1
+                type = "Seed";
                 return;
             case 15:
                 sellPrice = 20;
                 buyPrice = 40;
-                name = "SpringSeed2"; // 봄작물2
-                type = "씨앗";
+                name = "SpringCrop2Seed"; // 봄작물2
+                type = "Seed";
                 return;
             case 16:
                 sellPrice = 11;
                 buyPrice = 22;
-                name = "SummerSeed1"; // 여름작물1
-                type = "씨앗";
+                name = "SummerCrop1Seed"; // 여름작물1
+                type = "Seed";
                 return;
             case 17:
                 sellPrice = 22;
                 buyPrice = 44;
-                name = "SummerSeed2"; // 여름작물2
-                type = "씨앗";
+                name = "SummerCrop2Seed"; // 여름작물2
+                type = "Seed";
                 return;
             case 18:
                 sellPrice = 13;
                 buyPrice = 26;
-                name = "FallSeed1"; // 가을작물1
-                type = "씨앗";
+                name = "FallCrop1Seed"; // 가을작물1
+                type = "Seed";
                 return;
             case 19:
                 sellPrice = 26;
                 buyPrice = 52;
-                name = "FallSeed2"; // 가을작물2
-                type = "씨앗";
+                name = "FallCrop2Seed"; // 가을작물2
+                type = "Seed";
                 return;
             case 20:
                 sellPrice = 100;
@@ -166,6 +167,33 @@ class ItemDB
                 type = "재료";
                 return;
 
+
+
+            case 101://봄작물1 열매
+                name = "SpringCrop1";
+                sellPrice = 10;
+                buyPrice = 0;
+                return;
+            case 102:
+                sellPrice = 10;
+                buyPrice = 0;
+                return;
+            case 103:
+                sellPrice = 10;
+                buyPrice = 0;
+                return;
+            case 104:
+                sellPrice = 10;
+                buyPrice = 0;
+                return;
+            case 105:
+                sellPrice = 10;
+                buyPrice = 0;
+                return;
+            case 106://가을작물2 열매
+                sellPrice = 10;
+                buyPrice = 0;
+                return;
         }
 	}
 }

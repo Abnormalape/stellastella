@@ -118,6 +118,11 @@ class PlayerMovement : MonoBehaviour
         double yy = math.round(this.transform.position.y);
         if (yy > this.transform.position.y) { yy -= 0.5; } else { yy += 0.5; }
         chargedHitBox.transform.position = new Vector2((float)xx, (float)yy) + nowFacing * pLClick.chargeLevel;
+        chargedHitBox.transform.localScale = pLClick.colSize;
+        if (nowFacing.x ==1 || nowFacing.x == -1)
+        {chargedHitBox.transform.rotation = Quaternion.Euler(0, 0, 0);}
+        else if (nowFacing.y == 1 ||  nowFacing.y == -1) 
+        {chargedHitBox.transform.rotation = Quaternion.Euler(0, 0, 90);}
     }
 
     void PlayerSpeed() // 이동속도제어 : 탈진,기본,커피,말 등등
@@ -127,7 +132,6 @@ class PlayerMovement : MonoBehaviour
         else { speed = 1f; }
 
         currentSpeed = speed;
-
     }
 
     void SwingTool()

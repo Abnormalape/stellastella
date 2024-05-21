@@ -1,18 +1,19 @@
 ﻿using System;
 using Unity;
-class SeedDB// 하드 코딩
+class SeedDB // 하드 코딩
 {
     public int maxLevle; //최대 성장단계
     public int maxDays;
     public int reDays;
     public bool reGather;
+    
 
     public SeedDB(int itemID)
     {
         switch (itemID)
         {
             case 14: //봄1
-                maxLevle = 3;
+                maxLevle = 4;
                 maxDays = 6;
                 reGather = false;
                 return;

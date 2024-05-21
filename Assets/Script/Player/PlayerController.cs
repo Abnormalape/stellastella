@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public bool exhaust;
     public bool dead;
 
-    public int farmLevel;
+    public int farmLevel = 1;
 
     PlayerInventroy pInven;
 

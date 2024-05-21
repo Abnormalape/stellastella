@@ -35,11 +35,6 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
 
     private void Awake()
     {
-        // 인벤토리 호출 및 비활성화
-        inventory = transform.GetChild(0).gameObject;
-        inventory.SetActive(false);
-
-        // 초기 시간 설정
         currentYear = 1;
         currentSeason = 1;
         currentMonth = 1;
@@ -48,6 +43,12 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
         currentMinute = 0;
         ampm = "AM";
         dayOff = false;
+        // 인벤토리 호출 및 비활성화
+        inventory = transform.GetChild(0).gameObject;
+        inventory.SetActive(false);
+
+        // 초기 시간 설정
+        
     }
 
     private void Update()

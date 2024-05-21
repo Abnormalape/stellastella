@@ -6,17 +6,21 @@ using Random = UnityEngine.Random;
 class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브젝트의 스크립트, 중요)ID로 아이템을 생성한다
 {
     int seedID;
+    int numbers;
+    ItemDB ItemDB;
     HarvestDB harvestDB;
     [SerializeField] GameObject[] dropItemPrefab;
-
+    public bool harvested;
     private void OnEnable()
     {
+        harvested = false;
         seedID = GetComponentInParent<CropControl>().seedID; // 부모의 아이디를 가진다.
         harvestDB = new HarvestDB(seedID); // 당신의 수확물은 무엇인가요?
         dropItemPrefab = new GameObject[harvestDB.items]; //몇종류의 수확물을 가지나요?.
         for (int i = 0; i < harvestDB.items; i++)
         {
-            dropItemPrefab[i] = Resources.Load($"Prefabs/{harvestDB.cropName[i]}") as GameObject; //수확물 데이터에서 이름을 찾아 그 이름과 일치하는 프리팹을 할당한다.
+            ItemDB = new ItemDB(harvestDB.itemID[i]);
+            dropItemPrefab[i] = Resources.Load($"Prefabs/{ItemDB.name}") as GameObject; //수확물 데이터에서 이름을 찾아 그 이름과 일치하는 프리팹을 할당한다.
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
@@ -46,6 +50,8 @@ class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브�
                 }
             }
         }
+        harvested = true;
+        this.gameObject.SetActive(false);
     }
 
     //얘가 만들어낸 프리팹은 collider rigidbody itemdrop fielditem 을 가진다.

@@ -1,34 +1,43 @@
 ﻿using UnityEngine;
 
 
+[ExecuteInEditMode]
 class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞는 프리팹. 그래서 작물프리팹 => 양산성 제품
                                   // 중요) ID로 성장을 관리한다.
 {
     [SerializeField] public int seedID; // 아이디는 unity에서 입력 받는다.
+
     SeedDB seedDB;
-    [SerializeField]
-    Sprite[] sprites;
     SpriteRenderer thisSR;
+
+    [SerializeField] Sprite[] sprites;
+    [SerializeField] int maxDay;
+    [SerializeField] int maxLevel;
+    [SerializeField] bool reHarvset;
+    [SerializeField] int reDay; 
+    
     public int days = 0; // 초기 day는 0
-    int maxDay;
     int levle;
-    int maxLevel;
-    bool reHarvset;
-    GameObject harvestControl; //수확을 가능하게 하는 게임오브젝트
+
+    [SerializeField] GameObject harvestControl; //수확을 가능하게 하는 게임오브젝트
 
     private void OnEnable()
     {
         seedDB = new SeedDB(seedID);
         thisSR = this.GetComponent<SpriteRenderer>();
+
         maxDay = seedDB.maxDays;
         maxLevel = seedDB.maxLevle; // 오타 났는데 일단 넘어감
+        reHarvset = seedDB.reGather;
+        reDay = seedDB.reDays;
+
+        harvestControl = Resources.Load($"Prefabs/HarvestPrefabs/HarvestController") as GameObject;
         harvestControl.SetActive(false); // 일단은 보이지 않게 함
         sprites = new Sprite[maxLevel + 1]; // 씨앗 1개 추가
     }
     private void Update()
     {
         UpdateDate();
-
     }
     void UpdateDate()
     {
@@ -62,6 +71,8 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
                 }
             }
         }
+        UpdateLevel();
+        UpdateSprite();
     }
 
     void UpdateLevel()
@@ -110,4 +121,6 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
             thisSR.sprite = sprites[levle]; // 현재 레벨의 스프라이트로 변경
         }
     }
+    
+    
 }
