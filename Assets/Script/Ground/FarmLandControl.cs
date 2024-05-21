@@ -16,6 +16,8 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
     [SerializeField] bool leftWatered = false;
     [SerializeField] bool rightWatered = false;
 
+    public string seedName;
+
     [SerializeField] public bool seeded = false;
     bool scareCrow = false;
 
@@ -62,11 +64,10 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
                 if (atFarm && !seeded)
                 {
                     collision.gameObject.GetComponentInParent<PlayerInventroy>().itemCount--; // 갯수를 하나 줄이고.
-                    string seedName;
                     seedName = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem).name; // 현재 인벤토리의 번호에 맞는 이름
                     seedName = seedName.Replace("Seed","");
                     Debug.Log(seedName);
-                    Instantiate((GameObject)Resources.Load($"Prefabs/CropPrefabs/{seedName}"),this.transform.position,Quaternion.identity).transform.parent = this.transform; 
+                    Instantiate((GameObject)Resources.Load($"Prefabs/CropPrefabs/{seedName}"), this.transform.position, Quaternion.identity).transform.parent = this.transform;
                     Debug.Log(seedName);
                     //내가 가진 아이템 ID와 맞는 프리팹을 만들어서 그놈의 부모를 나로 만들어라.
                     seeded = true;

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 
-[ExecuteInEditMode]
 class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞는 프리팹. 그래서 작물프리팹 => 양산성 제품
                                   // 중요) ID로 성장을 관리한다.
 {
@@ -21,6 +21,7 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
 
     [SerializeField] GameObject harvestControl; //수확을 가능하게 하는 게임오브젝트
 
+    
     private void OnEnable()
     {
         seedDB = new SeedDB(seedID);
@@ -33,7 +34,11 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
 
         harvestControl = Resources.Load($"Prefabs/HarvestPrefabs/HarvestController") as GameObject;
         harvestControl.SetActive(false); // 일단은 보이지 않게 함
-        sprites = new Sprite[maxLevel + 1]; // 씨앗 1개 추가
+    }
+
+    private void Start()
+    {
+        
     }
     private void Update()
     {

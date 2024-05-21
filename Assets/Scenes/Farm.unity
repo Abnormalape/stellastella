@@ -16958,6 +16958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4119bc078bd7b484c9cd1fc77e586187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentInventory: 0
   currentInventoryItem: 0
   itemCount: 0
 --- !u!114 &1288004550
