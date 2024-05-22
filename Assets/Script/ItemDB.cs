@@ -173,26 +173,33 @@ class ItemDB
                 name = "SpringCrop1";
                 sellPrice = 10;
                 buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
                 return;
             case 102:
                 sellPrice = 10;
                 buyPrice = 0;
+                grade = 1;
                 return;
             case 103:
                 sellPrice = 10;
                 buyPrice = 0;
+                grade = 1;
                 return;
             case 104:
                 sellPrice = 10;
                 buyPrice = 0;
+                grade = 1;
                 return;
             case 105:
                 sellPrice = 10;
                 buyPrice = 0;
+                grade = 1;
                 return;
             case 106://가을작물2 열매
                 sellPrice = 10;
                 buyPrice = 0;
+                grade = 1;
                 return;
         }
 	}

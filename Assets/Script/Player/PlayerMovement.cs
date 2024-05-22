@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Collections;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -40,24 +41,35 @@ class PlayerMovement : MonoBehaviour
     private void Update()
     {
         PlayerSpeed(); // 이동속도 제어기
-        float x;
-        float y;
-        x = Input.GetAxisRaw("Horizontal");
-        y = Input.GetAxisRaw("Vertical");
+        float x = Input.GetAxisRaw("Horizontal"); ;
+        float y = Input.GetAxisRaw("Vertical"); ;
+        
+        if (pLClick.Fishing) //낚싯대 차징
+        {
+            x = 0; y = 0;
+            NormalMovement(x, y);
+            ChargeHitBox();
+            double xx = chargedHitBox.transform.position.x;
+            double yy = chargedHitBox.transform.position.y;
+            if (math.round(xx) > xx) { xx = math.round(xx) - 0.5; } else { xx = math.round(xx) + 0.5; }
+            if (math.round(yy) > yy) { yy = math.round(yy) - 0.5; } else { yy = math.round(yy) + 0.5; }
+            chargedHitBox.transform.position = new Vector2((float)xx + faceX,(float)yy + faceY);
 
-        if (pLClick.toolUsed || pLClick.chargeFishing) // 정지상태, 도구 모션, 낚싯대 차징
+        }
+        else if (pLClick.toolUsed) //도구모션
         {
             x = 0; y = 0;
             NormalMovement(x, y);
         }
-        else if (pLClick.chargeTool)
+        else if (pLClick.chargeTool) //도구 차징
         {
-            ChargeMovement(); // 차징 동작을 하는 상태 : 물뿌리개, 괭이
+            ChargeMovement(); // 차징 동작을 하는 상태  물뿌리개, 괭이
             ChargeHitBox(); // 차징중 히트 박스의 위치
         }
         else
         {
             NormalMovement(x, y);
+            NormalChargeHitBox();
         }
 
         if (pLClick.toolSwing)
@@ -111,8 +123,23 @@ class PlayerMovement : MonoBehaviour
         else { timeCheck = 0; }
     }
 
+    void NormalChargeHitBox()
+    {
+        double xx = math.round(this.transform.position.x);
+        if (xx > this.transform.position.x) { xx -= 0.5; } else { xx += 0.5; }
+        double yy = math.round(this.transform.position.y);
+        if (yy > this.transform.position.y) { yy -= 0.5; } else { yy += 0.5; }
+        chargedHitBox.transform.position = new Vector2((float)xx, (float)yy) + nowFacing;
+        chargedHitBox.transform.localScale = new Vector2(0.8f,0.8f);
+        if (nowFacing.x == 1 || nowFacing.x == -1)
+        { chargedHitBox.transform.rotation = Quaternion.Euler(0, 0, 0); }
+        else if (nowFacing.y == 1 || nowFacing.y == -1)
+        { chargedHitBox.transform.rotation = Quaternion.Euler(0, 0, 90); }
+    }
     void ChargeHitBox()
     {
+        chargedHitBox.transform.localScale = Vector2.one;
+
         double xx = math.round(this.transform.position.x);
         if (xx > this.transform.position.x) { xx -= 0.5; } else { xx += 0.5; }
         double yy = math.round(this.transform.position.y);

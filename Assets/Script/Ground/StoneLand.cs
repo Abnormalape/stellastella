@@ -1,21 +1,36 @@
+using UnityEditor.SearchService;
 using UnityEngine;
+using Random = UnityEngine.Random;
 public class StoneLand : MonoBehaviour // Á¶°Ç¿¡ µû¶ó ±¤¼® ÀÚ½Ä ¿ÀºêÁ§Æ®¸¦ »ı¼ºÇÑ´Ù.
 {
     [SerializeField] GameManager gameManager;
     [SerializeField] GameObject[] stonePrefabs;
 
+    [SerializeField] bool makeOre;  // Ã¤¼®Àå, ´øÀüµî ±¤¼®ÀÌ ½ºÆùµÇ´Â Àå¼Ò¿¡¼­ Å´.
+    [SerializeField] bool makeStone; // µ¹¸¸ ½ºÆùµÇ¾î¾ß ÇÏ´Â Àå¼Ò¿¡¼­ Å²´Ù.
+    
+    
     int currentDate;
     int currentSeason;
     private void Awake() // °ÔÀÓ ½ÃÀÛÇÒ ¶§ ÃÊ±âÈ­
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         currentDate = gameManager.currentDay;
+        currentSeason = gameManager.currentSeason;
     }
 
     private void Update()
     {
-        // ÀÌ ¾ÀÀÌ ´øÀüÀÎÁö ³óÀåÀÎÁö¿¡ µû¶ó ¾Æ·¡ ¸Ş¼­µå¸¦ ½ÇÇàÇÑ´Ù
+        if (makeOre)
+        {
+            MakeOre();
+        }
+        if (makeStone)
+        {
+            MakeStone();
+        }
     }
-    public void InDungeon()
+    public void MakeOre() // µ¹À» Æ÷ÇÔÇÑ ±¤¼®À» ¸¸µå´Â ¸Ş¼­µå : 
     {
         // ´øÀü¿¡¼­ ¶¥À§¿¡ µ¹À» »ı¼ºÇÑ´Ù.
         if (true) //³» ¾ÀÀÌ ·ÎµåµÇ¾ú´Ù¸é
@@ -25,16 +40,24 @@ public class StoneLand : MonoBehaviour // Á¶°Ç¿¡ µû¶ó ±¤¼® ÀÚ½Ä ¿ÀºêÁ§Æ®¸¦ »ı¼ºÇ
         }
     }
 
-    public void InSideFarm()
-    {
-        // ÀÌ ¶¥À§¿¡ ¾Æ¹«°Íµµ ¾ø´Ù¸é
-        if (transform.childCount == 0)
+    public void MakeStone()
+    { 
+        if (transform.childCount == 0) // LandController¿¡ ÀÚ½ÄÀÌ ¾ø´Ù¸é.
         {
             if (currentSeason != gameManager.currentSeason) // °èÀıÀÌ ¹Ù²î¾ú´Ù¸é
             {
+                int i = Random.Range(1, 100);
+                if (i > 90) // 10%ÀÇ È®·ü·Î
+                {
+                    // Instantiate(); // ÇÁ¸®ÆÕÀ» »ı¼ºÇÑ´Ù.
+                }
                 // È®·üÀûÀ¸·Î ÇÁ¸®ÆÕÀ» »ı¼ºÇÏ¶ó = (ÇÁ¸®ÆÕ : µ¹1, µ¹2).
                 currentSeason = gameManager.currentSeason;
             }
+        }
+        else if (transform.childCount > 0) // LandController¿¡ ÀÚ½ÄÀÌ ÀÖ´Ù¸é
+        {
+            // ÀÚ½Ä ¿ÀºêÁ§Æ®°¡ °¡Áø Component¸¦ ÆÇ´ÜÇØ¼­ ´ë½Å ³ª¸¦ ¼ÒÈ¯ÇÑ´Ù
         }
     }
 }

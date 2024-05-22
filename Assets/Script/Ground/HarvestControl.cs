@@ -7,51 +7,61 @@ class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브�
 {
     int seedID;
     int numbers;
-    ItemDB ItemDB;
+    ItemDB[] ItemDB;
     HarvestDB harvestDB;
-    [SerializeField] GameObject[] dropItemPrefab;
+    GameObject[] dropItemPrefab;
     public bool harvested;
     private void OnEnable()
     {
         harvested = false;
-        seedID = GetComponentInParent<CropControl>().seedID; // 부모의 아이디를 가진다.
-        harvestDB = new HarvestDB(seedID); // 당신의 수확물은 무엇인가요?
-        dropItemPrefab = new GameObject[harvestDB.items]; //몇종류의 수확물을 가지나요?.
+        seedID = GetComponentInParent<CropControl>().seedID; // 부모의 아이디 추출
+
+        harvestDB = new HarvestDB(seedID);                  //수확물 추출
+        harvestDB.HarvestDBSetting();                       //수확물 셋팅
+        dropItemPrefab = new GameObject[harvestDB.items];   //수확물 종류 만큼 프리팹 공간 생성
+        ItemDB = new ItemDB[harvestDB.items];               //수확물 종류 만큼 아이템 공간 생성
+
         for (int i = 0; i < harvestDB.items; i++)
         {
-            ItemDB = new ItemDB(harvestDB.itemID[i]);
-            dropItemPrefab[i] = Resources.Load($"Prefabs/{ItemDB.name}") as GameObject; //수확물 데이터에서 이름을 찾아 그 이름과 일치하는 프리팹을 할당한다.
+            ItemDB[i] = new ItemDB(harvestDB.itemID[i]);    //아이템 생성
+            ItemDB[i].itemSetting();                        //아이템 정보 생성
+            dropItemPrefab[i] = Resources.Load($"Prefabs/FieldItems/{ItemDB[i].name}") as GameObject;
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    
+    
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.transform.parent.tag == "Player" && collision.gameObject.transform.tag == "Tool") // 접촉한게 도구면서 그 부모가 플레이어라면
+        if (collision.gameObject.tag == "Tool") // 접촉한게 도구면서 그 부모가 플레이어라면
         {
             for (int i = 0; i < harvestDB.items; i++)  // prefab[i]를 생성한다.
             {
                 for (int j = 0; j < harvestDB.dropnumber[i]; j++)
                 {   // prefab[i]을 dropnumber[i]개 만큼 생성한다.
-
                     int farmlevel = collision.gameObject.GetComponentInParent<PlayerController>().farmLevel; // 수확자의 농사레벨 확인
                     int R = Random.Range(0, 100);
-                    if(R > 80 - farmlevel) //금 20% 10레벨에 30퍼
+
+                    if (ItemDB[i].type == "Fruit")
                     {
-                        dropItemPrefab[i].GetComponent<FieldItem>().grade = 3;
+                        if (R > 80 - farmlevel) //금 20% 10레벨에 30퍼
+                        {
+                            dropItemPrefab[i].GetComponent<FieldItem>().grade = 3;
+                        }
+                        else if (R > 60 - farmlevel * 3) //은 20%, 10레벨에 40퍼
+                        {
+                            dropItemPrefab[i].GetComponent<FieldItem>().grade = 2;
+                        }
+                        else //무 60%, 10레벨에 30퍼
+                        {
+                            dropItemPrefab[i].GetComponent<FieldItem>().grade = 1;
+                        }
                     }
-                    else if (R > 60 - farmlevel * 3) //은 20%, 10레벨에 40퍼
-                    {
-                        dropItemPrefab[i].GetComponent<FieldItem>().grade = 2;
-                    }
-                    else //무 60%, 10레벨에 30퍼
-                    {
-                        dropItemPrefab[i].GetComponent<FieldItem>().grade = 1;
-                    }
-                    Instantiate(dropItemPrefab[i]); // 등급을 설정하고 아이템을 만든다.
+                    Instantiate(dropItemPrefab[i],this.transform.position,Quaternion.identity); // 등급을 설정하고 아이템을 만든다.
                 }
             }
+            this.gameObject.GetComponentInParent<CropControl>().harvested = true;
+            this.gameObject.SetActive(false);
         }
-        harvested = true;
-        this.gameObject.SetActive(false);
     }
 
     //얘가 만들어낸 프리팹은 collider rigidbody itemdrop fielditem 을 가진다.

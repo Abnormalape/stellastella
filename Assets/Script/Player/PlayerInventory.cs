@@ -16,6 +16,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 
     PlayerLeftClick PLClick;
 
+    public int changeCount = 0;
 
     void MakePlayerInventory() // 시작할때 주는 도구 = 1회성
     {
@@ -51,6 +52,12 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     void Update()
     {
         ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
+
+        if(changeCount != 0) // 갯수변화가 0이 아니라면
+        {
+            pInventory[currentInventory].itemCount += changeCount;
+            changeCount = 0;
+        }
     }
     void ChangeInventory() // 인벤토리를 바꾸고 아이템을 선택, 도구 사용중일때는 예외
     {
@@ -93,7 +100,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         {
             for (int i = 0; i < 36; i++) // 인벤토리를 훑어서
             {
-                if (collision.gameObject.GetComponent<FieldItem>().itemID == pInventory[i].itemID) // 같은 ID를 보유중인 인벤토리에
+                if (collision.gameObject.GetComponent<FieldItem>().itemID == pInventory[i].itemID && collision.gameObject.GetComponent<FieldItem>().grade == pInventory[i].grade) // 같은 ID를 보유중인 인벤토리에
                 {
                     pInventory[i].itemCount += 1; // 카운트를 올리고
                     Destroy(collision.gameObject); // 그놈을 제거하고
@@ -105,6 +112,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
                 if (pInventory[i].itemID == 0) // 인벤토리의 아이템 아이디가 비어있는곳을 찾아 (개인적으론 null쓰고싶긴한데)
                 {
                     pInventory[i].itemID = collision.gameObject.GetComponent<FieldItem>().itemID; // 그 인벤토리의 아이템ID를 충돌체의 ID로 바꾸고
+                    pInventory[i].grade = collision.gameObject.GetComponent<FieldItem>().grade; // 그 인벤토리의 아이템 등급을 충돌체의 등급으로 바꾸고
                     pInventory[i].itemCount += 1; // 카운트를 올린다 (0이었으니까)
                     Destroy(collision.gameObject);
                     return; // 메서드 종료
@@ -112,26 +120,5 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
             }
             return; // 그냥 종료
         }
-    }
-
-    void Bags()
-    {
-        
-    }
-
-    void addItem(int itemID)  // 필드에서 접촉한 아이템을 인벤토리에 넣는법
-                    // 아이템은 자신이 접촉한 오브젝트(player gathering)의 부모오브젝트(player) 를 향해 다가가며, 그 거리가 일정 수준이 되었을때 소멸하며 Playerinventory에 addItem을 작동시킨다.
-    {
-        // for문을 돌려서 pInventory[]에 있는 itemID와 비교를 한다
-        // 그래서 pInventory[]가 가지고 있는 itemID와 일치는 한다면, 그 pInventory의 itemCount를 1증가 시킨다.
-        // 그리고 탈출한다
-
-        // 만약 for문을 실행하는 동안 어디에서도 찾아지지 않는다면
-        // for문을 새로 돌려 null인 인벤토리에 itemID를 넣고 itemCount를 1증가시킨다.
-    }
-    void addItem(int itemID, int itemGrade)  // 아이템을 인벤토리에 넣는법
-                              // 아이템은 자신이 접촉한 오브젝트(player gathering)의 부모오브젝트(player) 를 향해 다가가며, 그 거리가 일정 수준이 되었을때 소멸하며 Playerinventory에 addItem을 작동시킨다.
-    {
-        // 위와 같으나, itemID 와 itemGrade가 같은 애들을 찾는다.
     }
 }

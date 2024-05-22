@@ -5,7 +5,7 @@ using Unity;
 using Unity.VisualScripting;
 using UnityEngine;
 
-class PlayerLeftClick : MonoBehaviour
+class PlayerRightClick : MonoBehaviour  
 // 얘를 플레이어 컨트롤에 넣고, 툴타입을 받아온다
 {                       // 툴 타입에 맞는 메서드를 실행한다
                         // 그냥 얘 자체를 update에 실행해도 되는것 아닌가?

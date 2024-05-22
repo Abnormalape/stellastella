@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6239268901941186896}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.01, y: 0.23, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 31
   m_Sprite: {fileID: 1239556448, guid: c99a59adc1a62034a8366d56c4cffc0f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98fff5a090779cb4ab3ed4d4ae6df829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemID: 13
-  grade: 0
+  itemID: 101
+  grade: 1
   numbers: 0
 --- !u!58 &8855920436672248572
 CircleCollider2D:

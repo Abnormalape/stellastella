@@ -47,20 +47,17 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         inventory = transform.GetChild(0).gameObject;
         inventory.SetActive(false);
 
-        // ÃÊ±â ½Ã°£ ¼³Á¤
-        
     }
 
     private void Update()
     {
         // ½Ã°£°æ°ú Ã¼Å©
-        timePassed += Time.deltaTime;
-
+        timePassed =timePassed + Time.deltaTime;
         // ÇöÀç½Ã°£ Ãâ·Â
         UpdateTime();
 
         // ÀÏÀÚ Á¾·á½Ã, ÀÏÀÚ Á¾·á¸Þ¼­µå ½ÇÇà
-        if (dayOff ) { EndOfTheDay(); }
+        if (dayOff) { EndOfTheDay(); }
 
         // ÀÎº¥Åä¸® °ü¸®
         OpenInventory(); // ÀÌº¥Æ®È­ ¿ä¼Ò
@@ -70,22 +67,24 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     }
     void UpdateTime()
     {
-        // ÇöÀç ½Ã°£À» ¾÷µ¥ÀÌÆ®
-        if (currentHour == 26) { dayOff = true; }
-        if (timePassed >= 10f) {currentMinute += 10; timePassed = 0;}
-        if (currentMinute == 60){currentHour += 1;}
+        if(timePassed >= 10f)
+        {currentMinute += 10;
+            timePassed = 0;}
 
-        // ¿ÀÀü ¿ÀÈÄ Ãâ·Â¿ë
-        if (currentHour >= 24)
+        if(currentMinute >= 60)
+        {currentHour += 1;
+            currentMinute = 0;}
+
+        if(currentHour == 26)
+        {dayOff = true;}
+
+        if(currentHour <12 || currentHour >= 24)
         {ampm = "AM";}
-        else if (currentHour >= 12)
-        {ampm = "PM";}
-        else { ampm = "AM"; }
+        else { ampm = "PM"; }
     }
 
     void EndOfTheDay() //dayoff°¡ trueÀÏ¶§ Á¤»ê¾ÀÀ» È£Ãâ, ³ª¸ÓÁö ±â´ÉÀº Á¤»ê¾À¿¡¼­ ½ÇÇà
     {
-        dayOff = false ;
         currentHour = 6;
         currentMinute = 0;
         ampm = "AM";
@@ -105,6 +104,8 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         // ÀÛ¹°ÀÌ ¹°ÀÌ »Ñ·ÁÁ³´ÂÁö È®ÀÎÈÄ ÀÛ¹° »óÅÂ¿¡ 1À» ´õÇÏ°í ¹°À» ÃÊ±âÈ­ÇÑ´Ù
         // µ¿¹°µéÀÇ ³ªÀÌ¿¡ 1À» ´õÇÑ´Ù
         NewDayBegin();
+
+        dayOff = false;
     }
     void NewDayBegin() // °ÔÀÓ ¾ÀÀ¸·Î µ¹¾Æ¿È, Á¤»ê¾À¿¡¼­ °ü¸® ÇÏÁö ¾ÊÀº °Íµé °ü¸®
     {

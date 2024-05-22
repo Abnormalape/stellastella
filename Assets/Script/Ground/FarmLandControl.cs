@@ -51,6 +51,9 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
         {
             spriteRenderer.sprite = null;
         }
+
+        if(transform.childCount == 0)
+        {seeded = false;}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -63,12 +66,11 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
             {   //그런데 농장에서만
                 if (atFarm && !seeded)
                 {
-                    collision.gameObject.GetComponentInParent<PlayerInventroy>().itemCount--; // 갯수를 하나 줄이고.
+                    
+                    collision.gameObject.GetComponentInParent<PlayerInventroy>().changeCount = -1; // 콜라이더의 부모 오브젝트의 인벤토리에게 요청보냄
                     seedName = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem).name; // 현재 인벤토리의 번호에 맞는 이름
                     seedName = seedName.Replace("Seed","");
-                    Debug.Log(seedName);
                     Instantiate((GameObject)Resources.Load($"Prefabs/CropPrefabs/{seedName}"), this.transform.position, Quaternion.identity).transform.parent = this.transform;
-                    Debug.Log(seedName);
                     //내가 가진 아이템 ID와 맞는 프리팹을 만들어서 그놈의 부모를 나로 만들어라.
                     seeded = true;
                 }
@@ -96,13 +98,13 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
     }
     void CropData()
     {
-        if (currentDate != gameManager.currentDay)
+        if (this.currentDate != gameManager.currentDay)
         {
-            currentDate = gameManager.currentDay;
+            this.currentDate = gameManager.currentDay;
             if (seeded && watered) // 심어진 상태로 물이 뿌려진 상태로 날이 바뀌었다면.
             {
                 //자식오브젝트의 성장단계를 +1한다.
-                gameManager.GetComponentInChildren<CropControl>().days++;
+                gameObject.GetComponentInChildren<CropControl>().days++;
                 watered = false; // 물뿌림을 초기화 한다.
             }
             else if (seeded) // 씨앗을 심은 상태로 날이 바뀌었다면.
@@ -112,8 +114,8 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
                 {
                     if (!scareCrow) // 허수아비 없음.
                     {
-                        Destroy(this.gameObject.GetComponentInChildren<Transform>()); // 작물파괴.
-                                                                                      //Instantiate(); => 까마귀 생성.
+                        Destroy(this.gameObject.GetComponentInChildren<CropControl>().gameObject); // 작물(자식오브젝트)파괴.
+                        seeded = false;                                                              //Instantiate(); => 까마귀 생성.
                     }
                     else if (scareCrow) // 허수아비 있음.
                     {
