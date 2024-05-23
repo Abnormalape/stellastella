@@ -30,7 +30,7 @@ class FieldStoneObject : MonoBehaviour
         this.toolLevel = fieldStoneObjectDB.toolLevel;
         this.hp = fieldStoneObjectDB.hp;
         this.stoneName = fieldStoneObjectDB.stoneName;
-        this.itemDB = new ItemDB[fieldStoneObjectDB .items]; // 아이템DB클래스에 아이템ID를 넘겨준다. 아이템DB는 받은 ID에 맞게 아이템 데이터를 저장한다.
+        this.itemDB = new ItemDB[fieldStoneObjectDB.items]; // 아이템DB클래스에 아이템ID를 넘겨준다. 아이템DB는 받은 ID에 맞게 아이템 데이터를 저장한다.
         for (int i = 0; i < fieldStoneObjectDB.items; i++)
         {
             itemDB[i] = new ItemDB(fieldStoneObjectDB.itemID[i]); // 첫번째 아이템은 itemDB에 트리오브젝트의 첫번째 아이템ID를 받은 값
@@ -44,12 +44,12 @@ class FieldStoneObject : MonoBehaviour
         dropItemPrefab = new GameObject[fieldStoneObjectDB.items]; //DB에서 가짓수를 불러와 GameObject를 생성한다
         for (int i = 0; i < fieldStoneObjectDB.items; i++)
         {
-            dropItemPrefab[i] = Resources.Load($"Prefabs/{itemDB[i].name}") as GameObject; //
+            dropItemPrefab[i] = Resources.Load($"Prefabs/FieldItems/{itemDB[i].name}") as GameObject; //
         }
     }
     private void Start()
     {
-        
+
     }
     private void Update() //플레이어가 특정조건을 만족시켰을때 반응해야한다.
     {
@@ -58,24 +58,27 @@ class FieldStoneObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        playerInventroy = collision.GetComponentInParent<PlayerInventroy>();
-
-        onHandItem = new ItemDB(playerInventroy.currentInventoryItem);
-        onHandItem.itemSetting();
-        if (onHandItem.toolType == this.toolType)
+        if (collision.tag == "Tool")
         {
-            if (onHandItem.grade >= this.toolLevel)
+            playerInventroy = collision.GetComponentInParent<PlayerInventroy>();
+            onHandItem = new ItemDB(playerInventroy.currentInventoryItem);
+            onHandItem.itemSetting();
+
+            if (onHandItem.toolType == this.toolType)
             {
-                this.hp -= onHandItem.hpRestore;
-            }
-            else if (onHandItem.grade < this.toolLevel)
-            {
-                Debug.Log("도구가 충분히 강하지 않은 것 같다.");
+                if (onHandItem.grade >= this.toolLevel)
+                {
+                    this.hp -= onHandItem.hpRestore;
+                }
+                else if (onHandItem.grade < this.toolLevel)
+                {
+                    Debug.Log("도구가 충분히 강하지 않은 것 같다.");
+                }
             }
         }
     }
 
-    
+
     private void dropItem()
     {
         if (hp <= 0)

@@ -1012,6 +1012,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: tree2_spring_41
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ef5a5a4ca157484aacb293b934d1e42
+      internalID: -512447501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1061,6 +1082,7 @@ TextureImporter:
       tree2_spring_39: 19597984
       tree2_spring_4: 930319442
       tree2_spring_40: -1222938780
+      tree2_spring_41: -512447501
       tree2_spring_5: -1517691382
       tree2_spring_6: 1201915667
       tree2_spring_7: 199312398

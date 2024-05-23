@@ -201,6 +201,14 @@ class ItemDB
                 buyPrice = 0;
                 grade = 1;
                 return;
+
+            case 201: //Âü³ª¹« ¾¾¾Ñ
+                name = "OakTreeSeed";
+                sellPrice = 10;
+                buyPrice = 0;
+                type = "TreeSeed";
+                return;
+                
         }
 	}
 }

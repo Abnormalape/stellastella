@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5394035656571588731}
   - component: {fileID: 6877098511285501836}
   - component: {fileID: 5473834779259148535}
-  - component: {fileID: 3864946506274317113}
   m_Layer: 3
   m_Name: FieldStone2
   m_TagString: Untagged
@@ -131,17 +130,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3864946506274317113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6276021908496580573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 647e5146ede67e846b0ffe688a4199e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fieldStoneObjectID: 1
-  playerInventroy: {fileID: 0}
