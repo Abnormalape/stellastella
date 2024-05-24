@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,7 +11,10 @@ class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브�
     ItemDB[] ItemDB;
     HarvestDB harvestDB;
     GameObject[] dropItemPrefab;
-    public bool harvested;
+    public bool harvested = false;
+    public bool handHarvest = false;
+
+    Collider2D touchedObject;
     private void OnEnable()
     {
         harvested = false;
@@ -28,42 +32,61 @@ class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브�
             dropItemPrefab[i] = Resources.Load($"Prefabs/FieldItems/{ItemDB[i].name}") as GameObject;
         }
     }
-    
-    
+
+    private void Update()
+    {
+        HandHarvest();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Tool") // 접촉한게 도구면서 그 부모가 플레이어라면
-        {
-            for (int i = 0; i < harvestDB.items; i++)  // prefab[i]를 생성한다.
-            {
-                for (int j = 0; j < harvestDB.dropnumber[i]; j++)
-                {   // prefab[i]을 dropnumber[i]개 만큼 생성한다.
-                    int farmlevel = collision.gameObject.GetComponentInParent<PlayerController>().farmLevel; // 수확자의 농사레벨 확인
-                    int R = Random.Range(0, 100);
-
-                    if (ItemDB[i].type == "Fruit")
-                    {
-                        if (R > 80 - farmlevel) //금 20% 10레벨에 30퍼
-                        {
-                            dropItemPrefab[i].GetComponent<FieldItem>().grade = 3;
-                        }
-                        else if (R > 60 - farmlevel * 3) //은 20%, 10레벨에 40퍼
-                        {
-                            dropItemPrefab[i].GetComponent<FieldItem>().grade = 2;
-                        }
-                        else //무 60%, 10레벨에 30퍼
-                        {
-                            dropItemPrefab[i].GetComponent<FieldItem>().grade = 1;
-                        }
-                    }
-                    Instantiate(dropItemPrefab[i],this.transform.position,Quaternion.identity); // 등급을 설정하고 아이템을 만든다.
-                }
-            }
+        touchedObject = collision;
+        if (collision.gameObject.tag == "LeftClick" && collision.gameObject.GetComponent<EdgeCollider2D>() != null) // 좌클릭과 접촉했는데, 그놈에게 엣지콜라이더가 있다면(낫을 휘둘렀을때)
+        {   
+            MakeDropItems(touchedObject);
             this.gameObject.GetComponentInParent<CropControl>().harvested = true;
             this.gameObject.SetActive(false);
         }
     }
 
     //얘가 만들어낸 프리팹은 collider rigidbody itemdrop fielditem 을 가진다.
+    void MakeDropItems(Collider2D collision)
+    {
+        for (int i = 0; i < harvestDB.items; i++)  // prefab[i]를 생성한다.
+        {
+            for (int j = 0; j < harvestDB.dropnumber[i]; j++)
+            {   // prefab[i]을 dropnumber[i]개 만큼 생성한다.
+
+                int farmlevel = collision.gameObject.GetComponentInParent<PlayerController>().farmLevel; // 수확자의 농사레벨 확인
+                int R = Random.Range(0, 100);
+
+                if (ItemDB[i].type == "Fruit")
+                {
+                    if (R > 80 - farmlevel) //금 20% 10레벨에 30퍼
+                    {
+                        dropItemPrefab[i].GetComponent<FieldItem>().grade = 3;
+                    }
+                    else if (R > 60 - farmlevel * 3) //은 20%, 10레벨에 40퍼
+                    {
+                        dropItemPrefab[i].GetComponent<FieldItem>().grade = 2;
+                    }
+                    else //무 60%, 10레벨에 30퍼
+                    {
+                        dropItemPrefab[i].GetComponent<FieldItem>().grade = 1;
+                    }
+                }
+                Instantiate(dropItemPrefab[i], this.transform.position, Quaternion.identity); // 등급을 설정하고 아이템을 만든다.
+            }
+        }
+
+    }
+    void HandHarvest()
+    {
+        if (handHarvest && touchedObject != null && touchedObject.GetComponent<PlayerRightClickCollider>() != null)
+        {
+            MakeDropItems(touchedObject);
+            Destroy(gameObject);
+        }
+    }
 }
 

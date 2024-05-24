@@ -15,6 +15,7 @@ class PlayerLeftClick : MonoBehaviour
     PlayerInventroy pInven;
     ItemDB currentData;
     GameObject chargedHitBox;
+    GameObject swingHitBox;
     public Vector2 colSize;
     public float chargeLevel;
     public float coolDownTime = 0.5f;
@@ -32,9 +33,10 @@ class PlayerLeftClick : MonoBehaviour
         pCon = this.gameObject.GetComponent<PlayerController>();
         pMov = this.gameObject.GetComponent<PlayerMovement>();
         pInven = this.gameObject.GetComponent<PlayerInventroy>();
-        chargedHitBox = this.gameObject.GetComponentInChildren<BoxCollider2D>().transform.gameObject; // 내 게임 오브젝트의 자식중 박스콜라이더를 찾아서 그놈의 게임오브젝트를 반환
+        chargedHitBox = this.GetComponentInChildren<BoxCollider2D>().transform.gameObject; // 내 게임 오브젝트의 자식중 박스콜라이더를 찾아서 그놈의 게임오브젝트를 반환
         chargedHitBox.GetComponent<BoxCollider2D>().enabled = false;
-        transform.GetComponentInChildren<EdgeCollider2D>().enabled = false;
+        swingHitBox = this.GetComponentInChildren<EdgeCollider2D>().transform.gameObject;
+        swingHitBox.GetComponent<EdgeCollider2D>().enabled = false; 
     }
     private void Update()
     {
@@ -64,9 +66,6 @@ class PlayerLeftClick : MonoBehaviour
                         return;
                     case 9:
                         UseFishingRod();
-                        return;
-                    case 0: //임시
-                        UseAxe();
                         return;
                 }
             }

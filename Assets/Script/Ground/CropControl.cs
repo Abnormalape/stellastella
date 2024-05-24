@@ -61,7 +61,16 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
         if (days >= maxDay)  // days는 FLControl에서 관리
         {   //수확할때까지 수확 가능한 상태유지
             days = maxDay;
-            harvestControl.SetActive(true);
+
+            
+            if (harvestControl != null)
+            {
+                harvestControl.SetActive(true);
+            }
+            else // 수확오브젝트가 없다면 나를 파괴한다. 임시코드.  
+            {
+                Destroy(this.gameObject);
+            }
         }
 
         if(harvested)

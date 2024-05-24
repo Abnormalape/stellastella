@@ -21,7 +21,7 @@ class FieldTreeLand : MonoBehaviour
 
     bool branchOn = false;
 
-    [SerializeField] int currentLevel = 0;
+    [SerializeField] public int currentLevel = 0;
 
     GameObject[] dropItemPrefab;
     PlayerInventroy playerInventroy;
@@ -63,7 +63,7 @@ class FieldTreeLand : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Tool" && collision.GetComponentInParent<PlayerController>() != null)
+        if (collision.tag == "LeftClick" && collision.GetComponentInParent<PlayerController>() != null)
         {
             onHandItem = new ItemDB(collision.GetComponentInParent<PlayerInventroy>().currentInventoryItem);
             switch (currentLevel)

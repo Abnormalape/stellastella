@@ -46,7 +46,7 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
                 if (i >= 80)
                 {
                     // myTreePrefab 은 이미 unity에서 삽입을 완료했다.
-                    myTreePrefab.GetComponent<FieldTreeObject>().currentLevel = 2; // 0단계는 씨앗.
+                    myTreePrefab.GetComponent<FieldTreeLand>().currentLevel = 2; // 0단계는 씨앗.
                     Instantiate(myTreePrefab, this.transform.position, Quaternion.identity).transform.parent = this.transform;
                 }
             }
@@ -62,14 +62,16 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
             currentMonth = gameManager.currentMonth;
             if (transform.childCount == 0)
             {
-                // 나무도막 프리팹을 소환
-                // 두가지 형태 
-                // GameObject summonStick;
-                // int i = Random.Range(0,2);
-                // if (int i = 0){ GameObject summonStick = Resource.Load($"Prefabs/FieldTree/Stick{i+1}") as GameObject; } 
-                // else { GameObject summonStick = Resource.Load($"Prefabs/FieldTree/Stick{i+1}") as GameObject; } 
-                // Instantiate(summonStick,this.transform.position,Quaternion.identity).transform.parent = this.transform;
-                // 
+                // 나무도막 프리팹을 소환 // 두가지 형태 
+                int R = Random.Range(0, 100);
+                if (R >= 80)
+                {
+                    GameObject summonStick;
+                    int i = Random.Range(0, 2);
+                    if (i == 0) { summonStick = Resources.Load($"Prefabs/FieldTree/Stick{i + 1}") as GameObject; }
+                    else { summonStick = Resources.Load($"Prefabs/FieldTree/Stick{i + 1}") as GameObject; }
+                    Instantiate(summonStick, this.transform.position, Quaternion.identity).transform.parent = this.transform;
+                }
             }
         }
         //매일 확률적으로 씨앗생성
@@ -78,10 +80,10 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
             // 날짜 동기화는 항상.
             currentDate = gameManager.currentDay;
             // 자식 오브젝트가 있고, 계절이 겨울이 아니며, 자식오브젝트에 "필드트리 오브젝트"스크립트 가 있다면.
-            if (transform.childCount != 0 && gameManager.currentMonth != 3 && transform.GetComponentInChildren<FieldTreeObject>() != null)
+            if (transform.childCount != 0 && gameManager.currentMonth != 3 && transform.GetComponentInChildren<FieldTreeLand>() != null)
             {
                 // 그런데 그 자식 오브젝트가 성장단계가 4(성목)이라면
-                if (transform.GetComponentInChildren<FieldTreeObject>().currentLevel == 4)
+                if (transform.GetComponentInChildren<FieldTreeLand>().currentLevel == 4)
                 {
                     //확률적으로. 
                     int i = Random.Range(0, 100);

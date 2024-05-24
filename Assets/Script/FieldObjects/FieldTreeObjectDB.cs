@@ -31,38 +31,38 @@ class FieldTreeObjectDb
                 itemID[2] = 201; // OakTreeSeed
                 droprate = new int[items];
 				return;
-			//case 2:
-   //             this.toolType = 1;
-   //             this.toolLevel = 1;
-   //             this.maxHp = 10;
-   //             this.treeName = "단풍나무";
-   //             this.items = 2;
-   //             itemID = new int[items];
-   //             itemID[0] = 1; //나무
-   //             itemID[1] = 3; //수액
-   //             dropnumber = new int[items];
-   //             dropnumber[0] = 10;
-   //             dropnumber[1] = 5;
-   //             droprate = new int[items];
-   //             droprate[0] = 99;
-   //             droprate[1] = 99;
-   //             return;
-			//case 3:
-   //             this.toolType = 1;
-   //             this.toolLevel = 1;
-   //             this.maxHp = 10;
-   //             this.treeName = "소나무";
-   //             this.items = 2;
-   //             itemID = new int[items];
-   //             itemID[0] = 1; //나무
-   //             itemID[1] = 3; //수액
-   //             dropnumber = new int[items];
-   //             dropnumber[0] = 10;
-   //             dropnumber[1] = 5;
-   //             droprate = new int[items];
-   //             droprate[0] = 99;
-   //             droprate[1] = 99;
-   //             return;
+            //case 2:
+            //             this.toolType = 1;
+            //             this.toolLevel = 1;
+            //             this.maxHp = 10;
+            //             this.treeName = "단풍나무";
+            //             this.items = 2;
+            //             itemID = new int[items];
+            //             itemID[0] = 1; //나무
+            //             itemID[1] = 3; //수액
+            //             dropnumber = new int[items];
+            //             dropnumber[0] = 10;
+            //             dropnumber[1] = 5;
+            //             droprate = new int[items];
+            //             droprate[0] = 99;
+            //             droprate[1] = 99;
+            //             return;
+            //case 3:
+            //             this.toolType = 1;
+            //             this.toolLevel = 1;
+            //             this.maxHp = 10;
+            //             this.treeName = "소나무";
+            //             this.items = 2;
+            //             itemID = new int[items];
+            //             itemID[0] = 1; //나무
+            //             itemID[1] = 3; //수액
+            //             dropnumber = new int[items];
+            //             dropnumber[0] = 10;
+            //             dropnumber[1] = 5;
+            //             droprate = new int[items];
+            //             droprate[0] = 99;
+            //             droprate[1] = 99;
+            //             return;
             //case 4:
             //    this.toolType = 1;
             //    this.toolLevel = 2;
@@ -73,6 +73,17 @@ class FieldTreeObjectDb
             //    itemID[0] = 2; //단단한 나무
             //    dropnumber = new int[items];
             //    dropnumber[0] = 5;
+            //    return;
+
+            //case 5: //나무도막
+            //    this.toolType = 1;
+            //    this.toolLevel = 1;
+            //    this.maxHp = 1;
+            //    this.treeName = "나무도막";
+            //    this.items = 1;
+            //    itemID = new int[items];
+            //    itemID[0] = 1; // Wood
+            //    droprate = new int[items];
             //    return;
         }
 	}

@@ -9,6 +9,8 @@ TagManager:
   - FarmLand
   - FarmLandControl
   - GameManager
+  - RightClick
+  - LeftClick
   layers:
   - Default
   - TransparentFX

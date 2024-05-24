@@ -32,7 +32,7 @@ class TreasureLand : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         itemDB = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem);
-        if (itemDB.toolType == 2 && collision.tag == "Tool" && treasure) // 부딪힌 놈의 부모는 괭이이면서, 부딪힌 놈은 툴이라면
+        if (itemDB.toolType == 2 && collision.tag == "LeftClick" && treasure) // 부딪힌 놈의 부모는 괭이이면서, 부딪힌 놈은 툴이라면
         {   // 보물이 있는 상태에서 괭이질을 받으면 자신의 스프라이트(보물)을 삭제한다.
             this.spriteRenderer.sprite = null;
         }

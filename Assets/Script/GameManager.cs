@@ -15,9 +15,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     string ampm;
     public bool dayOff; // ³¯ÀÌ ³¡³µÀ½À» Àü´Þ, È¤Àº ¾ÀÀÇ º¯°æ?
 
-    // ÀÎº¥Åä¸® °ü¸®
-    bool tempinvenonoff = false;
-    GameObject inventory;
+    
 
     // µ· °ü¸®
     int gold;
@@ -52,15 +50,15 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     private void Update()
     {
         // ½Ã°£°æ°ú Ã¼Å©
-        timePassed =timePassed + Time.deltaTime;
+        timePassed = timePassed + Time.deltaTime;
         // ÇöÀç½Ã°£ Ãâ·Â
         UpdateTime();
 
-        // ÀÏÀÚ Á¾·á½Ã, ÀÏÀÚ Á¾·á¸Þ¼­µå ½ÇÇà
-        if (dayOff) { EndOfTheDay(); }
-
         // ÀÎº¥Åä¸® °ü¸®
         OpenInventory(); // ÀÌº¥Æ®È­ ¿ä¼Ò
+
+        // ÀÏÀÚ Á¾·á½Ã, ÀÏÀÚ Á¾·á¸Þ¼­µå ½ÇÇà
+        if (dayOff) { EndOfTheDay(); }
 
         // °ñµå°ü¸®, ´Ù¸¥¿ÀºêÁ§Æ®°¡ Á÷Á¢ÀûÀ¸·Î gold¸¦ ¾²Áö ¾Ê°í goldearnÀ» ÅëÇØ °ü¸®: ±Ùµ¥ ÀÌ°Å ÀÇ¹Ì ÀÖ³ª?
         if (goldEarn != 0){gold += goldEarn; goldEarn = 0;} // ÀÌº¥Æ®È­ ¿ä¼Ò
@@ -156,20 +154,33 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         }
     }
 
+    // ÀÎº¥Åä¸® °ü¸®
+    GameObject inventory;
+    bool isInventoryOn;
+    float originalTimeScale = 1f;
     void OpenInventory() // ÀÎº¥Åä¸® ¿ÀÇÂ , °ÔÀÓ ÀÏ½ÃÁ¤Áö
     {
-        if (Input.GetKeyDown(KeyCode.E) && tempinvenonoff == false ) //ÀÎº¥ÀÌ ²¨Á®ÀÖ¾î¾ß ÇÔ
+        if (Input.GetKeyDown(KeyCode.E) && isInventoryOn == false ) //ÀÎº¥ÀÌ ²¨Á®ÀÖ¾î¾ß ÇÔ
         {
+            isInventoryOn = true;
             // ÀÎº¥Åä¸® Ã¢À» ¸¸µé¾î¾ß ÇÏ°Ú´Ù
             // ÀÎº¥Åä¸®¿ÀºêÁ§Æ®.SetActive
             // ÀÎº¥Åä¸® ¿ÀºêÁ§Æ®°¡ ÄÑÁü
             inventory.SetActive(true);
-            tempinvenonoff = true;
         }
-        else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) && tempinvenonoff == true) //ÀÎº¥ÀÌ ÄÑÁ®ÀÖ¾î¾ßÇÔ
+        else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) && isInventoryOn == true) //ÀÎº¥ÀÌ ÄÑÁ®ÀÖ¾î¾ßÇÔ
         {
+            isInventoryOn = false;
             inventory.SetActive(false);
-            tempinvenonoff = false;
+        }
+
+        if(isInventoryOn)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = originalTimeScale;
         }
     }
 }

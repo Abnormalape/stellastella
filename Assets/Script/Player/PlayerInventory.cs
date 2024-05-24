@@ -18,6 +18,9 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 
     public int changeCount = 0;
 
+    bool firstbag = false;
+    bool secondbag = false;
+
     void MakePlayerInventory() // 시작할때 주는 도구 = 1회성
     {
         for (int i = 8; i < 36; i++)
@@ -94,7 +97,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("FieldDropItem")) // 충돌체가 아이템 이라면
         {
@@ -111,6 +114,14 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
             {
                 if (pInventory[i].itemID == 0) // 인벤토리의 아이템 아이디가 비어있는곳을 찾아 (개인적으론 null쓰고싶긴한데)
                 {
+                    if(firstbag == false && i >= 12)
+                    {
+                        return;
+                    }
+                    else if (secondbag == false && i >= 24)
+                    {
+                        return ;
+                    }
                     pInventory[i].itemID = collision.gameObject.GetComponent<FieldItem>().itemID; // 그 인벤토리의 아이템ID를 충돌체의 ID로 바꾸고
                     pInventory[i].grade = collision.gameObject.GetComponent<FieldItem>().grade; // 그 인벤토리의 아이템 등급을 충돌체의 등급으로 바꾸고
                     pInventory[i].itemCount += 1; // 카운트를 올린다 (0이었으니까)

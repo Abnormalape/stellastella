@@ -11,7 +11,7 @@ class Class1 : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Tool")
+        if(collision.gameObject.tag == "LeftClick")
         {
             spriteRenderer.color = Color.black;
         }

@@ -52,13 +52,13 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
             spriteRenderer.sprite = null;
         }
 
-        if(transform.childCount == 0)
-        {seeded = false;}
+        if (transform.childCount == 0)
+        { seeded = false; }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {   //충돌이 일어 났다
-        if (collision.tag == "Tool")
+        if (collision.tag == "RightClick")
         {   //충돌체의 부모 오브젝트가 플레이어다
             itemDB = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem); // 플레이어가 들고있는 아이템의 정보
                                                                                                                     //접촉한 물체가 Tool이다
@@ -66,10 +66,10 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
             {   //그런데 농장에서만
                 if (atFarm && !seeded)
                 {
-                    
+
                     collision.gameObject.GetComponentInParent<PlayerInventroy>().changeCount = -1; // 콜라이더의 부모 오브젝트의 인벤토리에게 요청보냄
                     seedName = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem).name; // 현재 인벤토리의 번호에 맞는 이름
-                    seedName = seedName.Replace("Seed","");
+                    seedName = seedName.Replace("Seed", "");
                     Instantiate((GameObject)Resources.Load($"Prefabs/CropPrefabs/{seedName}"), this.transform.position, Quaternion.identity).transform.parent = this.transform;
                     //내가 가진 아이템 ID와 맞는 프리팹을 만들어서 그놈의 부모를 나로 만들어라.
                     seeded = true;
@@ -82,11 +82,14 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
 
                 }
             }
-            else if (itemDB.type == "도구" && itemDB.toolType == 3) //손에 도구가 있다, 도구가 물뿌리개다.
+        }
+        if (collision.tag == "LeftClick")
+        {
+            itemDB = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem);
+            if (itemDB.type == "도구" && itemDB.toolType == 3) //손에 도구가 있다, 도구가 물뿌리개다.
             {
                 this.watered = true;
             }
-
         }
     } // 씨앗 심기와 물 주기 비료 주기 등등
     void Rainy()
@@ -158,17 +161,17 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
                     break;
             }
             //우 좌 상 하 순서로 팔을 뻗어서
-            RaycastHit2D[] touched = Physics2D.LinecastAll((Vector2)this.transform.position, (Vector2)(this.transform.position + new Vector3(x,y,0)));
+            RaycastHit2D[] touched = Physics2D.LinecastAll((Vector2)this.transform.position, (Vector2)(this.transform.position + new Vector3(x, y, 0)));
             RaycastHit2D realTouched = new RaycastHit2D();
             //만져지지 않았거나, 만져진 녀석의 watered가 false라면 
-            for (int j = 1 ;j<touched.Length; j++)
+            for (int j = 1; j < touched.Length; j++)
             {
                 if (touched[j].transform != null && touched[j].transform.gameObject != this.gameObject && touched[j].transform.gameObject.tag == "FarmLandControl")
                 {
                     realTouched = touched[j]; break;
                 }
             }
-            if(realTouched.transform == null)
+            if (realTouched.transform == null)
             {
                 switch (i)
                 {

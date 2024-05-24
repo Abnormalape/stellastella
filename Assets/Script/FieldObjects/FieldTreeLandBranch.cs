@@ -51,13 +51,13 @@ class FieldTreeLandBranch : MonoBehaviour
         {
             for (int j = 100; j <= thisTree.droprate[i]; j = j + 100)
             {
-                Instantiate(dropItemPrefab[i], transform.position, Quaternion.identity);
+                Instantiate(dropItemPrefab[i], transform.position + new Vector3(fallXY * -3,0,0), Quaternion.identity);
             }
             int r = Random.Range(0, 100);
             if (r < thisTree.droprate[i] % 100)
             {
 
-                Instantiate(dropItemPrefab[i], transform.position, Quaternion.identity);
+                Instantiate(dropItemPrefab[i], transform.position + new Vector3(fallXY * -3, 0, 0), Quaternion.identity);
             }
         }
     }

@@ -55,7 +55,7 @@ public class FarmLand : MonoBehaviour   // 다른 Land들은 자식오브젝트가 없을 때 
 
     private void OnTriggerEnter2D(Collider2D collision) // 충돌을 받았을때.
     {
-        if (collision.tag == "Tool")
+        if (collision.tag == "LeftClick")
         {
             itemDB = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem); // 충돌체의 부모를 찾아 플레이어이면 Item데이터를 불러와서.
             if (transform.childCount == 0 && !digged) // 자식이 없으면서, 씬의 이름이 농장임.

@@ -61,7 +61,7 @@ class ItemDB
             case 6:
                 name = "물뿌리개";
                 type = "도구";
-                grade = 1;
+                grade = 5;
                 toolType = 3;
                 staminaRestor = 10;
                 return;
@@ -208,7 +208,13 @@ class ItemDB
                 buyPrice = 0;
                 type = "TreeSeed";
                 return;
-                
+
+            case 301:
+                name = "Weed";
+                sellPrice = 10;
+                buyPrice = 0;
+                type = "재료";
+                return;
         }
 	}
 }

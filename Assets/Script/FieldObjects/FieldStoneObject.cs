@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using Unity;
 using UnityEditor;
 using UnityEngine;
@@ -7,33 +7,33 @@ using Unity.Mathematics;
 using Unity.Properties;
 
 class FieldStoneObject : MonoBehaviour
-{ //ÇÊµå¿¡ Á¸ÀçÇÏ´Â ³ª¹«ÀÇ ¼Ó¼ºÀ» ¸¸µç´Ù.
+{ //í•„ë“œì— ì¡´ì¬í•˜ëŠ” ë‚˜ë¬´ì˜ ì†ì„±ì„ ë§Œë“ ë‹¤.
     [SerializeField]
-    int fieldStoneObjectID; // ¿ÜºÎ¿¡¼­ ÀÔ·Â ¹Ş´Â´Ù <= ÇÁ¸®ÆÕÀÇ ±âÃÊ°¡ µÈ´Ù.
-    int toolType; // ÇÃ·¹ÀÌ¾îÀÇ Åø Å¸ÀÔ°ú °°¾Æ¾ß µ¥¹ÌÁö¸¦ ÀÔ´Â´Ù.
-    int toolLevel; // ÇÃ·¹ÀÌ¾îÀÇ Åø ·¹º§º¸´Ù ³ôÀ¸¸é µ¥¹ÌÁö°¡ ¾ø´Ù.
-    int hp; //Ã¼·Â
-    string stoneName; // ÀÌ¸§ ex)µ¹, ´Ü´ÜÇÑ µ¹
-    GameObject[] dropItemPrefab; //µå¶ø¾ÆÀÌÅÛÀÇ ÇÁ¸®ÆÕ
+    int fieldStoneObjectID; // ì™¸ë¶€ì—ì„œ ì…ë ¥ ë°›ëŠ”ë‹¤ <= í”„ë¦¬íŒ¹ì˜ ê¸°ì´ˆê°€ ëœë‹¤.
+    int toolType; // í”Œë ˆì´ì–´ì˜ íˆ´ íƒ€ì…ê³¼ ê°™ì•„ì•¼ ë°ë¯¸ì§€ë¥¼ ì…ëŠ”ë‹¤.
+    int toolLevel; // í”Œë ˆì´ì–´ì˜ íˆ´ ë ˆë²¨ë³´ë‹¤ ë†’ìœ¼ë©´ ë°ë¯¸ì§€ê°€ ì—†ë‹¤.
+    int hp; //ì²´ë ¥
+    string stoneName; // ì´ë¦„ ex)ëŒ, ë‹¨ë‹¨í•œ ëŒ
+    GameObject[] dropItemPrefab; //ë“œëì•„ì´í…œì˜ í”„ë¦¬íŒ¹
 
     [SerializeField]
     PlayerInventroy playerInventroy;
-    FieldStoneObjectDB fieldStoneObjectDB; // µ¹ ¿ÀºêÁ§Æ®
-    ItemDB[] itemDB; // ¾ÆÀÌÅÛ Á¾·ù¸¦ ¹Ş´Â´Ù. ¸î°³¸¦ ¹ŞÀ»Áö´Â ¸ğ¸¥´Ù.
-    ItemDB onHandItem; // ÇÃ·¹ÀÌ¾î°¡ µé°í ÀÖ´Â ¾ÆÀÌÅÛ
+    FieldStoneObjectDB fieldStoneObjectDB; // ëŒ ì˜¤ë¸Œì íŠ¸
+    ItemDB[] itemDB; // ì•„ì´í…œ ì¢…ë¥˜ë¥¼ ë°›ëŠ”ë‹¤. ëª‡ê°œë¥¼ ë°›ì„ì§€ëŠ” ëª¨ë¥¸ë‹¤.
+    ItemDB onHandItem; // í”Œë ˆì´ì–´ê°€ ë“¤ê³  ìˆëŠ” ì•„ì´í…œ
     SpriteRenderer stoneSprite;
-    void FieldStoneSetting() // ¿ÀºêÁ§Æ®ÀÇ ¿ä¼ÒµéÀ» »ı¼ºÇÑ´Ù
+    void FieldStoneSetting() // ì˜¤ë¸Œì íŠ¸ì˜ ìš”ì†Œë“¤ì„ ìƒì„±í•œë‹¤
     {
-        fieldStoneObjectDB = new FieldStoneObjectDB(fieldStoneObjectID); // ID¿¡ µû¶ó¼­ ÅøÅ¸ÀÔ, Åø·¹º§, hp, ÀÌ¸§ ÀÌ Á¤ÇØÁø´Ù.
+        fieldStoneObjectDB = new FieldStoneObjectDB(fieldStoneObjectID); // IDì— ë”°ë¼ì„œ íˆ´íƒ€ì…, íˆ´ë ˆë²¨, hp, ì´ë¦„ ì´ ì •í•´ì§„ë‹¤.
         fieldStoneObjectDB.FieldStoneObjectSetting();
         this.toolType = fieldStoneObjectDB.toolType;
         this.toolLevel = fieldStoneObjectDB.toolLevel;
         this.hp = fieldStoneObjectDB.hp;
         this.stoneName = fieldStoneObjectDB.stoneName;
-        this.itemDB = new ItemDB[fieldStoneObjectDB.items]; // ¾ÆÀÌÅÛDBÅ¬·¡½º¿¡ ¾ÆÀÌÅÛID¸¦ ³Ñ°ÜÁØ´Ù. ¾ÆÀÌÅÛDB´Â ¹ŞÀº ID¿¡ ¸Â°Ô ¾ÆÀÌÅÛ µ¥ÀÌÅÍ¸¦ ÀúÀåÇÑ´Ù.
+        this.itemDB = new ItemDB[fieldStoneObjectDB.items]; // ì•„ì´í…œDBí´ë˜ìŠ¤ì— ì•„ì´í…œIDë¥¼ ë„˜ê²¨ì¤€ë‹¤. ì•„ì´í…œDBëŠ” ë°›ì€ IDì— ë§ê²Œ ì•„ì´í…œ ë°ì´í„°ë¥¼ ì €ì¥í•œë‹¤.
         for (int i = 0; i < fieldStoneObjectDB.items; i++)
         {
-            itemDB[i] = new ItemDB(fieldStoneObjectDB.itemID[i]); // Ã¹¹øÂ° ¾ÆÀÌÅÛÀº itemDB¿¡ Æ®¸®¿ÀºêÁ§Æ®ÀÇ Ã¹¹øÂ° ¾ÆÀÌÅÛID¸¦ ¹ŞÀº °ª
+            itemDB[i] = new ItemDB(fieldStoneObjectDB.itemID[i]); // ì²«ë²ˆì§¸ ì•„ì´í…œì€ itemDBì— íŠ¸ë¦¬ì˜¤ë¸Œì íŠ¸ì˜ ì²«ë²ˆì§¸ ì•„ì´í…œIDë¥¼ ë°›ì€ ê°’
             itemDB[i].itemSetting();
         }
     }
@@ -41,7 +41,7 @@ class FieldStoneObject : MonoBehaviour
     {
         FieldStoneSetting();
         stoneSprite = this.GetComponent<SpriteRenderer>();
-        dropItemPrefab = new GameObject[fieldStoneObjectDB.items]; //DB¿¡¼­ °¡Áş¼ö¸¦ ºÒ·¯¿Í GameObject¸¦ »ı¼ºÇÑ´Ù
+        dropItemPrefab = new GameObject[fieldStoneObjectDB.items]; //DBì—ì„œ ê°€ì§“ìˆ˜ë¥¼ ë¶ˆëŸ¬ì™€ GameObjectë¥¼ ìƒì„±í•œë‹¤
         for (int i = 0; i < fieldStoneObjectDB.items; i++)
         {
             dropItemPrefab[i] = Resources.Load($"Prefabs/FieldItems/{itemDB[i].name}") as GameObject; //
@@ -51,14 +51,14 @@ class FieldStoneObject : MonoBehaviour
     {
 
     }
-    private void Update() //ÇÃ·¹ÀÌ¾î°¡ Æ¯Á¤Á¶°ÇÀ» ¸¸Á·½ÃÄ×À»¶§ ¹İÀÀÇØ¾ßÇÑ´Ù.
+    private void Update() //í”Œë ˆì´ì–´ê°€ íŠ¹ì •ì¡°ê±´ì„ ë§Œì¡±ì‹œì¼°ì„ë•Œ ë°˜ì‘í•´ì•¼í•œë‹¤.
     {
         dropItem();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Tool")
+        if (collision.tag == "LeftClick")
         {
             playerInventroy = collision.GetComponentInParent<PlayerInventroy>();
             onHandItem = new ItemDB(playerInventroy.currentInventoryItem);
@@ -72,7 +72,7 @@ class FieldStoneObject : MonoBehaviour
                 }
                 else if (onHandItem.grade < this.toolLevel)
                 {
-                    Debug.Log("µµ±¸°¡ ÃæºĞÈ÷ °­ÇÏÁö ¾ÊÀº °Í °°´Ù.");
+                    Debug.Log("ë„êµ¬ê°€ ì¶©ë¶„íˆ ê°•í•˜ì§€ ì•Šì€ ê²ƒ ê°™ë‹¤.");
                 }
             }
         }
@@ -83,10 +83,10 @@ class FieldStoneObject : MonoBehaviour
     {
         if (hp <= 0)
         {
-            for (int i = 0; i < fieldStoneObjectDB.items; i++)  // prefab[0] [1]À» »ı¼ºÇÑ´Ù.
+            for (int i = 0; i < fieldStoneObjectDB.items; i++)  // prefab[0] [1]ì„ ìƒì„±í•œë‹¤.
             {
                 for (int j = 0; j < fieldStoneObjectDB.dropnumber[i]; j++)
-                { // prefab[0]À» dropnumber[0]°³ ¸¸Å­ »ı¼ºÇÑ´Ù.
+                { // prefab[0]ì„ dropnumber[0]ê°œ ë§Œí¼ ìƒì„±í•œë‹¤.
                     Instantiate(dropItemPrefab[i], this.transform.position, quaternion.identity);
                 }
             }

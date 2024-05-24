@@ -12,12 +12,13 @@ class ItemDrop : MonoBehaviour
 	[SerializeField]
 	float makeRadius = 0.3f; // 오브젝트 중앙으로 부터 얼마나 멀리서부터 생성되는가?
 	[SerializeField]
-	float jumpHeight = 1f; // 얼마나 높게 점프하는가?
+	float jumpHeight = 2f; // 얼마나 높게 점프하는가?
 
 	float trueBounce;
 	float trueRadius;
 	float moveSpeed;
 	float bouncingtime=0;
+	float timepassed = 0;
 	Vector2 bounceVector; 
 	Vector2 makeVector;
 	Rigidbody2D itemBody;
@@ -29,7 +30,8 @@ class ItemDrop : MonoBehaviour
 
 	private void OnEnable()
     {
-		trueBounce = Random.Range(-bounceRadius,bounceRadius); //랜덤하게 튀는 반경 생성
+        GetComponent<CircleCollider2D>().isTrigger = false;
+        trueBounce = Random.Range(-bounceRadius,bounceRadius); //랜덤하게 튀는 반경 생성
 		trueRadius = Random.Range(-makeRadius,makeRadius); //랜덤하게 생성 반경 생성
 		bounceVector = Random.insideUnitCircle;
 		makeVector = Random.insideUnitCircle;
@@ -39,6 +41,7 @@ class ItemDrop : MonoBehaviour
 	}
     private void Update() // 생각한 거랑 좀 다르긴 한데 만족스러우니 넘어감
     {
+		timepassed += Time.deltaTime;
 		bouncingtime += Time.deltaTime;
 		if (firstForce) // 일회성 속도
 		{
@@ -68,5 +71,10 @@ class ItemDrop : MonoBehaviour
 		{
 			itemBody.velocity += new Vector2(0, -10f * Time.deltaTime);
 		}
+
+		if(timepassed > 1f)
+		{
+            GetComponent<CircleCollider2D>().isTrigger = true;
+        }
     }
 }
