@@ -42,6 +42,7 @@ class InventoryManage : MonoBehaviour
 
             itemDB = new ItemDB(pInven.pInventoryCount[i]);
             inventoryUISlot[i].GetComponentInChildren<Text>().text = $"{itemDB.name}";
+            inventoryUISlot[i].GetComponentInChildren<InventorySlot>().inventoryitemID = pInven.pInventoryCount[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 아이디가 삽입된다.
         }
 
     }

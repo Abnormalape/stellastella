@@ -12,6 +12,7 @@ TagManager:
   - RightClick
   - LeftClick
   - FieldItem
+  - Cursor
   layers:
   - Default
   - TransparentFX

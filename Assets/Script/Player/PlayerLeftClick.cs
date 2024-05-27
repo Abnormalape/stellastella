@@ -13,6 +13,7 @@ class PlayerLeftClick : MonoBehaviour
     PlayerController pCon;
     PlayerMovement pMov;
     PlayerInventroy pInven;
+    GameManager gameManager;
     ItemDB currentData;
     GameObject chargedHitBox;
     GameObject swingHitBox;
@@ -30,6 +31,7 @@ class PlayerLeftClick : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         pCon = this.gameObject.GetComponent<PlayerController>();
         pMov = this.gameObject.GetComponent<PlayerMovement>();
         pInven = this.gameObject.GetComponent<PlayerInventroy>();
@@ -43,6 +45,8 @@ class PlayerLeftClick : MonoBehaviour
         
         currentData = new ItemDB(pInven.currentInventoryItem);
 
+        if(gameManager.isInventoryOn == false)
+        {
         if (!toolUsed)
         {
             if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
@@ -86,9 +90,16 @@ class PlayerLeftClick : MonoBehaviour
                     return;
             }
         }
-        
-        if(toolSwing == true) { passedTime += Time.deltaTime;
-        if(passedTime > 0.5f) { ColliderSwingOff(); }
+
+            if (toolSwing == true)
+            {
+                passedTime += Time.deltaTime;
+                if (passedTime > 0.5f) { ColliderSwingOff(); }
+            }
+        }
+        else if (gameManager.isInventoryOn == true)
+        {
+            OnInventoryClick();
         }
     }
     private void LateUpdate()
@@ -291,4 +302,10 @@ class PlayerLeftClick : MonoBehaviour
     }
     void ColliderOff() { this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = false; }
     void BoxColliderOff() { this.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false; }
+
+
+    void OnInventoryClick()
+    {
+
+    }
 }

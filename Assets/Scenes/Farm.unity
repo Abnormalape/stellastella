@@ -3114,7 +3114,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 289774903}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 289774905}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &289774903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3165,6 +3177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &308955381
 GameObject:
   m_ObjectHideFlags: 0
@@ -3698,7 +3711,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 401842605}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 401842607}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &401842605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3749,6 +3774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &422863117
 GameObject:
   m_ObjectHideFlags: 0
@@ -3911,7 +3937,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 422899555}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 422899557}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &422899555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3962,6 +4000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &446006892
 GameObject:
   m_ObjectHideFlags: 0
@@ -4203,7 +4242,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 467918824}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 467918826}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &467918824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4254,6 +4305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &470022429
 GameObject:
   m_ObjectHideFlags: 0
@@ -4490,7 +4542,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 488332297}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488332299}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &488332297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4541,6 +4605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &533544985
 GameObject:
   m_ObjectHideFlags: 0
@@ -7801,7 +7866,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 604611182}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 604611184}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &604611182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7852,6 +7929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &622486175
 GameObject:
   m_ObjectHideFlags: 0
@@ -8081,7 +8159,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 643900397}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 643900399}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &643900397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8132,6 +8222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &645645233
 GameObject:
   m_ObjectHideFlags: 0
@@ -8215,7 +8306,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 645645236}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 645645238}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &645645236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8266,6 +8369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &646402249
 GameObject:
   m_ObjectHideFlags: 0
@@ -19007,8 +19111,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -272}
-  m_SizeDelta: {x: 2600, y: 1660}
+  m_AnchoredPosition: {x: 0, y: -49.427}
+  m_SizeDelta: {x: 2600, y: 324.563}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &995471604
 MonoBehaviour:
@@ -24387,7 +24491,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1336405971}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1336405973}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1336405971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24438,6 +24554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &1405164404
 GameObject:
   m_ObjectHideFlags: 0
@@ -25022,6 +25139,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5920746776020203305, guid: 5933759fd29f2e74fac9751576d27aa6, type: 3}
   m_PrefabInstance: {fileID: 6411954504009584176}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1464214551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1464214553}
+  - component: {fileID: 1464214552}
+  m_Layer: 0
+  m_Name: MyCursor
+  m_TagString: Cursor
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1464214552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464214551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bfb44b7cc4c10840a8ee5a729e227c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemID: 0
+  itemCounts: 0
+  itemOnHand: 0
+--- !u!4 &1464214553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464214551}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.1898146, y: 3.0902445, z: 48.000004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1465244532
 GameObject:
   m_ObjectHideFlags: 0
@@ -26482,7 +26646,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1701140035}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1701140037}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1701140035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26533,6 +26709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &1712724587
 GameObject:
   m_ObjectHideFlags: 0
@@ -26757,7 +26934,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1823099941}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1823099943}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1823099941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26808,6 +26997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!1 &1825752323
 GameObject:
   m_ObjectHideFlags: 0
@@ -26966,7 +27156,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1826753013}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1826753015}
+        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_MethodName: ClickSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1826753013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27017,6 +27219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a65bcfac882648babf689ed5855b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryitemID: 0
 --- !u!4 &1849234222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5920746776020203305, guid: 5933759fd29f2e74fac9751576d27aa6, type: 3}
@@ -27838,3 +28041,4 @@ SceneRoots:
   - {fileID: 1491528656}
   - {fileID: 1538112800}
   - {fileID: 837113386}
+  - {fileID: 1464214553}
