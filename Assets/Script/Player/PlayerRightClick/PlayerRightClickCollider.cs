@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Unity;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,11 +20,11 @@ class PlayerRightClickCollider : MonoBehaviour
         {
             if (!motion)
             {
+                Debug.Log($"{collision.name}");
                 collision.gameObject.GetComponent<HarvestControl>().handHarvest = true;
+                collision.gameObject.GetComponent<HarvestControl>().touchedObject = this.GetComponent<BoxCollider2D>();
                 //텀을 두고 순차적으로 하고 싶은데
                 motion = true;
-
-                collision.gameObject.GetComponent<HarvestControl>().handHarvest = false;
             }
         }
     }
@@ -41,4 +42,3 @@ class PlayerRightClickCollider : MonoBehaviour
         }
     }
 }
-

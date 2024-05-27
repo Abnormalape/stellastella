@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     string ampm;
     public bool dayOff; // ³¯ÀÌ ³¡³µÀ½À» Àü´Þ, È¤Àº ¾ÀÀÇ º¯°æ?
 
-    
+
 
     // µ· °ü¸®
     int gold;
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         inventory = transform.GetChild(0).gameObject;
         inventory.SetActive(false);
 
+
     }
 
     private void Update()
@@ -57,27 +59,34 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         // ÀÎº¥Åä¸® °ü¸®
         OpenInventory(); // ÀÌº¥Æ®È­ ¿ä¼Ò
 
+        // ¾Æ·¡¿¡ µîÀåÇÏ´Â UI ÃâÇö°ü¸®
+        OffInvenUI();
+
         // ÀÏÀÚ Á¾·á½Ã, ÀÏÀÚ Á¾·á¸Þ¼­µå ½ÇÇà
         if (dayOff) { EndOfTheDay(); }
 
         // °ñµå°ü¸®, ´Ù¸¥¿ÀºêÁ§Æ®°¡ Á÷Á¢ÀûÀ¸·Î gold¸¦ ¾²Áö ¾Ê°í goldearnÀ» ÅëÇØ °ü¸®: ±Ùµ¥ ÀÌ°Å ÀÇ¹Ì ÀÖ³ª?
-        if (goldEarn != 0){gold += goldEarn; goldEarn = 0;} // ÀÌº¥Æ®È­ ¿ä¼Ò
+        if (goldEarn != 0) { gold += goldEarn; goldEarn = 0; } // ÀÌº¥Æ®È­ ¿ä¼Ò
     }
     void UpdateTime()
     {
-        if(timePassed >= 10f)
-        {currentMinute += 10;
-            timePassed = 0;}
+        if (timePassed >= 10f)
+        {
+            currentMinute += 10;
+            timePassed = 0;
+        }
 
-        if(currentMinute >= 60)
-        {currentHour += 1;
-            currentMinute = 0;}
+        if (currentMinute >= 60)
+        {
+            currentHour += 1;
+            currentMinute = 0;
+        }
 
-        if(currentHour == 26)
-        {dayOff = true;}
+        if (currentHour == 26)
+        { dayOff = true; }
 
-        if(currentHour <12 || currentHour >= 24)
-        {ampm = "AM";}
+        if (currentHour < 12 || currentHour >= 24)
+        { ampm = "AM"; }
         else { ampm = "PM"; }
     }
 
@@ -110,13 +119,13 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         weather = nextdayweather;
         luck = 0f; // ÀÌ°Ç ±×³É ·£´ý
 
-        if(currentMonth == 1) // 1¿ù, º½ÀÏ¶§
+        if (currentMonth == 1) // 1¿ù, º½ÀÏ¶§
         {
             int randyum = 10; // ·£´ý°ª (1~101), ÀÓ½Ã·Î Á¤¼ö ÁÜ
             if (randyum > 70) { nextdayweather = 2; } // 30%È®·ü·Î ³»ÀÏ ºñ
             else { nextdayweather = 1; } // 70ÆÛ¼¾Æ® È®·ü·Î ³»ÀÏ ¸¼À½
         }
-        
+
         // ´ÙÀ½³¯ ³¯¾¾·Î ³¯¾¾º¯°æ
         // Çà¿îº¯°æ
         // ´ÙÀ½³¯ ³¯¾¾ º¯°æ
@@ -154,13 +163,14 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         }
     }
 
+
     // ÀÎº¥Åä¸® °ü¸®
     GameObject inventory;
-    bool isInventoryOn;
+    public bool isInventoryOn; // ÀÌ°Ô TrueÀÏ¶§ movement³ª leftclick, rightclick Å¬·¡½º µîÀ» ¸·´Â´Ù.
     float originalTimeScale = 1f;
     void OpenInventory() // ÀÎº¥Åä¸® ¿ÀÇÂ , °ÔÀÓ ÀÏ½ÃÁ¤Áö
     {
-        if (Input.GetKeyDown(KeyCode.E) && isInventoryOn == false ) //ÀÎº¥ÀÌ ²¨Á®ÀÖ¾î¾ß ÇÔ
+        if (Input.GetKeyDown(KeyCode.E) && isInventoryOn == false) //ÀÎº¥ÀÌ ²¨Á®ÀÖ¾î¾ß ÇÔ
         {
             isInventoryOn = true;
             // ÀÎº¥Åä¸® Ã¢À» ¸¸µé¾î¾ß ÇÏ°Ú´Ù
@@ -174,13 +184,28 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
             inventory.SetActive(false);
         }
 
-        if(isInventoryOn)
+        if (isInventoryOn)
         {
             Time.timeScale = 0;
+
         }
         else
         {
             Time.timeScale = originalTimeScale;
+        }
+    }
+
+
+    void OffInvenUI()
+    {
+        GameObject aa = GameObject.Find("InventoryOffBackUI");
+        if (isInventoryOn)
+        {   
+            aa.transform.position = new Vector3(aa.transform.position.x , aa.transform.position.y , -10000f);
+        }
+        else
+        {
+            aa.transform.position = new Vector3(aa.transform.position.x, aa.transform.position.y, 0f);
         }
     }
 }

@@ -8,9 +8,9 @@ using UnityEngine;
 public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 {
     Inventory[] pInventory = new Inventory[36]; // 36칸의 인벤토리
-    int[] pInventoryCount = new int[36];
+    public int[] pInventoryCount = new int[36];
     ItemDB currentItemDB; // 아이템 정보 호출용
-    [SerializeField] int currentInventory; // 현재인벤
+    [SerializeField] public int currentInventory; // 현재인벤
     [SerializeField] public int currentInventoryItem; // 현재인벤의 아이템ID
     [SerializeField] public int itemCount; // 현재 인벤의 아이템 수
 
@@ -55,8 +55,9 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     void Update()
     {
         ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
+        InventoryItemData();
 
-        if(changeCount != 0) // 갯수변화가 0이 아니라면
+        if (changeCount != 0) // 갯수변화가 0이 아니라면
         {
             pInventory[currentInventory].itemCount += changeCount;
             changeCount = 0;
@@ -97,9 +98,9 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("FieldDropItem")) // 충돌체가 아이템 이라면
+        if (collision.gameObject.tag == "FieldItem") // 충돌체가 아이템 이라면
         {
             for (int i = 0; i < 36; i++) // 인벤토리를 훑어서
             {
@@ -114,22 +115,35 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
             {
                 if (pInventory[i].itemID == 0) // 인벤토리의 아이템 아이디가 비어있는곳을 찾아 (개인적으론 null쓰고싶긴한데)
                 {
-                    if(firstbag == false && i >= 12)
+                    if (firstbag == false && i >= 12)
                     {
                         return;
                     }
                     else if (secondbag == false && i >= 24)
                     {
-                        return ;
+                        return;
                     }
                     pInventory[i].itemID = collision.gameObject.GetComponent<FieldItem>().itemID; // 그 인벤토리의 아이템ID를 충돌체의 ID로 바꾸고
                     pInventory[i].grade = collision.gameObject.GetComponent<FieldItem>().grade; // 그 인벤토리의 아이템 등급을 충돌체의 등급으로 바꾸고
                     pInventory[i].itemCount += 1; // 카운트를 올린다 (0이었으니까)
                     Destroy(collision.gameObject);
-                    return; // 메서드 종료
+                    return; // 메서드 종료   
                 }
             }
             return; // 그냥 종료
+        }
+    }
+
+    void InventoryItemData()
+    {
+        for (int i = 0; i < 36; i++)
+        {
+            if (pInventory[i].itemCount <= 0)
+            {
+                pInventory[i].itemID = 0;
+            }
+
+            pInventoryCount[i] = pInventory[i].itemID;
         }
     }
 }

@@ -26,10 +26,9 @@ class ItemDrop : MonoBehaviour
 	bool firstForce= true;
 	bool secondForce = false;
 	bool thirdForce = false;
-	
-
 	private void OnEnable()
     {
+		timepassed = 0;
         GetComponent<CircleCollider2D>().isTrigger = false;
         trueBounce = Random.Range(-bounceRadius,bounceRadius); //랜덤하게 튀는 반경 생성
 		trueRadius = Random.Range(-makeRadius,makeRadius); //랜덤하게 생성 반경 생성
@@ -71,7 +70,6 @@ class ItemDrop : MonoBehaviour
 		{
 			itemBody.velocity += new Vector2(0, -10f * Time.deltaTime);
 		}
-
 		if(timepassed > 1f)
 		{
             GetComponent<CircleCollider2D>().isTrigger = true;

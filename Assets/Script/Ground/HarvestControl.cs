@@ -12,12 +12,11 @@ class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브�
     HarvestDB harvestDB;
     GameObject[] dropItemPrefab;
     public bool harvested = false;
-    public bool handHarvest = false;
+    public bool handHarvest;
 
-    Collider2D touchedObject;
+    public Collider2D touchedObject;
     private void OnEnable()
     {
-        harvested = false;
         seedID = GetComponentInParent<CropControl>().seedID; // 부모의 아이디 추출
 
         harvestDB = new HarvestDB(seedID);                  //수확물 추출
@@ -35,14 +34,17 @@ class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브�
 
     private void Update()
     {
-        HandHarvest();
+        if(handHarvest)
+        {
+            HandHarvest();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        touchedObject = collision;
         if (collision.gameObject.tag == "LeftClick" && collision.gameObject.GetComponent<EdgeCollider2D>() != null) // 좌클릭과 접촉했는데, 그놈에게 엣지콜라이더가 있다면(낫을 휘둘렀을때)
-        {   
+        {
+            touchedObject = collision;
             MakeDropItems(touchedObject);
             this.gameObject.GetComponentInParent<CropControl>().harvested = true;
             this.gameObject.SetActive(false);
@@ -78,15 +80,11 @@ class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브�
                 Instantiate(dropItemPrefab[i], this.transform.position, Quaternion.identity); // 등급을 설정하고 아이템을 만든다.
             }
         }
-
     }
     void HandHarvest()
     {
-        if (handHarvest && touchedObject != null && touchedObject.GetComponent<PlayerRightClickCollider>() != null)
-        {
-            MakeDropItems(touchedObject);
-            Destroy(gameObject);
-        }
+        MakeDropItems(touchedObject);
+        Destroy(gameObject);
     }
 }
 
