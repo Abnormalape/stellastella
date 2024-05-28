@@ -32,7 +32,7 @@ class InventoryManage : MonoBehaviour
     void LoadInventory()
     {
 
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < 12; i++) // 추후에 36개로
         {
             int j;
             j = i / 12;
@@ -40,9 +40,11 @@ class InventoryManage : MonoBehaviour
             inventoryUISlot[i] = transform.GetComponentsInChildren<InventorySlot>()[i].gameObject;
             if (inventoryUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
 
-            itemDB = new ItemDB(pInven.pInventoryCount[i]);
+            itemDB = new ItemDB(pInven.pInventoryItemID[i]);
             inventoryUISlot[i].GetComponentInChildren<Text>().text = $"{itemDB.name}";
-            inventoryUISlot[i].GetComponentInChildren<InventorySlot>().inventoryitemID = pInven.pInventoryCount[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 아이디가 삽입된다.
+            inventoryUISlot[i].GetComponentInChildren<InventorySlot>().inventoryitemID = pInven.pInventoryItemID[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 아이디가 삽입된다.
+            inventoryUISlot[i].GetComponentInChildren<InventorySlot>().inventoryitemcount = pInven.pInventoryItemCount[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 갯수가 삽입된다.
+            inventoryUISlot[i].GetComponentInChildren<InventorySlot>().thisInvenToryNumber = i;
         }
 
     }
@@ -59,7 +61,7 @@ class InventoryManage : MonoBehaviour
             inventoryUISlot[i] = GameObject.Find("InventoryOffBackUI").GetComponentsInChildren<OffInventorySlot>()[i].gameObject;
             if (inventoryUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
 
-            itemDB = new ItemDB(pInven.pInventoryCount[i]);
+            itemDB = new ItemDB(pInven.pInventoryItemID[i]);
             inventoryUISlot[i].GetComponentInChildren<Text>().text = $"{itemDB.name}";
 
             if(pInven.currentInventory == i)

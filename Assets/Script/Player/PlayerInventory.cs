@@ -8,7 +8,8 @@ using UnityEngine;
 public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 {
     Inventory[] pInventory = new Inventory[36]; // 36칸의 인벤토리
-    public int[] pInventoryCount = new int[36];
+    public int[] pInventoryItemID = new int[36];
+    public int[] pInventoryItemCount = new int[36];
     ItemDB currentItemDB; // 아이템 정보 호출용
     [SerializeField] public int currentInventory; // 현재인벤
     [SerializeField] public int currentInventoryItem; // 현재인벤의 아이템ID
@@ -52,15 +53,29 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         //현재 아이템 = 현재 인벤토리의 아이템ID
         currentInventoryItem = pInventory[currentInventory].itemID;
     }
+
+    public bool outerDataImported=false;
+    public int outerImportedSlotNumber;
+    public int outerImportedID;
+    public int outerImportedCount;
     void Update()
     {
-        ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
-        InventoryItemData();
-
-        if (changeCount != 0) // 갯수변화가 0이 아니라면
+        if (PLClick.waitingForBait == false)
         {
-            pInventory[currentInventory].itemCount += changeCount;
-            changeCount = 0;
+            ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
+            InventoryItemData();
+            UpdateCounts();
+            if (changeCount != 0) // 갯수변화가 0이 아니라면
+            {
+                pInventory[currentInventory].itemCount += changeCount;
+                changeCount = 0;
+            }
+            if (outerDataImported == true)
+            {
+                pInventory[outerImportedSlotNumber].itemID = outerImportedID;
+                pInventory[outerImportedSlotNumber].itemCount = outerImportedCount;
+                outerDataImported = false;
+            }
         }
     }
     void ChangeInventory() // 인벤토리를 바꾸고 아이템을 선택, 도구 사용중일때는 예외
@@ -98,7 +113,20 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         }
     }
 
+    void UpdateCounts()
+    {
+        for(int i = 0; i<36; i++)
+        {
+            pInventoryItemCount[i] = pInventory[i].itemCount;
+        }
+    }
+
     protected void OnTriggerEnter2D(Collider2D collision)
+    {
+        AddFieldItem(collision);
+    }
+
+    public void AddFieldItem(Collider2D collision)
     {
         if (collision.gameObject.tag == "FieldItem") // 충돌체가 아이템 이라면
         {
@@ -134,6 +162,36 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         }
     }
 
+    public void AddFishItem(int itemID, int grade)
+    {
+        for (int i = 0; i < 36; i++) 
+        {
+            if (itemID == pInventory[i].itemID && grade == pInventory[i].grade) 
+            {
+                pInventory[i].itemCount += 1; 
+                return; // 메서드 종료
+            }
+        }
+        for (int i = 0; i < 36; i++) 
+        {
+            if (pInventory[i].itemID == 0) 
+            {
+                if (firstbag == false && i >= 12)
+                {
+                    return;
+                }
+                else if (secondbag == false && i >= 24)
+                {
+                    return;
+                }
+                pInventory[i].itemID = itemID; 
+                pInventory[i].grade = grade; 
+                pInventory[i].itemCount += 1; 
+                return; // 메서드 종료   
+            }
+        }
+    }
+
     void InventoryItemData()
     {
         for (int i = 0; i < 36; i++)
@@ -143,7 +201,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
                 pInventory[i].itemID = 0;
             }
 
-            pInventoryCount[i] = pInventory[i].itemID;
+            pInventoryItemID[i] = pInventory[i].itemID;
         }
     }
 }

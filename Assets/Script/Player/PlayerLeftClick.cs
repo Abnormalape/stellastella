@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Unity;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 class PlayerLeftClick : MonoBehaviour
 // 얘를 플레이어 컨트롤에 넣고, 툴타입을 받아온다
@@ -27,6 +28,7 @@ class PlayerLeftClick : MonoBehaviour
     public bool toolSwing;
     public bool chargeTool;
     public bool Fishing;
+    public bool waitingForBait; // 찌를 던지고 대기하는 상태
     bool checkMouse;
 
     private void Awake()
@@ -40,66 +42,113 @@ class PlayerLeftClick : MonoBehaviour
         swingHitBox = this.GetComponentInChildren<EdgeCollider2D>().transform.gameObject;
         swingHitBox.GetComponent<EdgeCollider2D>().enabled = false; 
     }
+
+    bool baited; // 입질상태
+    float baitWait;
+    float baitTime;
     private void Update()
     {
         
         currentData = new ItemDB(pInven.currentInventoryItem);
 
-        if(gameManager.isInventoryOn == false)
+        if (waitingForBait == false) // 입질대기중이 아닐때
         {
-        if (!toolUsed)
-        {
-            if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
+            if (gameManager.isInventoryOn == false)
             {
-                switch (currentData.toolType)
+                if (!toolUsed)
                 {
-                    case 1:
-                        UseAxe();
-                        return;
-                    case 2:
-                        UseHoe();
-                        return;
-                    case 3:
-                        UseWaterCan();
-                        return;
-                    case 4:
-                        UsePickAxe();
-                        return;
-                    case 5:
-                        UseSickle();
-                        return;
-                    case 9:
-                        UseFishingRod();
-                        return;
+                    if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
+                    {
+                        switch (currentData.toolType)
+                        {
+                            case 1:
+                                UseAxe();
+                                return;
+                            case 2:
+                                UseHoe();
+                                return;
+                            case 3:
+                                UseWaterCan();
+                                return;
+                            case 4:
+                                UsePickAxe();
+                                return;
+                            case 5:
+                                UseSickle();
+                                return;
+                            case 9:
+                                UseFishingRod();
+                                return;
+                        }
+                    }
+                }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    switch (currentData.toolType)
+                    {
+                        case 2:
+                            UseHoe();
+                            return;
+                        case 3:
+                            UseWaterCan();
+                            return;
+                        case 9:
+                            UseFishingRod();
+                            return;
+                    }
+                }
+
+                if (toolSwing == true)
+                {
+                    passedTime += Time.deltaTime;
+                    if (passedTime > 0.5f) { ColliderSwingOff(); }
                 }
             }
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            switch (currentData.toolType)
+            else if (gameManager.isInventoryOn == true)
             {
-                case 2:
-                    UseHoe();
-                    return;
-                case 3:
-                    UseWaterCan();
-                    return;
-                case 9:
-                    UseFishingRod();
-                    return;
+                OnInventoryClick();
             }
         }
-
-            if (toolSwing == true)
-            {
-                passedTime += Time.deltaTime;
-                if (passedTime > 0.5f) { ColliderSwingOff(); }
-            }
-        }
-        else if (gameManager.isInventoryOn == true)
+        else if (waitingForBait) // 입질 대기중일때
         {
-            OnInventoryClick();
+            //입질 대기중 일때 일정 시간이 지나면 입질이 옴
+            if (baited)
+            {   //입질이 있을때
+                baitTime = baitTime + Time.deltaTime;
+                if (Input.GetMouseButtonDown(0) && baitTime <= 0.5f) //0.5초 이내에 좌클릭을 하면;
+                {
+                    this.GetComponent<PlayerFishingMinigame>().FishingMiniGame();
+                    //낚시 미니게임 시작
+                }
+                else if (Input.GetMouseButtonDown(0) && baitTime > 0.5f)
+                {
+                    //모션 실행후 (=일정 시간 대기후)
+                    waitingForBait = false; //입질 대기 상태를 종료하고
+                    // 이런 저런 상태 종료
+                }
+            }
+            else if (!baited)
+            {   //입질이 없을때
+                if (Input.GetMouseButtonDown(0)) //좌클릭을 하면
+                {
+                    //모션 실행후 (=일정 시간 대기후)
+                    waitingForBait = false; //입질 대기 상태를 종료하고
+                    // 이런 저런 상태 종료
+                }
+
+                float i = Random.Range(1f, 10f);
+                baitWait = baitWait + Time.deltaTime;
+                if (baitWait > i)
+                {
+                    //입질이 왔다고 이펙트로 보여주고
+                    Debug.Log("Bait!");
+
+                    baitWait = 0f;
+                    baited = true;
+                }
+            }
+            
         }
     }
     private void LateUpdate()
@@ -238,7 +287,7 @@ class PlayerLeftClick : MonoBehaviour
         Invoke("BoxColliderOff", 0.1f);
     }
 
-    void MakeThrowColliderCharge()  //
+    void MakeThrowColliderCharge()
     {
         Fishing = true; // 낚시중 : 참
         colSize = new Vector2(0.8f, 0.8f); // 박스의 크기를 0.8 * 0.8로
@@ -266,7 +315,6 @@ class PlayerLeftClick : MonoBehaviour
     }
     void AfterThrowColliderAct()
     {
-        BoxColliderOff();
         throwPower = 0f;
         chargeTime = 0f;
         chargeLevel = 0f;

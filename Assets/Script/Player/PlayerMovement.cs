@@ -43,38 +43,45 @@ class PlayerMovement : MonoBehaviour
         PlayerSpeed(); // 이동속도 제어기
         float x = Input.GetAxisRaw("Horizontal"); ;
         float y = Input.GetAxisRaw("Vertical"); ;
-        
-        if (pLClick.Fishing) //낚싯대 차징
-        {
-            x = 0; y = 0;
-            NormalMovement(x, y);
-            ChargeHitBox();
-            double xx = chargedHitBox.transform.position.x;
-            double yy = chargedHitBox.transform.position.y;
-            if (math.round(xx) > xx) { xx = math.round(xx) - 0.5; } else { xx = math.round(xx) + 0.5; }
-            if (math.round(yy) > yy) { yy = math.round(yy) - 0.5; } else { yy = math.round(yy) + 0.5; }
-            chargedHitBox.transform.position = new Vector2((float)xx + faceX,(float)yy + faceY);
 
-        }
-        else if (pLClick.toolUsed) //도구모션
+        if (pLClick.waitingForBait == false)
         {
-            x = 0; y = 0;
-            NormalMovement(x, y);
-        }
-        else if (pLClick.chargeTool) //도구 차징
-        {
-            ChargeMovement(); // 차징 동작을 하는 상태  물뿌리개, 괭이
-            ChargeHitBox(); // 차징중 히트 박스의 위치
-        }
-        else
-        {
-            NormalMovement(x, y);
-            NormalChargeHitBox();
-        }
+            if (pLClick.Fishing) //낚싯대 차징
+            {
+                x = 0; y = 0;
+                NormalMovement(x, y);
+                ChargeHitBox();
+                double xx = chargedHitBox.transform.position.x;
+                double yy = chargedHitBox.transform.position.y;
+                if (math.round(xx) > xx) { xx = math.round(xx) - 0.5; } else { xx = math.round(xx) + 0.5; }
+                if (math.round(yy) > yy) { yy = math.round(yy) - 0.5; } else { yy = math.round(yy) + 0.5; }
+                chargedHitBox.transform.position = new Vector2((float)xx + faceX, (float)yy + faceY);
 
-        if (pLClick.toolSwing)
-        {
-            SwingTool();
+            }
+            else if (pLClick.toolUsed) //도구모션
+            {
+                x = 0; y = 0;
+                NormalMovement(x, y);
+            }
+            else if (pLClick.chargeTool) //도구 차징
+            {
+                ChargeMovement(); // 차징 동작을 하는 상태  물뿌리개, 괭이
+                ChargeHitBox(); // 차징중 히트 박스의 위치
+            }
+            else
+            {
+                NormalMovement(x, y);
+                NormalChargeHitBox();
+            }
+
+            if (pLClick.toolSwing)
+            {
+                SwingTool();
+            }
+        }
+        else if(pLClick.waitingForBait == true)
+        {   //움직이지 마, 키입력 받지마
+            this.rb.velocity = Vector3.zero;
         }
     }
     void Facing(float x, float y) // 현재바라보는 방향 = 상호작용방향,스프라이트방향

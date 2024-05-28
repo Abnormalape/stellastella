@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     public int currentDay; // 28
     public int currentHour; // 06:00 ~ 02:00
     public int currentMinute; // 1min real = 1hour
-    string ampm;
+    public string ampm;
     public bool dayOff; // ³¯ÀÌ ³¡³µÀ½À» Àü´Þ, È¤Àº ¾ÀÀÇ º¯°æ?
 
 
@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
     // ½Ã°£Ã¼Å©
     float timePassed;
+    public float dayTimePassed = 0; //ÇÏ·ç 20½Ã°£(06~02), 10ÃÊ=10ºÐ 60ÃÊ=1½Ã°£, 
 
     private void Awake()
     {
@@ -45,12 +46,13 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         // ÀÎº¥Åä¸® È£Ãâ ¹× ºñÈ°¼ºÈ­
         inventory = transform.GetChild(0).gameObject;
         inventory.SetActive(false);
-
-
     }
+
 
     private void Update()
     {
+        dayTimePassed = dayTimePassed + Time.deltaTime;
+
         // ½Ã°£°æ°ú Ã¼Å©
         timePassed = timePassed + Time.deltaTime;
         // ÇöÀç½Ã°£ Ãâ·Â
@@ -168,30 +170,41 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     GameObject inventory;
     public bool isInventoryOn; // ÀÌ°Ô TrueÀÏ¶§ movement³ª leftclick, rightclick Å¬·¡½º µîÀ» ¸·´Â´Ù.
     float originalTimeScale = 1f;
+    PlayerLeftClick playerLeftClick;
+
     void OpenInventory() // ÀÎº¥Åä¸® ¿ÀÇÂ , °ÔÀÓ ÀÏ½ÃÁ¤Áö
     {
-        if (Input.GetKeyDown(KeyCode.E) && isInventoryOn == false) //ÀÎº¥ÀÌ ²¨Á®ÀÖ¾î¾ß ÇÔ
-        {
-            isInventoryOn = true;
-            // ÀÎº¥Åä¸® Ã¢À» ¸¸µé¾î¾ß ÇÏ°Ú´Ù
-            // ÀÎº¥Åä¸®¿ÀºêÁ§Æ®.SetActive
-            // ÀÎº¥Åä¸® ¿ÀºêÁ§Æ®°¡ ÄÑÁü
-            inventory.SetActive(true);
-        }
-        else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) && isInventoryOn == true) //ÀÎº¥ÀÌ ÄÑÁ®ÀÖ¾î¾ßÇÔ
-        {
-            isInventoryOn = false;
-            inventory.SetActive(false);
-        }
+        playerLeftClick = GameObject.Find("Player").GetComponent<PlayerLeftClick>();
 
-        if (isInventoryOn)
+        if (playerLeftClick.waitingForBait == false)
         {
-            Time.timeScale = 0;
+            if (Input.GetKeyDown(KeyCode.E) && isInventoryOn == false) //ÀÎº¥ÀÌ ²¨Á®ÀÖ¾î¾ß ÇÔ
+            {
+                isInventoryOn = true;
+                // ÀÎº¥Åä¸® Ã¢À» ¸¸µé¾î¾ß ÇÏ°Ú´Ù
+                // ÀÎº¥Åä¸®¿ÀºêÁ§Æ®.SetActive
+                // ÀÎº¥Åä¸® ¿ÀºêÁ§Æ®°¡ ÄÑÁü
+                inventory.SetActive(true);
+            }
+            else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) && isInventoryOn == true) //ÀÎº¥ÀÌ ÄÑÁ®ÀÖ¾î¾ßÇÔ
+            {
+                isInventoryOn = false;
+                inventory.SetActive(false);
+            }
 
+            if (isInventoryOn)
+            {
+                Time.timeScale = 0;
+
+            }
+            else
+            {
+                Time.timeScale = originalTimeScale;
+            }
         }
-        else
-        {
-            Time.timeScale = originalTimeScale;
+        else if (playerLeftClick.waitingForBait == true)
+        {   //¾Æ¹«°Íµµ ÇÏÁö¸¶ ±×³É
+
         }
     }
 
@@ -208,4 +221,17 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
             aa.transform.position = new Vector3(aa.transform.position.x, aa.transform.position.y, 0f);
         }
     }
+
+    //[SerializeField] bool boosttime;
+    //void BoostTime()
+    //{
+    //    if (boosttime)
+    //    {
+    //        Time.timeScale = 10f;
+    //    }
+    //    else
+    //    {
+    //        Time.timeScale = 1f;
+    //    }
+    //}
 }
