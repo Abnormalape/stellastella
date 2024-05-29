@@ -4,12 +4,69 @@ using UnityEngine;
 
 class FishCatch : MonoBehaviour
 {
-    public float catched;
+    float catched;
+    SpriteRenderer fishCatch;
+
+
+    private void OnEnable()
+    {
+        fishCatch = GetComponent<SpriteRenderer>();
+        catched = 8f;
+    }
+
     private void Update()
     {
-        if (catched > 100f)
+        CurrentCatch();
+        CatchContorl();
+    }
+
+    private void CatichngFish()
+    {
+        catched = catched + Time.unscaledDeltaTime * 3; // 
+    }
+    private void LoosingFish()
+    {
+        catched = catched - Time.unscaledDeltaTime * 4; // timescale 이 0일때 쓰려고 unscaled 넣었는데, 문제가 좀 있다.
+    }
+
+    bool catching = false;
+    public void IsCatching()
+    {
+        catching = true;
+    }
+    public void NotCatching()
+    {
+        catching = false;
+    }
+
+    private void CurrentCatch()
+    {
+        if (catching)
         {
-            GetComponentInParent<FishingMiniGame>().GetFish();
+            CatichngFish();
+        }
+        else
+        {
+            LoosingFish();
         }
     }
+    private void CatchContorl()
+    {
+        if (catched >= 0f && catched <= 24f)
+        {
+            transform.localScale = new Vector3(transform.localScale.x, catched, transform.localScale.z);
+            fishCatch.color = new Color(1f, (catched / 12f), (catched / 124f));
+        }
+        else if (catched > 24f)
+        {
+            catched = 24f;
+            GetComponentInParent<FishingMiniGame>().GetFish();
+        }
+        else if (catched < 0f)
+        {
+            catched = 0f;
+            //낚시 상태 종료
+        }
+    }
+
 }

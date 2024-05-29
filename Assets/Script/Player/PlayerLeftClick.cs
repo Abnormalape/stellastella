@@ -311,6 +311,8 @@ class PlayerLeftClick : MonoBehaviour
     {
         StaminaUse();
         chargedHitBox.GetComponent<BoxCollider2D>().enabled = true; // 콜라이더 생성;
+        Debug.Log(chargedHitBox.transform.position);
+        Debug.Log(chargedHitBox.GetComponent<BoxCollider2D>().enabled);
         Invoke("AfterThrowColliderAct", 0.1f);
     }
     void AfterThrowColliderAct()
@@ -320,6 +322,7 @@ class PlayerLeftClick : MonoBehaviour
         chargeLevel = 0f;
         Fishing = false;
         toolUsed = false;
+        BoxColliderOff();
     }
     void MakeMovingColliderSwing() // 모션 중 콜라이더 생성
     {

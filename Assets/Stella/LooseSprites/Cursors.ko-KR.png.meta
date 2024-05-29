@@ -235,6 +235,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: FishingBackGround
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 108
+        width: 36
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f2e7d91697e8574cbe9a533a1a0d372
+      internalID: -223229075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FishingBar
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 171
+        width: 9
+        height: 6
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95557e6b19e57af41812024d4561516e
+      internalID: 866415765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MovingFish
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 396
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abc09e61b3383134bb325cf72cc360b0
+      internalID: -1231451148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -247,6 +310,9 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       FallUI: 1300112466
+      FishingBackGround: -223229075
+      FishingBar: 866415765
+      MovingFish: -1231451148
       PlayerUI: -1697801555
       SpringUI: 1172710543
       SummerUI: -766918008

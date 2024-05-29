@@ -4,16 +4,14 @@ using UnityEngine;
 
 class Class1 : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
-    private void Awake()
+    [SerializeField]bool asdf = false;
+    [SerializeField] GameObject asdfasdf;
+    private void Update()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject.tag == "LeftClick")
+        if (asdf)
         {
-            spriteRenderer.color = Color.black;
+            Instantiate(asdfasdf, this.transform.position, Quaternion.identity);
+            asdf = false;
         }
     }
 }

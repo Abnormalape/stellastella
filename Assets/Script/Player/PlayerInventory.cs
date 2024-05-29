@@ -204,4 +204,20 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
             pInventoryItemID[i] = pInventory[i].itemID;
         }
     }
+
+    public int currentItemID()
+    {   //현재 아이템 아이디를 출력.
+        return currentInventory;
+    }
+    public int currentItemToolType()
+    {   //현재 아이템 도구타입을 출력.
+        return currentItemDB.toolType;
+    }
+
+    public string currentItemType()
+    {   //현재 아이템의 타입을 반환
+        return currentItemDB.type;
+    }
+
+    //....
 }
