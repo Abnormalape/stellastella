@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 {
     // ½Ã°£°ü¸®
     public int currentYear; // year
-    public int currentSeason; // = month
+    public int currentSeason; // 0:º½
     public int currentMonth;
     public int currentDay; // 28
     public int currentHour; // 06:00 ~ 02:00
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     bool wetherTotemUse; // ³¯¾¾ ÅäÅÛ
     float luck; // Çà¿î
     int wetherTotemNum;
-    public int weather; // ³¯¾¾ : ¼ýÀÚ·Î °ü¸®
+    public int weather; // 0:¸¼À½
     int nextdayweather; // ´ÙÀ½³¯ ³¯¾¾, Á¶°Ç¿¡ µû¶ó È®·üÀû ¹èÁ¤
 
     // ½Ã°£Ã¼Å©
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     private void Awake()
     {
         currentYear = 1;
-        currentSeason = 1;
+        currentSeason = 0; // º½
         currentMonth = 1;
         currentDay = 1;
         currentHour = 6;
@@ -57,12 +57,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         timePassed = timePassed + Time.deltaTime;
         // ÇöÀç½Ã°£ Ãâ·Â
         UpdateTime();
-
-        // ÀÎº¥Åä¸® °ü¸®
-        OpenInventory(); // ÀÌº¥Æ®È­ ¿ä¼Ò
-
-        // ¾Æ·¡¿¡ µîÀåÇÏ´Â UI ÃâÇö°ü¸®
-        OffInvenUI();
 
         // ÀÏÀÚ Á¾·á½Ã, ÀÏÀÚ Á¾·á¸Þ¼­µå ½ÇÇà
         if (dayOff) { EndOfTheDay(); }
@@ -139,13 +133,13 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         {
             switch (currentMonth)
             {
-                case 1: //º½ ÀÏ¶§
+                case 1: //1¿ù ÀÏ¶§
                     nextdayweather = 1; return; // È®·ü¿¡ µû¶ó ºñ, ¸¼À½ °áÁ¤
-                case 2: //¿©¸§ ÀÏ¶§
+                case 2: //2¿ù ÀÏ¶§
                     nextdayweather = 1; return; // È®·ü¿¡ µû¶ó ºñ, ³ì»öºñ, ÆøÇ³, ¸¼À½ °áÁ¤
-                case 3: //°¡À» ÀÏ¶§
+                case 3: //3¿ù ÀÏ¶§
                     nextdayweather = 1; return; // È®·ü¿¡ µû¶ó ºñ, ÆøÇ³, ¸¼À½, ¹Ù¶÷ °áÁ¤
-                case 4: //°Ü¿ï ÀÏ¶§
+                case 4: //4¿ù ÀÏ¶§
                     nextdayweather = 1; return; // È®·ü¿¡ µû¶ó ´«, ¸¼À½ °áÁ¤
             }
         }
@@ -168,70 +162,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
     // ÀÎº¥Åä¸® °ü¸®
     GameObject inventory;
-    public bool isInventoryOn; // ÀÌ°Ô TrueÀÏ¶§ movement³ª leftclick, rightclick Å¬·¡½º µîÀ» ¸·´Â´Ù.
-    float originalTimeScale = 1f;
+    public bool isInventoryOn { get; private set; }
     PlayerLeftClick playerLeftClick;
-
-    void OpenInventory() // ÀÎº¥Åä¸® ¿ÀÇÂ , °ÔÀÓ ÀÏ½ÃÁ¤Áö
-    {
-        playerLeftClick = GameObject.Find("Player").GetComponent<PlayerLeftClick>();
-
-        if (playerLeftClick.waitingForBait == false)
-        {
-            if (Input.GetKeyDown(KeyCode.E) && isInventoryOn == false) //ÀÎº¥ÀÌ ²¨Á®ÀÖ¾î¾ß ÇÔ
-            {
-                isInventoryOn = true;
-                // ÀÎº¥Åä¸® Ã¢À» ¸¸µé¾î¾ß ÇÏ°Ú´Ù
-                // ÀÎº¥Åä¸®¿ÀºêÁ§Æ®.SetActive
-                // ÀÎº¥Åä¸® ¿ÀºêÁ§Æ®°¡ ÄÑÁü
-                inventory.SetActive(true);
-            }
-            else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)) && isInventoryOn == true) //ÀÎº¥ÀÌ ÄÑÁ®ÀÖ¾î¾ßÇÔ
-            {
-                isInventoryOn = false;
-                inventory.SetActive(false);
-            }
-
-            if (isInventoryOn)
-            {
-                Time.timeScale = 0;
-
-            }
-            else
-            {
-                Time.timeScale = originalTimeScale;
-            }
-        }
-        else if (playerLeftClick.waitingForBait == true)
-        {   //¾Æ¹«°Íµµ ÇÏÁö¸¶ ±×³É
-
-        }
-    }
-
-
-    void OffInvenUI()
-    {
-        GameObject aa = GameObject.Find("InventoryOffBackUI");
-        if (isInventoryOn)
-        {   
-            aa.transform.position = new Vector3(aa.transform.position.x , aa.transform.position.y , -10000f);
-        }
-        else
-        {
-            aa.transform.position = new Vector3(aa.transform.position.x, aa.transform.position.y, 0f);
-        }
-    }
-
-    //[SerializeField] bool boosttime;
-    //void BoostTime()
-    //{
-    //    if (boosttime)
-    //    {
-    //        Time.timeScale = 10f;
-    //    }
-    //    else
-    //    {
-    //        Time.timeScale = 1f;
-    //    }
-    //}
 }

@@ -4,14 +4,16 @@ using Random = UnityEngine.Random;
 class MovingFish : MonoBehaviour
 {
     FishDB fishDB;
-    [SerializeField] int fishID;
-
+    int fishID;
+    float fishdifficulty;
     private void OnEnable()
     {   //현재 낚고 있는 물고기 초기화
+        timepassed = 0;
+        fishID = GetComponentInParent<FishingMiniGame>().fishID;
         fishDB = new FishDB(fishID);
-
+        fishdifficulty = fishDB.fishDifficulty;
         fishUp();
-        float NM = Random.Range(50f/ fishDB.fishDifficulty, 100f / fishDB.fishDifficulty);
+        float NM = Random.Range(50f/ fishdifficulty, 100f / fishdifficulty);
         Invoke("nextMoveReady", NM);
         //동작 1회 실행을 위해 조건을 끈다
         movementReady = false;
@@ -44,7 +46,7 @@ class MovingFish : MonoBehaviour
             M = Random.Range(0, 3);
 
             //다음 동작은 1초 ~ 2초 내에 실행된다.
-            float NM = Random.Range(50f / fishDB.fishDifficulty, 100f/fishDB.fishDifficulty);
+            float NM = Random.Range(50f / fishdifficulty, 100f/fishdifficulty);
 
             Invoke("nextMoveReady", NM);
             
@@ -70,15 +72,18 @@ class MovingFish : MonoBehaviour
 
     private void fishUp()
     {   //물고기 상승 : 난이도가 높을수록 빠르게 상승.
-        transform.position = (Vector2)transform.position + (Vector2.up * fishDB.fishDifficulty/10f) * Time.deltaTime;
+        transform.localPosition = (Vector2)transform.localPosition + (Vector2.up * fishdifficulty /10f) * Time.deltaTime;
+        Debug.Log("UP" + fishdifficulty);
     }
     private void fishDown()
     {   //물고기 하강 : 난이도가 높을수록 빠르게 하강.
-        transform.position = (Vector2)transform.position + (Vector2.down * fishDB.fishDifficulty/10f) * Time.deltaTime;
+        transform.localPosition = (Vector2)transform.localPosition + (Vector2.down * fishdifficulty /10f) * Time.deltaTime;
+        Debug.Log("Down" + fishdifficulty);
     }
     private void fishStay()
     {   //물고기 정지 : 
-        transform.position = (Vector2)transform.position;
+        transform.localPosition = (Vector2)transform.localPosition;
+        Debug.Log("Stay" + fishdifficulty);
     }
 
     bool movementReady = true;

@@ -16,6 +16,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     [SerializeField] public int itemCount; // 현재 인벤의 아이템 수
 
     PlayerLeftClick PLClick;
+    PlayerController pCon;
 
     public int changeCount = 0;
 
@@ -44,8 +45,10 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 
     private void Awake()
     {
+        pCon = GetComponent<PlayerController>();
         PLClick = this.GetComponent<PlayerLeftClick>();
         MakePlayerInventory(); // 기본아이템을 생성한다
+        inventUI = transform.Find("InventoryUI").gameObject;
     }
     void Start()
     {
@@ -54,33 +57,21 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         currentInventoryItem = pInventory[currentInventory].itemID;
     }
 
-    public bool outerDataImported=false;
+    public bool outerDataImported = false;
     public int outerImportedSlotNumber;
     public int outerImportedID;
     public int outerImportedCount;
     void Update()
     {
-        if (PLClick.waitingForBait == false)
-        {
-            ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
-            InventoryItemData();
-            UpdateCounts();
-            if (changeCount != 0) // 갯수변화가 0이 아니라면
-            {
-                pInventory[currentInventory].itemCount += changeCount;
-                changeCount = 0;
-            }
-            if (outerDataImported == true)
-            {
-                pInventory[outerImportedSlotNumber].itemID = outerImportedID;
-                pInventory[outerImportedSlotNumber].itemCount = outerImportedCount;
-                outerDataImported = false;
-            }
-        }
+        ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
+        InventoryItemData();
+        UpdateCounts();
+        HandItemMinus();
+        OuterData();
     }
     void ChangeInventory() // 인벤토리를 바꾸고 아이템을 선택, 도구 사용중일때는 예외
     {
-        if (!PLClick.toolUsed)
+        if (pCon.idle)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1)) { currentInventory = 0; } // 만약 1번키를 누른다면 플레이어인벤[0]의 아이템ID가 현재 아이템이다. 그걸 1234567890-=로 반복한다.
             if (Input.GetKeyDown(KeyCode.Alpha2)) { currentInventory = 1; }
@@ -115,9 +106,28 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 
     void UpdateCounts()
     {
-        for(int i = 0; i<36; i++)
+        for (int i = 0; i < 36; i++)
         {
             pInventoryItemCount[i] = pInventory[i].itemCount;
+        }
+    }
+
+    void HandItemMinus()
+    {
+        if (changeCount != 0) // 갯수변화가 0이 아니라면
+        {
+            pInventory[currentInventory].itemCount += changeCount;
+            changeCount = 0;
+        }
+    }
+
+    void OuterData()
+    {
+        if (outerDataImported == true)
+        {
+            pInventory[outerImportedSlotNumber].itemID = outerImportedID;
+            pInventory[outerImportedSlotNumber].itemCount = outerImportedCount;
+            outerDataImported = false;
         }
     }
 
@@ -127,7 +137,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     }
 
     public void AddFieldItem(Collider2D collision)
-    {
+    {   //필드의 아이템을 먹는 메소드
         if (collision.gameObject.tag == "FieldItem") // 충돌체가 아이템 이라면
         {
             for (int i = 0; i < 36; i++) // 인벤토리를 훑어서
@@ -162,19 +172,19 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         }
     }
 
-    public void AddFishItem(int itemID, int grade)
-    {
-        for (int i = 0; i < 36; i++) 
+    public void AddDirectItem(int itemID, int grade)
+    {   //바로 인벤토리에 들어오는 메소드. 인벤토리가 꽉 찼을시, 교환창을 연다.
+        for (int i = 0; i < 36; i++)
         {
-            if (itemID == pInventory[i].itemID && grade == pInventory[i].grade) 
+            if (itemID == pInventory[i].itemID && grade == pInventory[i].grade)
             {
-                pInventory[i].itemCount += 1; 
+                pInventory[i].itemCount += 1;
                 return; // 메서드 종료
             }
         }
-        for (int i = 0; i < 36; i++) 
+        for (int i = 0; i < 36; i++)
         {
-            if (pInventory[i].itemID == 0) 
+            if (pInventory[i].itemID == 0)
             {
                 if (firstbag == false && i >= 12)
                 {
@@ -184,9 +194,9 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
                 {
                     return;
                 }
-                pInventory[i].itemID = itemID; 
-                pInventory[i].grade = grade; 
-                pInventory[i].itemCount += 1; 
+                pInventory[i].itemID = itemID;
+                pInventory[i].grade = grade;
+                pInventory[i].itemCount += 1;
                 return; // 메서드 종료   
             }
         }
@@ -218,6 +228,44 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     {   //현재 아이템의 타입을 반환
         return currentItemDB.type;
     }
+    
+    GameObject inventUI;
+    void OpenInventory()
+    {
+        if (pCon.moving || pCon.idle) // 움직이거나 정지해 있을때만 인벤토리를 열수 있다.
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                pCon.Inventroy(true);
 
-    //....
+                // 인벤토리 창을 만들어야 하겠다
+                // 인벤토리오브젝트.SetActive
+                // 인벤토리 오브젝트가 켜짐
+
+                inventUI.SetActive(true); // 플레이어한테 인벤토리 달아야함
+            }
+        }
+        if (pCon.inventory)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
+            {
+                pCon.Inventroy(false);
+
+                inventUI.SetActive(false);
+            }
+        }
+    }
+
+    void OffInvenUI()
+    {
+        GameObject aa = GameObject.Find("InventoryOffBackUI");
+        if (pCon.inventory)
+        {
+            aa.transform.position = new Vector3(aa.transform.position.x, aa.transform.position.y, -10000f);
+        }
+        else
+        {
+            aa.transform.position = new Vector3(aa.transform.position.x, aa.transform.position.y, 0f);
+        }
+    }
 }

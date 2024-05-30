@@ -6,11 +6,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-class PlayerLeftClick : MonoBehaviour
-// 얘를 플레이어 컨트롤에 넣고, 툴타입을 받아온다
-{                       // 툴 타입에 맞는 메서드를 실행한다
-                        // 그냥 얘 자체를 update에 실행해도 되는것 아닌가?
-
+class PlayerLeftClick : MonoBehaviour // swingTool 미완성, 물뿌리개 물충전 미완성
+{
     PlayerController pCon;
     PlayerMovement pMov;
     PlayerInventroy pInven;
@@ -24,12 +21,6 @@ class PlayerLeftClick : MonoBehaviour
     float passedTime = 0f;
     float chargeTime = 0f;
     float throwPower = 0f;
-    public bool toolUsed;
-    public bool toolSwing;
-    public bool chargeTool;
-    public bool Fishing;
-    public bool waitingForBait; // 찌를 던지고 대기하는 상태
-    bool checkMouse;
 
     private void Awake()
     {
@@ -37,198 +28,157 @@ class PlayerLeftClick : MonoBehaviour
         pCon = this.gameObject.GetComponent<PlayerController>();
         pMov = this.gameObject.GetComponent<PlayerMovement>();
         pInven = this.gameObject.GetComponent<PlayerInventroy>();
-        chargedHitBox = this.GetComponentInChildren<BoxCollider2D>().transform.gameObject; // 내 게임 오브젝트의 자식중 박스콜라이더를 찾아서 그놈의 게임오브젝트를 반환
+        chargedHitBox = this.GetComponentInChildren<BoxCollider2D>().transform.gameObject;
         chargedHitBox.GetComponent<BoxCollider2D>().enabled = false;
         swingHitBox = this.GetComponentInChildren<EdgeCollider2D>().transform.gameObject;
-        swingHitBox.GetComponent<EdgeCollider2D>().enabled = false; 
+        swingHitBox.GetComponent<EdgeCollider2D>().enabled = false;
     }
-
-    bool baited; // 입질상태
-    float baitWait;
-    float baitTime;
     private void Update()
     {
-        
         currentData = new ItemDB(pInven.currentInventoryItem);
 
-        if (waitingForBait == false) // 입질대기중이 아닐때
+        if (pCon.idle || pCon.moving) // 대기 상태 이거나 움직일때만 좌클릭을 누를수 있다.
         {
-            if (gameManager.isInventoryOn == false)
+            if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
             {
-                if (!toolUsed)
+                switch (currentData.toolType)
                 {
-                    if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0))
-                    {
-                        switch (currentData.toolType)
-                        {
-                            case 1:
-                                UseAxe();
-                                return;
-                            case 2:
-                                UseHoe();
-                                return;
-                            case 3:
-                                UseWaterCan();
-                                return;
-                            case 4:
-                                UsePickAxe();
-                                return;
-                            case 5:
-                                UseSickle();
-                                return;
-                            case 9:
-                                UseFishingRod();
-                                return;
-                        }
-                    }
+                    case 1:
+                        UseAxe();
+                        return;
+                    case 2:
+                        UseHoe();
+                        return;
+                    case 3:
+                        UseWaterCan();
+                        return;
+                    case 4:
+                        UsePickAxe();
+                        return;
+                    case 5:
+                        UseSickle();
+                        return;
+                    case 9:
+                        UseFishingRod();
+                        return;
                 }
-
-                if (Input.GetMouseButtonUp(0))
-                {
-                    switch (currentData.toolType)
-                    {
-                        case 2:
-                            UseHoe();
-                            return;
-                        case 3:
-                            UseWaterCan();
-                            return;
-                        case 9:
-                            UseFishingRod();
-                            return;
-                    }
-                }
-
-                if (toolSwing == true)
-                {
-                    passedTime += Time.deltaTime;
-                    if (passedTime > 0.5f) { ColliderSwingOff(); }
-                }
-            }
-            else if (gameManager.isInventoryOn == true)
-            {
-                OnInventoryClick();
             }
         }
-        else if (waitingForBait) // 입질 대기중일때
-        {
-            //입질 대기중 일때 일정 시간이 지나면 입질이 옴
-            if (baited)
-            {   //입질이 있을때
-                baitTime = baitTime + Time.deltaTime;
-                if (Input.GetMouseButtonDown(0) && baitTime <= 0.5f) //0.5초 이내에 좌클릭을 하면;
+        if (pCon.fishCharge) // 낚싯대 차징 중 일때만
+        {   //낚싯대를 차징하거나 던질수 있다.
+            if (Input.GetMouseButtonUp(0) && Input.GetMouseButton(0))
+            {
+                switch (currentData.toolType)
                 {
-                    this.GetComponent<PlayerFishingMinigame>().FishingMiniGame();
-                    //낚시 미니게임 시작
-                }
-                else if (Input.GetMouseButtonDown(0) && baitTime > 0.5f)
-                {
-                    //모션 실행후 (=일정 시간 대기후)
-                    waitingForBait = false; //입질 대기 상태를 종료하고
-                    // 이런 저런 상태 종료
+                    case 9:
+                        UseFishingRod();
+                        return;
                 }
             }
-            else if (!baited)
-            {   //입질이 없을때
-                if (Input.GetMouseButtonDown(0)) //좌클릭을 하면
-                {
-                    //모션 실행후 (=일정 시간 대기후)
-                    waitingForBait = false; //입질 대기 상태를 종료하고
-                    // 이런 저런 상태 종료
-                }
-
-                float i = Random.Range(1f, 10f);
-                baitWait = baitWait + Time.deltaTime;
-                if (baitWait > i)
-                {
-                    //입질이 왔다고 이펙트로 보여주고
-                    Debug.Log("Bait!");
-
-                    baitWait = 0f;
-                    baited = true;
-                }
-            }
-            
         }
+        if (pCon.charge) // 차징 상태에서만 차징과 키떼키가 가능하다.
+        {
+            if (Input.GetMouseButtonUp(0) && Input.GetMouseButton(0))
+            {
+                switch (currentData.toolType)
+                {
+                    case 2:
+                        UseHoe();
+                        return;
+                    case 3:
+                        UseWaterCan();
+                        return;
+                }
+            }
+        }
+        if (pCon.motion) // 모션중일땐 
+        {   //쿨타임 카운트를 하고, 대기 상태로 돌아간다. 고정 쿨타임 0.5초. 
+            //콜라이더는 0.3초에 생겨서 0.4초에 사라지며, 모션 종료는 0.5초이다.
+            motiontime = motiontime + Time.deltaTime;
+            if (motiontime > 0.5f) { motiontime = 0f; pCon.Motion(false); }
+        }
+        // 상기 상태 이외에는 좌클릭을 해도 효과가 없다.
     }
-    private void LateUpdate()
-    {
 
-    }
+    float motiontime;
     void UseAxe() // 완료
     {
-        DoMotion();
-        StaminaUse();
-        Invoke("MakeBoxCollider", 0.5f); // 0.5f는 기본적으로 정해진 도구 사용 시간이다.
+        //DoMotion();
+        //StaminaUse();
+        //Invoke("MakeBoxCollider", 0.5f);
+        pCon.Motion(true);
+        Invoke("StaminaUse", 0.3f); ;
+        Invoke("MakeBoxCollider", 0.3f);
     }
 
     void UsePickAxe() // 완료
     {
-        DoMotion();
-        StaminaUse();
-        Invoke("MakeBoxCollider", 0.5f);
+        //DoMotion();
+        //StaminaUse();
+        //Invoke("MakeBoxCollider", 0.5f);
+        pCon.Motion(true);
+        Invoke("StaminaUse", 0.3f); ;
+        Invoke("MakeBoxCollider", 0.3f);
     }
 
-    void UseHoe() 
+    void UseHoe()
     {
-        if(currentData.grade == 1) // 1단계 일때 도끼와 같이 행동
+        if (currentData.grade == 1) // 1단계 일때 도끼와 같이 행동
         {
-            DoMotion();
-            StaminaUse();
-            Invoke("MakeBoxCollider", 0.5f);
+            //DoMotion();
+            //StaminaUse();
+            //Invoke("MakeBoxCollider", 0.5f);
+            pCon.Motion(true);
+            Invoke("StaminaUse", 0.3f); ;
+            Invoke("MakeBoxCollider", 0.3f);
         }
         else // 그 외엔 차징 후, 모션 후 콜라이더 생성
         {
             MakeChargeColliderCharge();
         }
     }
-    
-    void UseWaterCan() 
+
+    void UseWaterCan()
     {
         if (currentData.grade == 1)
         {
-            DoMotion();
-            StaminaUse();
-            Invoke("MakeBoxCollider", 0.5f);
+            //DoMotion();
+            //StaminaUse();
+            //Invoke("MakeBoxCollider", 0.5f);
+            pCon.Motion(true);
+            Invoke("StaminaUse", 0.3f); ;
+            Invoke("MakeBoxCollider", 0.3f);
         }
         else
         {
             MakeChargeColliderCharge();
         }
     }
-    
+
     void UseSickle()
     {
-        DoMotion();
-        MakeMovingColliderSwing();
     }
-    
+
     void UseFishingRod()
     {
         MakeThrowColliderCharge();
     }
-    
 
     void StaminaUse()// 플레이어 컨트롤에 체력 스테미너 놓기
-    {pCon.currentStamina -= currentData.staminaRestor;}
-
-    
-    void DoMotion() // 모션(휘두르기), 휘두르기 시간은 무기 제외 0.5초로 고정
-    {toolUsed = true;}
-
-    
-    void MakeBoxCollider() // 모션 '후' 콜라이더 생성, 도구 사용 종료
-    {   this.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true;
-        toolUsed = false;
+    { pCon.currentStamina -= currentData.staminaRestor; }
+    void MakeBoxCollider()
+    {
+        this.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true;
         Invoke("BoxColliderOff", 0.1f);
     }
+    void BoxColliderOff() { this.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false; }
 
     void MakeChargeColliderCharge() // 차징 - 괭이 물뿌리개
     { // 등급이 2이상이면 클릭하거나 누르고 있을때, 차징 시간이 계산되며, 뗐을때 조건에 맞는 크기의 콜라이더가 생성된다.
+        pCon.Charge(true);
+
         if (Input.GetMouseButton(0)) // 누르고 있는동안 아래를 실행
         {
-            chargeTool = true;// 움직임의 차징상태를 true로 변경
-
             chargeTime += Time.deltaTime;
             if (chargeTime >= 4f && currentData.grade >= 5)
             {
@@ -258,38 +208,21 @@ class PlayerLeftClick : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0)) // 마우스를 떼었을때 Act
         {
-            StaminaUse();
-            DoMotion();
-            if (chargeTime < 1f) // 차징이 1초 미만이라면 일반 사용과 같고
-            {
-                chargeTime = 0f;
-                Invoke("MakeBoxCollider", 0.5f);
-                chargeTool = false;
-            }
-            else
-            {
-                Invoke("MakeChargeColliderAct", 0.5f);
-            }
-        }
-    }
+            pCon.Charge(false);
+            pCon.Motion(true);
 
-    void MakeChargeColliderAct() // 차징 후, 모션 후 콜라이더 생성 - 괭이 물뿌리개
-    {
-        chargedHitBox.GetComponent<BoxCollider2D>().enabled = true;
-        Invoke("AfterMakeChargeColliderAct", 0.1f);
-    }
-    void AfterMakeChargeColliderAct()
-    {
-        chargeTime = 0f;
-        chargeTool = false;
-        toolUsed = false;
-        Invoke("ColliderOff", 0.1f);
-        Invoke("BoxColliderOff", 0.1f);
+            chargeTime = 0f;
+            //Invoke("MakeBoxCollider", 0.5f);
+            //chargeTool = false;
+            Invoke("StaminaUse", 0.3f); ;
+            Invoke("MakeBoxCollider", 0.3f);
+        }
     }
 
     void MakeThrowColliderCharge()
     {
-        Fishing = true; // 낚시중 : 참
+        pCon.FishCharge(true);
+
         colSize = new Vector2(0.8f, 0.8f); // 박스의 크기를 0.8 * 0.8로
         if (Input.GetMouseButton(0))
         {
@@ -302,61 +235,27 @@ class PlayerLeftClick : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0))
         {
-            DoMotion();
             Invoke("MakeThrowColliderAct", 0.5f); // throwpower에 비례해 던지는 시간 길어짐
         }
-        
+
     }
     void MakeThrowColliderAct() // 차징 후, 모션 후 콜라이더 생성 - 낚싯대
     {
+        pCon.FishCharge(false);
+        pCon.WaitingForBait(true);
         StaminaUse();
-        chargedHitBox.GetComponent<BoxCollider2D>().enabled = true; // 콜라이더 생성;
-        Debug.Log(chargedHitBox.transform.position);
-        Debug.Log(chargedHitBox.GetComponent<BoxCollider2D>().enabled);
-        Invoke("AfterThrowColliderAct", 0.1f);
+        MakeBoxCollider();
+        Invoke("ResetThrowColliderAct", 1.5f);
     }
-    void AfterThrowColliderAct()
+    void ResetThrowColliderAct()
     {
         throwPower = 0f;
         chargeTime = 0f;
         chargeLevel = 0f;
-        Fishing = false;
-        toolUsed = false;
-        BoxColliderOff();
     }
-    void MakeMovingColliderSwing() // 모션 중 콜라이더 생성
-    {
-        toolSwing = true;
-    }
-
-    void ColliderSwingOff()
-    {
-        toolUsed = false;
-        toolSwing = false;
-        passedTime = 0f;
-        ColliderOff();
-    }
-    
 
     void WaterLevel() // 물뿌리개
     {
         // 얘가 자기 앞의 오브젝트? 레이어? 아무튼 판정해서 물이면 나의 물 레벨을 채운다... 인데
-    }
-
-    void CoolDown()
-    {
-        if (passedTime > coolDownTime)
-        {
-            toolUsed = false;
-            passedTime = 0;
-        }
-    }
-    void ColliderOff() { this.gameObject.GetComponentInChildren<EdgeCollider2D>().enabled = false; }
-    void BoxColliderOff() { this.gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false; }
-
-
-    void OnInventoryClick()
-    {
-
     }
 }

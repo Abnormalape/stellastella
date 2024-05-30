@@ -1,26 +1,65 @@
 ﻿using System;
 using UnityEngine;
-class PlayerFishingMinigame : MonoBehaviour
-{   //플레이어 에게 삽입되는 클래스
-    //물 한테서 물고기의 종류를 받아 낚시 미니게임을 생성한다.
-    //플레이어의 낚시 레벨, 사용하는 미끼 찌, 낚싯대 등에 따라 낚시 박스의 크기가 커진다.
-
-    public int fishID;
+using Random = UnityEngine.Random;
+class PlayerFishingMinigame : MonoBehaviour //플레이어의 낚시 레벨, 사용하는 미끼 찌, 낚싯대 등에 따라 낚시 박스의 크기가 커진다.
+{
+    public int fishID = 0;
     public int fishGrade;
+    PlayerController pCon;
+
+    private void Awake()
+    {
+        pCon = GetComponent<PlayerController>();
+    }
+
+    float passedTime;
+    float baitTime;
+    private void Update()
+    {
+        if (pCon.waitingForBait)
+        { Baiting(); }
+    }
+
+    private void Baiting()
+    {
+        passedTime += Time.deltaTime;
+        float R = Random.Range(1f, 10f);
+        if (passedTime > R)
+        {
+            baitTime += Time.deltaTime;
+            if (baitTime <= 0.5f && Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("물었다!");
+                FishingMiniGame();
+            }
+            else if (baitTime > 0.5f && Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("놓쳐버렸다.");
+                pCon.WaitingForBait(false);
+                pCon.Motion(true);
+            }
+        }
+        else if (passedTime <= R && Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("아직 물지 않았다.");
+            pCon.WaitingForBait(false);
+            pCon.Motion(true);
+        }
+    }
 
     public void FishingMiniGame()
     {
-        Time.timeScale = 0f;
+        pCon.WaitingForBait(false);
+        pCon.Minigame(true);
 
-        GameObject gameObject = (GameObject)Resources.Load($"Prefabs/FishingPrefabs/FishingMiniGame");
-        gameObject.GetComponent<FishingMiniGame>().fishID = this.fishID;
-        //낚시 미니게임을 소환한다.
-        Instantiate(gameObject, this.transform.position, Quaternion.identity).transform.parent = this.transform;
+        this.fishID = GetComponent<PlayerFishingManager>().GiveFishtoPlayerFishMiniGame();
+        //Time.timeScale = 0f;
+        Instantiate((GameObject)Resources.Load($"Prefabs/FishingPrefabs/FishingMiniGame"), this.transform.position, Quaternion.identity).transform.parent = this.transform;
+        GetComponentInChildren<FishingMiniGame>().fishID = this.fishID;
     }
-
-    public void AddFish()
+    public void EndFishing()
     {
-        GetComponent<PlayerInventroy>().AddFishItem(fishID, fishGrade);
+        pCon.Minigame(false);
+        pCon.Motion(true);
     }
 }
-

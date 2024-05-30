@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3151678518875471450}
   - component: {fileID: 3944500643269341543}
   - component: {fileID: 7581700657762156550}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FishingBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1071310915881034498}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2, y: -4.44, z: 0}
+  m_LocalPosition: {x: 0.2, y: -4.44, z: -1}
   m_LocalScale: {x: 1, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 51
   m_Sprite: {fileID: 866415765, guid: 90dd35245e447be47aeda45118e1b73c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -182,7 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6649794947408502950}
   - component: {fileID: 7432176420667827864}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FishingBackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_Sprite: {fileID: -223229075, guid: 90dd35245e447be47aeda45118e1b73c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 1706359806051407233}
   - component: {fileID: 3350287977967794929}
   - component: {fileID: 3488489459900702719}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FishCatch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 6080174212883905576}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9982, y: -4.528, z: -0.6155451}
+  m_LocalPosition: {x: 0.9982, y: -4.528, z: -2}
   m_LocalScale: {x: 0.44, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -329,7 +329,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_Sprite: {fileID: 866415765, guid: 90dd35245e447be47aeda45118e1b73c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 4613483085168483870}
   - component: {fileID: 4836230711080960302}
   - component: {fileID: 2501429063791672156}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MovingFish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -381,7 +381,7 @@ Transform:
   m_GameObject: {fileID: 6856877332889957193}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2, y: -4.44, z: 0}
+  m_LocalPosition: {x: 0.2, y: -4.44, z: -2}
   m_LocalScale: {x: 0.6297, y: 0.6297, z: 0.6297}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -427,7 +427,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 52
   m_Sprite: {fileID: -1231451148, guid: 90dd35245e447be47aeda45118e1b73c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -451,7 +451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188c450f3d138244489b3827f5bb5c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fishID: 2
 --- !u!58 &2501429063791672156
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -497,7 +496,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4441260962168648246}
   - component: {fileID: 4533069625893570735}
-  m_Layer: 0
+  - component: {fileID: 7289933601389635586}
+  m_Layer: 11
   m_Name: UpperEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -564,6 +564,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &7289933601389635586
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7306513224017048897}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &7829385567327343286
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +601,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1438601213656351178}
   - component: {fileID: 6421264790415743929}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FishingMiniGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -590,7 +617,7 @@ Transform:
   m_GameObject: {fileID: 7829385567327343286}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.61, y: 0.85, z: 0.6155451}
+  m_LocalPosition: {x: 26.61, y: 0.85, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -626,7 +653,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8420926874157193357}
   - component: {fileID: 530656246660212308}
-  m_Layer: 0
+  - component: {fileID: 7586292147851421747}
+  m_Layer: 11
   m_Name: BottomEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -693,3 +721,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &7586292147851421747
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8671501688728444915}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

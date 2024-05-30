@@ -30,6 +30,11 @@ class PlayerRightClick : MonoBehaviour
         ColliderOnOff();
         ColliderLocation();
         ColliderSize();
+
+        if (pCon.idle || pCon.moving) // 움직이거나, 대기상태에서만 우클릭이 가능하다.
+        {
+
+        }
     }
 
     void ColliderLocation()

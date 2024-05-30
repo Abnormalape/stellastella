@@ -22,7 +22,7 @@ class FishCatch : MonoBehaviour
 
     private void CatichngFish()
     {
-        catched = catched + Time.unscaledDeltaTime * 3; // 
+        catched = catched + Time.unscaledDeltaTime * 3;
     }
     private void LoosingFish()
     {
@@ -60,13 +60,17 @@ class FishCatch : MonoBehaviour
         else if (catched > 24f)
         {
             catched = 24f;
-            GetComponentInParent<FishingMiniGame>().GetFish();
+            FishEnd(true);
         }
         else if (catched < 0f)
         {
             catched = 0f;
-            //낚시 상태 종료
+            FishEnd(false);
         }
     }
 
+    void FishEnd(bool FF)
+    {
+        GetComponentInParent<FishingMiniGame>().FishingEnd(FF);
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +17,8 @@ class InventorySlot : MonoBehaviour
 
     private void Awake()
     {
-        mouseCursor = GameObject.FindGameObjectWithTag("Cursor");
-        playerInventroy = GameObject.Find("Player").GetComponent<PlayerInventroy>();
+        mouseCursor = transform.parent.parent.parent.transform.Find("Cursor").gameObject;
+        playerInventroy = transform.parent.parent.parent.GetComponent<PlayerInventroy>();
     }
     private void Update()
     {

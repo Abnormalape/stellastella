@@ -28,26 +28,30 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-    
+
     }
 
-    
+
     void Update()
     {
-        CurrentMax(currentHp,maxHp);
+        MakeIdleState();
+        CurrentMax(currentHp, maxHp);
         CurrentMax(currentStamina, maxStamina);
     }
 
     void CurrentMax(int current, int max)
     {
-        if(current > max)
-        {current = max;}
+        if (current > max)
+        { current = max; }
     }
+
+
+
     void Exhaust()
     {
-        if (currentStamina <= 10 && !exhaust) {  } 
+        if (currentStamina <= 10 && !exhaust) { }
         // 탈진상태가 아닌 상태로 스테미너가 10 이하가 된다면 => 탈진상태를 경고
-        if (currentStamina < 0 && !exhaust) {currentStamina = 0; exhaust = true; }
+        if (currentStamina < 0 && !exhaust) { currentStamina = 0; exhaust = true; }
         // 탈진이 아닌 상태에서 스테미너가 0미만이 된다면 0이하로 스테미너가 떨어지지 않게하고, 스테미나를 0으로 함, 탈진상태가 됨
 
         if (currentStamina < -10) { }
@@ -56,10 +60,32 @@ public class PlayerController : MonoBehaviour
 
     void ExhaustState() // 탈진상태란??
     {
-        // 이동속도가 대폭 줄어들고
-        // 다음날 스테미너 회복에 악영향을 끼침
-        // 스테미나가 0 이상이 되면 이동속도 패널티는 사라짐
     }
 
-    
+
+    public bool idle { get; private set; }
+
+    public bool conversation { get; private set; }
+    public void Conversation(bool i) { conversation = i; }
+    public bool motion { get; private set; }
+    public void Motion(bool i) { motion = i; }
+    public bool moving { get; private set; }
+    public void Moving(bool i) { moving = i; }
+    public bool waitingForBait { get; private set; }
+    public void WaitingForBait(bool i) { waitingForBait = i; }
+    public bool fishCharge { get; private set; }
+    public void FishCharge(bool i) { fishCharge = i; }
+    public bool charge { get; private set; }
+    public void Charge(bool i) { charge = i; }
+    public bool minigame { get; private set; }
+    public void Minigame(bool i) { minigame = i; }
+    public bool inventory { get; private set; }
+    public void Inventroy(bool i) { inventory = i; }
+
+    private void MakeIdleState()
+    {   // 본인의 상태를 잘 끄기만 한다면 상태는 항상 Idle로 돌아온다.
+        if (conversation || motion || moving || waitingForBait || fishCharge || charge || minigame || inventory)
+        { idle = false; }
+        else { idle = true; }
+    }
 }
