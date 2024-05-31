@@ -44,6 +44,11 @@ class PlayerMovement : MonoBehaviour // swingtool 미완성
         float x = Input.GetAxisRaw("Horizontal"); ;
         float y = Input.GetAxisRaw("Vertical"); ;
 
+        if (pCon.motion || pCon.fishCharge || pCon.inventory)
+        {
+            pCon.Moving(false);
+        }
+
         //x = 0; y = 0;
         //NormalMovement(x, y);
         //ChargeHitBox();
@@ -54,6 +59,16 @@ class PlayerMovement : MonoBehaviour // swingtool 미완성
         //chargedHitBox.transform.position = new Vector2((float)xx + faceX, (float)yy + faceY);
 
         //상태종류 : 대기, 움직임, 차징, 낚시 차징, 입질대기, 모션, 대화, 낚시 미니게임
+
+        //facing
+        if (pCon.idle || pCon.moving) // 움직이거나 멈춰있는 상황에선.
+        {   //얼굴을 돌릴수 있다.
+            Facing(x, y);
+        }
+        else // 그 외엔
+        {   //얼굴을 돌릴수 없다.
+
+        }
 
         //moving
         if (pCon.charge) //차징상태에선.
@@ -73,31 +88,21 @@ class PlayerMovement : MonoBehaviour // swingtool 미완성
             StopMovement();
         }
 
-
-        //facing
-        if (pCon.idle || pCon.moving) // 움직이거나 멈춰있는 상황에선.
-        {   //얼굴을 돌릴수 있다.
-            Facing(x, y);
-        }
-        else // 그 외엔
-        {   //얼굴을 돌릴수 없다.
-
-        }
+        
 
         //히트박스
-        if (pCon.charge) // 차징중일때 차지 히트박스 실행
+        if (pCon.charge || pCon.fishCharge) // 차징중일때 차지 히트박스 실행
         {
             ChargeHitBox();
         }
-        else if (pCon.fishCharge) // 낚시 차징중 일때 낚시 히트박스 실행
+        else if (pCon.motion) // 낚시 차징중 일때 낚시 히트박스 실행
         {
-            ChargeHitBox();
+            StayFormalHitBox();
         }
         else // 그 외엔 전부 통상 히트박스
         {
             NormalChargeHitBox();
         }
-
     }
     void Facing(float x, float y) // 현재바라보는 방향 = 상호작용방향,스프라이트방향
     {
@@ -111,20 +116,22 @@ class PlayerMovement : MonoBehaviour // swingtool 미완성
             faceX = 0;
             faceY = y;
         }
-    }
 
-    void NormalMovement(float x, float y)
-    {
-        rb.velocity = new Vector2(x * currentSpeed, y * currentSpeed);
-        Facing(x, y);
-        nowFacing = new Vector2(faceX, faceY);
+        nowFacing = new Vector2(faceX,faceY);
 
         if (Mathf.Abs(faceX) > 0) { toolChild.transform.rotation = Quaternion.Euler(0, 0, faceX * 90); }
         else if (Mathf.Abs(faceY) > 0) { toolChild.transform.rotation = Quaternion.Euler(0, 0, 270 - 90 * faceY); }
     }
 
-    void StopMovement()
+    void NormalMovement(float x, float y)
     {
+        
+        rb.velocity = new Vector2(x * currentSpeed, y * currentSpeed);
+        
+    }
+
+    void StopMovement()
+    {   
         rb.velocity = Vector2.zero;
     }
 
@@ -162,6 +169,10 @@ class PlayerMovement : MonoBehaviour // swingtool 미완성
         { chargedHitBox.transform.rotation = Quaternion.Euler(0, 0, 0); }
         else if (nowFacing.y == 1 || nowFacing.y == -1)
         { chargedHitBox.transform.rotation = Quaternion.Euler(0, 0, 90); }
+    }
+    void StayFormalHitBox()
+    {
+        
     }
     void ChargeHitBox()
     {

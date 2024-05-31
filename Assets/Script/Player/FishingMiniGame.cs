@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 class FishingMiniGame : MonoBehaviour // FishGrade미완성
 {
-    public int fishID;
+    [SerializeField]public int fishID;
     int fishGrade;
     FishDB fishDB;
     int difficulty;
@@ -16,14 +16,16 @@ class FishingMiniGame : MonoBehaviour // FishGrade미완성
 
     public bool getFish;
 
-    private void OnEnable()
-    {
-        fishDB = new FishDB(fishID);
-        difficulty = fishDB.fishDifficulty;
-    }
+    bool setfish = false;
     private void Update()
     {
-
+        if(fishID != 0 && setfish == false)
+        {
+            fishDB = new FishDB(fishID);
+            difficulty = fishDB.fishDifficulty;
+            GetComponentInChildren<MovingFish>().fishID = this.fishID;
+            setfish = true;
+        }
     }
 
     public void FishingEnd(bool FF)
@@ -31,7 +33,7 @@ class FishingMiniGame : MonoBehaviour // FishGrade미완성
         if (FF == true)
         {   //fishingbar 한테서 perfect인지 확인해서 grade를 한단계 높인다.
             Debug.Log("낚시성공!");
-            GetComponentInParent<PlayerInventroy>().AddDirectItem(fishID, fishGrade);
+            GetComponentInParent<PlayerInventroy>().AddDirectItem(fishID, fishGrade); //아이템 추가
         }
         else
         {

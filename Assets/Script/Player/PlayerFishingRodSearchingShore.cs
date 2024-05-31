@@ -3,6 +3,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 class PlayerFishingRodSearchingShore : MonoBehaviour
 {
+    PlayerController pCon;
+
+    private void Awake()
+    {
+        pCon = GetComponentInParent<PlayerController>();
+    }
     private void Update()
     {
     }
@@ -18,6 +24,7 @@ class PlayerFishingRodSearchingShore : MonoBehaviour
         {   //낚시찌가 물과 접촉했다면, 찌의 위치로부터 물가를 탐색하고.
             //플레이어를 입질 대기상태로 만든다.
             SearchShore();
+            pCon.WaitingForBait(true);
         }
     }
 }

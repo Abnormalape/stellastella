@@ -24,6 +24,10 @@ public class PlayerController : MonoBehaviour
         currentHp = maxHp;
         currentStamina = maxStamina;
         pInven = GetComponent<PlayerInventroy>();
+        inventoryBarUI = transform.Find("InventoryBarUI").gameObject;
+        inventoryUI = transform.Find("InventoryUI").gameObject;
+        inventoryUI.SetActive(false);
+        inventoryBarUI.SetActive(true);
     }
 
     void Start()
@@ -37,6 +41,43 @@ public class PlayerController : MonoBehaviour
         MakeIdleState();
         CurrentMax(currentHp, maxHp);
         CurrentMax(currentStamina, maxStamina);
+        InvenToryButton();
+        //if (idle)
+        //{
+        //    Debug.Log("idle");
+        //}
+        //if (moving)
+        //{
+        //    Debug.Log("moving");
+        //}
+        //if (conversation)
+        //{
+        //    Debug.Log("conversation");
+        //}
+        //if (charge)
+        //{
+        //    Debug.Log("charge");
+        //}
+        //if (fishCharge)
+        //{
+        //    Debug.Log("fishCharge");
+        //}
+        //if (minigame)
+        //{
+        //    Debug.Log("minigame");
+        //}
+        //if (waitingForBait)
+        //{
+        //    Debug.Log("waitingForBait");
+        //}
+        //if (inventory)
+        //{
+        //    Debug.Log("inventory");
+        //}
+        //if (motion)
+        //{
+        //    Debug.Log("motion");
+        //}
     }
 
     void CurrentMax(int current, int max)
@@ -87,5 +128,31 @@ public class PlayerController : MonoBehaviour
         if (conversation || motion || moving || waitingForBait || fishCharge || charge || minigame || inventory)
         { idle = false; }
         else { idle = true; }
+    }
+
+    GameObject inventoryUI;
+    GameObject inventoryBarUI;
+
+
+    private void InvenToryButton()
+    {
+        if (idle || moving || inventory)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (!inventory)
+                {
+                    inventoryUI.SetActive(true);
+                    inventoryBarUI.SetActive(false);
+                    inventory = true;
+                }
+                else if (inventory)
+                {
+                    inventoryUI.SetActive(false);
+                    inventoryBarUI.SetActive(true);
+                    inventory = false;
+                }
+            }
+        }
     }
 }

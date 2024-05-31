@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 51
+  m_SortingOrder: 2001
   m_Sprite: {fileID: 866415765, guid: 90dd35245e447be47aeda45118e1b73c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -244,7 +244,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 2000
   m_Sprite: {fileID: -223229075, guid: 90dd35245e447be47aeda45118e1b73c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -329,7 +329,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 2001
   m_Sprite: {fileID: 866415765, guid: 90dd35245e447be47aeda45118e1b73c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -427,7 +427,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 52
+  m_SortingOrder: 2002
   m_Sprite: {fileID: -1231451148, guid: 90dd35245e447be47aeda45118e1b73c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -451,6 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188c450f3d138244489b3827f5bb5c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fishID: 0
 --- !u!58 &2501429063791672156
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -642,6 +643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fishID: 0
+  fishingEnd: 0
   getFish: 0
 --- !u!1 &8671501688728444915
 GameObject:

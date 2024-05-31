@@ -1,23 +1,13 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 class MovingFish : MonoBehaviour
 {
     FishDB fishDB;
-    int fishID;
+    public int fishID;
     float fishdifficulty;
-    private void OnEnable()
-    {   //현재 낚고 있는 물고기 초기화
-        timepassed = 0;
-        fishID = GetComponentInParent<FishingMiniGame>().fishID;
-        fishDB = new FishDB(fishID);
-        fishdifficulty = fishDB.fishDifficulty;
-        fishUp();
-        float NM = Random.Range(50f/ fishdifficulty, 100f / fishdifficulty);
-        Invoke("nextMoveReady", NM);
-        //동작 1회 실행을 위해 조건을 끈다
-        movementReady = false;
-    }
+    
 
     float timepassed;
 
@@ -38,8 +28,24 @@ class MovingFish : MonoBehaviour
     }
 
     int M;
+    bool setfish = false;
     private void Update()
     {
+        if (setfish == false && fishID != 0) {
+            timepassed = 0;
+            fishID = GetComponentInParent<FishingMiniGame>().fishID;
+            fishDB = new FishDB(fishID);
+            Debug.Log("나는 물고기다!" + fishID);
+            fishdifficulty = fishDB.fishDifficulty;
+            fishUp();
+            float NM = Random.Range(50f / fishdifficulty, 100f / fishdifficulty);
+            Invoke("nextMoveReady", NM);
+            //동작 1회 실행을 위해 조건을 끈다
+            movementReady = false;
+
+            setfish = true;
+        }
+
         timepassed = timepassed + Time.deltaTime;
         if (movementReady)
         {   //동작이 준비 되었을때 동작을 준다 : 상승,하강,정지.
@@ -86,6 +92,6 @@ class MovingFish : MonoBehaviour
         Debug.Log("Stay" + fishdifficulty);
     }
 
-    bool movementReady = true;
+    bool movementReady = false;
     void nextMoveReady(){movementReady = true;}
 }

@@ -6,32 +6,30 @@ using UnityEngine.UI;
 class InventoryManage : MonoBehaviour
 {
     GameObject[] inventoryUISlot = new GameObject[36];
-    GameManager gameManager;
+    PlayerController pCon;
     PlayerInventroy pInven;
     ItemDB itemDB;
 
     private void Awake()
     {
-        gameManager = GetComponent<GameManager>();
-        pInven = GameObject.Find("Player").GetComponent<PlayerInventroy>(); // 추후에 인벤매니지 자체를 플레이어에 이식
+        pCon = GetComponent<PlayerController>();
+        pInven = GetComponent<PlayerInventroy>(); 
     }
 
     private void Update()
     {
-        if (gameManager.isInventoryOn)
+        if (pCon.inventory)
         {
             LoadInventory();
         }
-        else
+        else if (pCon.inventory == false)
         {
             LoadOffInventory();
         }
     }
 
-    bool loadInventroy = false;
     void LoadInventory()
     {
-
         for (int i = 0; i < 12; i++) // 추후에 36개로
         {
             int j;
@@ -46,7 +44,6 @@ class InventoryManage : MonoBehaviour
             inventoryUISlot[i].GetComponentInChildren<InventorySlot>().inventoryitemcount = pInven.pInventoryItemCount[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 갯수가 삽입된다.
             inventoryUISlot[i].GetComponentInChildren<InventorySlot>().thisInvenToryNumber = i;
         }
-
     }
 
     int currentInventory;
@@ -58,7 +55,7 @@ class InventoryManage : MonoBehaviour
             int j;
             j = i / 12;
 
-            inventoryUISlot[i] = GameObject.Find("InventoryOffBackUI").GetComponentsInChildren<OffInventorySlot>()[i].gameObject;
+            inventoryUISlot[i] = GameObject.Find("InventoryBarUI").GetComponentsInChildren<OffInventorySlot>()[i].gameObject;
             if (inventoryUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
 
             itemDB = new ItemDB(pInven.pInventoryItemID[i]);

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
     bool wetherTotemUse; // 날씨 토템
     float luck; // 행운
     int wetherTotemNum;
-    public int weather; // 0:맑음
+    public int weather = 0; // 0:맑음
     int nextdayweather; // 다음날 날씨, 조건에 따라 확률적 배정
 
     // 시간체크
@@ -44,8 +44,6 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
         ampm = "AM";
         dayOff = false;
         // 인벤토리 호출 및 비활성화
-        inventory = transform.GetChild(0).gameObject;
-        inventory.SetActive(false);
     }
 
 

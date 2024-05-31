@@ -20,37 +20,59 @@ class PlayerFishingMinigame : MonoBehaviour //플레이어의 낚시 레벨, 사
         { Baiting(); }
     }
 
+    bool makeR = false;
+    float R;
     private void Baiting()
     {
+        if (makeR == false)
+        {
+            R = Random.Range(1f, 10f);
+            makeR = true;
+        }
         passedTime += Time.deltaTime;
-        float R = Random.Range(1f, 10f);
+        
         if (passedTime > R)
         {
+            Debug.Log("당겨!");
+
             baitTime += Time.deltaTime;
-            if (baitTime <= 0.5f && Input.GetMouseButtonDown(0))
+            if (baitTime <= 1f && Input.GetMouseButtonDown(0))
             {
                 Debug.Log("물었다!");
+                passedTime = 0;
+                baitTime = 0;
+
+                makeR = false;
                 FishingMiniGame();
             }
-            else if (baitTime > 0.5f && Input.GetMouseButtonDown(0))
+            else if (baitTime > 1f && Input.GetMouseButtonDown(0))
             {
                 Debug.Log("놓쳐버렸다.");
-                pCon.WaitingForBait(false);
+                passedTime = 0;
+                baitTime = 0;
+
+                makeR = false;
                 pCon.Motion(true);
+                pCon.WaitingForBait(false);
             }
         }
         else if (passedTime <= R && Input.GetMouseButtonDown(0))
         {
             Debug.Log("아직 물지 않았다.");
-            pCon.WaitingForBait(false);
+            passedTime = 0;
+            baitTime = 0;
+
+            makeR = false;
             pCon.Motion(true);
+            pCon.WaitingForBait(false);
         }
     }
 
     public void FishingMiniGame()
     {
-        pCon.WaitingForBait(false);
         pCon.Minigame(true);
+        pCon.WaitingForBait(false);
+        
 
         this.fishID = GetComponent<PlayerFishingManager>().GiveFishtoPlayerFishMiniGame();
         //Time.timeScale = 0f;
@@ -59,6 +81,7 @@ class PlayerFishingMinigame : MonoBehaviour //플레이어의 낚시 레벨, 사
     }
     public void EndFishing()
     {
+        Destroy(GetComponentInChildren<FishingMiniGame>().gameObject);
         pCon.Minigame(false);
         pCon.Motion(true);
     }

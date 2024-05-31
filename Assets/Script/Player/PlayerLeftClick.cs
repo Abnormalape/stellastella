@@ -66,7 +66,7 @@ class PlayerLeftClick : MonoBehaviour // swingTool ¹Ì¿Ï¼º, ¹°»Ñ¸®°³ ¹°ÃæÀü ¹Ì¿Ï¼
         }
         if (pCon.fishCharge) // ³¬½Ë´ë Â÷Â¡ Áß ÀÏ¶§¸¸
         {   //³¬½Ë´ë¸¦ Â÷Â¡ÇÏ°Å³ª ´øÁú¼ö ÀÖ´Ù.
-            if (Input.GetMouseButtonUp(0) && Input.GetMouseButton(0))
+            if (Input.GetMouseButtonUp(0) || Input.GetMouseButton(0))
             {
                 switch (currentData.toolType)
                 {
@@ -78,7 +78,7 @@ class PlayerLeftClick : MonoBehaviour // swingTool ¹Ì¿Ï¼º, ¹°»Ñ¸®°³ ¹°ÃæÀü ¹Ì¿Ï¼
         }
         if (pCon.charge) // Â÷Â¡ »óÅÂ¿¡¼­¸¸ Â÷Â¡°ú Å°¶¼Å°°¡ °¡´ÉÇÏ´Ù.
         {
-            if (Input.GetMouseButtonUp(0) && Input.GetMouseButton(0))
+            if (Input.GetMouseButtonUp(0) || Input.GetMouseButton(0))
             {
                 switch (currentData.toolType)
                 {
@@ -134,6 +134,7 @@ class PlayerLeftClick : MonoBehaviour // swingTool ¹Ì¿Ï¼º, ¹°»Ñ¸®°³ ¹°ÃæÀü ¹Ì¿Ï¼
         }
         else // ±× ¿Ü¿£ Â÷Â¡ ÈÄ, ¸ð¼Ç ÈÄ ÄÝ¶óÀÌ´õ »ý¼º
         {
+            pCon.Charge(true);
             MakeChargeColliderCharge();
         }
     }
@@ -151,6 +152,7 @@ class PlayerLeftClick : MonoBehaviour // swingTool ¹Ì¿Ï¼º, ¹°»Ñ¸®°³ ¹°ÃæÀü ¹Ì¿Ï¼
         }
         else
         {
+            pCon.Charge(true);
             MakeChargeColliderCharge();
         }
     }
@@ -175,7 +177,7 @@ class PlayerLeftClick : MonoBehaviour // swingTool ¹Ì¿Ï¼º, ¹°»Ñ¸®°³ ¹°ÃæÀü ¹Ì¿Ï¼
 
     void MakeChargeColliderCharge() // Â÷Â¡ - ±ªÀÌ ¹°»Ñ¸®°³
     { // µî±ÞÀÌ 2ÀÌ»óÀÌ¸é Å¬¸¯ÇÏ°Å³ª ´©¸£°í ÀÖÀ»¶§, Â÷Â¡ ½Ã°£ÀÌ °è»êµÇ¸ç, ¶ÃÀ»¶§ Á¶°Ç¿¡ ¸Â´Â Å©±âÀÇ ÄÝ¶óÀÌ´õ°¡ »ý¼ºµÈ´Ù.
-        pCon.Charge(true);
+        
 
         if (Input.GetMouseButton(0)) // ´©¸£°í ÀÖ´Âµ¿¾È ¾Æ·¡¸¦ ½ÇÇà
         {
@@ -208,14 +210,13 @@ class PlayerLeftClick : MonoBehaviour // swingTool ¹Ì¿Ï¼º, ¹°»Ñ¸®°³ ¹°ÃæÀü ¹Ì¿Ï¼
         }
         if (Input.GetMouseButtonUp(0)) // ¸¶¿ì½º¸¦ ¶¼¾úÀ»¶§ Act
         {
-            pCon.Charge(false);
-            pCon.Motion(true);
-
             chargeTime = 0f;
             //Invoke("MakeBoxCollider", 0.5f);
             //chargeTool = false;
             Invoke("StaminaUse", 0.3f); ;
             Invoke("MakeBoxCollider", 0.3f);
+            pCon.Charge(false);
+            pCon.Motion(true);
         }
     }
 
@@ -235,6 +236,7 @@ class PlayerLeftClick : MonoBehaviour // swingTool ¹Ì¿Ï¼º, ¹°»Ñ¸®°³ ¹°ÃæÀü ¹Ì¿Ï¼
         }
         if (Input.GetMouseButtonUp(0))
         {
+            Debug.Log("RodThrow");
             Invoke("MakeThrowColliderAct", 0.5f); // throwpower¿¡ ºñ·ÊÇØ ´øÁö´Â ½Ã°£ ±æ¾îÁü
         }
 
@@ -242,7 +244,6 @@ class PlayerLeftClick : MonoBehaviour // swingTool ¹Ì¿Ï¼º, ¹°»Ñ¸®°³ ¹°ÃæÀü ¹Ì¿Ï¼
     void MakeThrowColliderAct() // Â÷Â¡ ÈÄ, ¸ð¼Ç ÈÄ ÄÝ¶óÀÌ´õ »ý¼º - ³¬½Ë´ë
     {
         pCon.FishCharge(false);
-        pCon.WaitingForBait(true);
         StaminaUse();
         MakeBoxCollider();
         Invoke("ResetThrowColliderAct", 1.5f);

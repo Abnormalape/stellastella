@@ -48,7 +48,6 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         pCon = GetComponent<PlayerController>();
         PLClick = this.GetComponent<PlayerLeftClick>();
         MakePlayerInventory(); // 기본아이템을 생성한다
-        inventUI = transform.Find("InventoryUI").gameObject;
     }
     void Start()
     {
@@ -69,9 +68,9 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         HandItemMinus();
         OuterData();
     }
-    void ChangeInventory() // 인벤토리를 바꾸고 아이템을 선택, 도구 사용중일때는 예외
+    void ChangeInventory() // 인벤토리를 바꾸고 아이템을 선택.
     {
-        if (pCon.idle)
+        if (pCon.idle || pCon.moving)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1)) { currentInventory = 0; } // 만약 1번키를 누른다면 플레이어인벤[0]의 아이템ID가 현재 아이템이다. 그걸 1234567890-=로 반복한다.
             if (Input.GetKeyDown(KeyCode.Alpha2)) { currentInventory = 1; }
@@ -229,7 +228,8 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         return currentItemDB.type;
     }
     
-    GameObject inventUI;
+    GameObject inventroyUI;
+    GameObject inventroyBarUI;
     void OpenInventory()
     {
         if (pCon.moving || pCon.idle) // 움직이거나 정지해 있을때만 인벤토리를 열수 있다.
@@ -242,7 +242,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
                 // 인벤토리오브젝트.SetActive
                 // 인벤토리 오브젝트가 켜짐
 
-                inventUI.SetActive(true); // 플레이어한테 인벤토리 달아야함
+                inventroyUI.SetActive(true); // 플레이어한테 인벤토리 달아야함
             }
         }
         if (pCon.inventory)
@@ -251,21 +251,8 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
             {
                 pCon.Inventroy(false);
 
-                inventUI.SetActive(false);
+                inventroyUI.SetActive(false);
             }
-        }
-    }
-
-    void OffInvenUI()
-    {
-        GameObject aa = GameObject.Find("InventoryOffBackUI");
-        if (pCon.inventory)
-        {
-            aa.transform.position = new Vector3(aa.transform.position.x, aa.transform.position.y, -10000f);
-        }
-        else
-        {
-            aa.transform.position = new Vector3(aa.transform.position.x, aa.transform.position.y, 0f);
         }
     }
 }
