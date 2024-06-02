@@ -328,7 +328,7 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -336,6 +336,48 @@ TextureImporter:
       bones: []
       spriteID: 395cf69f0bc6e464ebbb931d1b260e40
       internalID: -1766561200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Energy
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1792
+        width: 12
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a373014fb429934181992183c134c35
+      internalID: -1510833704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Health
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 1792
+        width: 12
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcd83ead56a46b846a0e951cb98d58d1
+      internalID: 1532053993
       vertices: []
       indices: 
       edges: []
@@ -352,6 +394,8 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Cursors.ko-KR_0: 1330811667
+      Energy: -1510833704
+      Health: 1532053993
       OffInventoryBack: -1766561200
       inven1: 232360838
       inven2: -1059719847

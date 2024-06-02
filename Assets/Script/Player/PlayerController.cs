@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
     }
 
 
+
+
+    public bool firstBag { get; private set; } = true;
+    public bool secondBag { get; private set; } = true;
+
     void Update()
     {
         MakeIdleState();

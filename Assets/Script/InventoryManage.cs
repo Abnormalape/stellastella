@@ -30,11 +30,8 @@ class InventoryManage : MonoBehaviour
 
     void LoadInventory()
     {
-        for (int i = 0; i < 12; i++) // 추후에 36개로
+        for (int i = 0; i < pInven.inventSlots ; i++) // 추후에 36개로
         {
-            int j;
-            j = i / 12;
-
             inventoryUISlot[i] = transform.GetComponentsInChildren<InventorySlot>()[i].gameObject;
             if (inventoryUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
 
@@ -52,9 +49,6 @@ class InventoryManage : MonoBehaviour
         
         for (int i = 0; i < 12; i++)
         {
-            int j;
-            j = i / 12;
-
             inventoryUISlot[i] = GameObject.Find("InventoryBarUI").GetComponentsInChildren<OffInventorySlot>()[i].gameObject;
             if (inventoryUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
 

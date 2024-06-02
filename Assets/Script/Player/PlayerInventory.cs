@@ -20,9 +20,6 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 
     public int changeCount = 0;
 
-    bool firstbag = false;
-    bool secondbag = false;
-
     void MakePlayerInventory() // 시작할때 주는 도구 = 1회성
     {
         for (int i = 8; i < 36; i++)
@@ -62,6 +59,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     public int outerImportedCount;
     void Update()
     {
+        InvenSlotNumbers();
         ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
         InventoryItemData();
         UpdateCounts();
@@ -135,31 +133,45 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         AddFieldItem(collision);
     }
 
+    public int inventSlots { get; private set; } = 12;
+    void InvenSlotNumbers()
+    {
+        if (!pCon.firstBag && !pCon.secondBag)
+        {
+            inventSlots = 12;
+        }
+        else if (pCon.firstBag && !pCon.secondBag)
+        {
+            inventSlots = 24;
+        }
+        else if (pCon.firstBag && pCon.secondBag)
+        {
+            inventSlots = 36;
+        }
+    }
+
+
     public void AddFieldItem(Collider2D collision)
     {   //필드의 아이템을 먹는 메소드
+        
+
+
         if (collision.gameObject.tag == "FieldItem") // 충돌체가 아이템 이라면
         {
-            for (int i = 0; i < 36; i++) // 인벤토리를 훑어서
+            for (int i = 0; i < inventSlots ; i++) // 인벤토리를 훑어서
             {
-                if (collision.gameObject.GetComponent<FieldItem>().itemID == pInventory[i].itemID && collision.gameObject.GetComponent<FieldItem>().grade == pInventory[i].grade) // 같은 ID를 보유중인 인벤토리에
+                if (collision.GetComponent<FieldItem>().itemID == pInventory[i].itemID && 
+                    collision.GetComponent<FieldItem>().grade == pInventory[i].grade) // 같은 ID와 등급을 보유중인 인벤토리에
                 {
                     pInventory[i].itemCount += 1; // 카운트를 올리고
                     Destroy(collision.gameObject); // 그놈을 제거하고
                     return; // 메서드 종료
                 }
             }
-            for (int i = 0; i < 36; i++) // 일치가 하나도 안된다면
+            for (int i = 0; i < inventSlots; i++) // 일치가 하나도 안된다면
             {
                 if (pInventory[i].itemID == 0) // 인벤토리의 아이템 아이디가 비어있는곳을 찾아 (개인적으론 null쓰고싶긴한데)
                 {
-                    if (firstbag == false && i >= 12)
-                    {
-                        return;
-                    }
-                    else if (secondbag == false && i >= 24)
-                    {
-                        return;
-                    }
                     pInventory[i].itemID = collision.gameObject.GetComponent<FieldItem>().itemID; // 그 인벤토리의 아이템ID를 충돌체의 ID로 바꾸고
                     pInventory[i].grade = collision.gameObject.GetComponent<FieldItem>().grade; // 그 인벤토리의 아이템 등급을 충돌체의 등급으로 바꾸고
                     pInventory[i].itemCount += 1; // 카운트를 올린다 (0이었으니까)
@@ -167,38 +179,35 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
                     return; // 메서드 종료   
                 }
             }
+            //비어있지도 않고, 일치하는 것도 없으면, 인벤토리가 가득 찼다는 알림을 전송
             return; // 그냥 종료
         }
     }
 
     public void AddDirectItem(int itemID, int grade)
     {   //바로 인벤토리에 들어오는 메소드. 인벤토리가 꽉 찼을시, 교환창을 연다.
-        for (int i = 0; i < 36; i++)
+        for (int i = 0; i < inventSlots ; i++)
         {
-            if (itemID == pInventory[i].itemID && grade == pInventory[i].grade)
+            if (itemID == pInventory[i].itemID && 
+                grade == pInventory[i].grade)
             {
                 pInventory[i].itemCount += 1;
                 return; // 메서드 종료
             }
         }
+        // 검색된 값이 없다면 빈것을 찾아서
         for (int i = 0; i < 36; i++)
         {
             if (pInventory[i].itemID == 0)
             {
-                if (firstbag == false && i >= 12)
-                {
-                    return;
-                }
-                else if (secondbag == false && i >= 24)
-                {
-                    return;
-                }
                 pInventory[i].itemID = itemID;
                 pInventory[i].grade = grade;
                 pInventory[i].itemCount += 1;
                 return; // 메서드 종료   
             }
         }
+        //인벤토리에 검색되는 것도 없고 빈칸도 없다면
+        return;
     }
 
     void InventoryItemData()
@@ -227,7 +236,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     {   //현재 아이템의 타입을 반환
         return currentItemDB.type;
     }
-    
+
     GameObject inventroyUI;
     GameObject inventroyBarUI;
     void OpenInventory()
