@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     public int maxHp = 200;
     public int currentStamina = 200;
     public int currentHp = 200;
+    public int currentGold = 500;
+
+
 
     public bool exhaust;
     public bool dead;
@@ -18,6 +21,9 @@ public class PlayerController : MonoBehaviour
     public int farmLevel = 1;
 
     PlayerInventroy pInven;
+
+    //날짜가 지나면 금액정산, 레벨정산을 개인별로 실시한다.
+    //따라서 게임매니저는 하루가 종료되었다는 신호만 플레이어 에게 보낸다.
 
     private void Awake()
     {

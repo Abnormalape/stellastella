@@ -67,9 +67,10 @@ class PlayerRightClick : MonoBehaviour
         {
             HitBox.GetComponent<BoxCollider2D>().enabled = true;
         }
-        else if (Input.GetMouseButtonUp(1))
+        else if (Input.GetMouseButtonUp(1) || !Input.GetMouseButton(1))
         {
             HitBox.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
+
 }

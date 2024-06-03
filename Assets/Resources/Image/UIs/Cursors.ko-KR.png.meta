@@ -382,6 +382,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: SellBox
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 2016
+        width: 32
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e74c62a10366bf64ca7dacb62630ec05
+      internalID: 467135272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SellBox2
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 2005
+        width: 30
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 133608f67fa6c7b4d9252b6d76e2f70b
+      internalID: 1318145908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -397,6 +439,8 @@ TextureImporter:
       Energy: -1510833704
       Health: 1532053993
       OffInventoryBack: -1766561200
+      SellBox: 467135272
+      SellBox2: 1318145908
       inven1: 232360838
       inven2: -1059719847
       inven3: -119225175

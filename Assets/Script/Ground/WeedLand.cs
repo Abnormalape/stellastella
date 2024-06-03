@@ -58,7 +58,7 @@ public class WeedLand : MonoBehaviour
             if (transform.childCount == 0)
             {
                 int R = Random.Range(0, 100);
-                if (R >= 40)
+                if (R >= 80)
                 {
                     GameObject summonWeed;
                     int i = Random.Range(0, 2);
@@ -69,22 +69,21 @@ public class WeedLand : MonoBehaviour
                 return;
             }
         }
-        else if (currentDate !=  gameManager.currentDay)
-        {   // 나날이
-            currentDate = gameManager.currentDay;
-            if(transform.childCount == 0)
-            {
-                int R = Random.Range(0, 100);
-                if (R >= 90)
-                {
-                    GameObject summonWeed;
-                    int i = Random.Range(0, 2);
-                    if (i == 0) { summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i + 1}") as GameObject; }
-                    else { summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i + 1}") as GameObject; }
-                    Instantiate(summonWeed, this.transform.position, Quaternion.identity).transform.parent = this.transform;
-                }
-            }
-        }
-
+        //else if (currentDate !=  gameManager.currentDay)
+        //{   // 나날이
+        //    currentDate = gameManager.currentDay;
+        //    if(transform.childCount == 0)
+        //    {
+        //        int R = Random.Range(0, 100);
+        //        if (R >= 90)
+        //        {
+        //            GameObject summonWeed;
+        //            int i = Random.Range(0, 2);
+        //            if (i == 0) { summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i + 1}") as GameObject; }
+        //            else { summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i + 1}") as GameObject; }
+        //            Instantiate(summonWeed, this.transform.position, Quaternion.identity).transform.parent = this.transform;
+        //        }
+        //    }
+        //}
     }
 }

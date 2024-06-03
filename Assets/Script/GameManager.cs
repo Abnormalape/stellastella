@@ -16,8 +16,6 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
     public string ampm;
     public bool dayOff; // 날이 끝났음을 전달, 혹은 씬의 변경?
 
-
-
     // 돈 관리
     int gold;
     int goldEarn;
