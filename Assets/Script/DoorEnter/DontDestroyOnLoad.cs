@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 class DontDestroyOnLoad : MonoBehaviour
 {
     private static DontDestroyOnLoad instance = null;

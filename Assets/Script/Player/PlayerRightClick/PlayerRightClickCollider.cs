@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using Unity;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Scripting;
+﻿using UnityEngine;
 
 
 class PlayerRightClickCollider : MonoBehaviour

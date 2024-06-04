@@ -1,9 +1,4 @@
-﻿using System;
-using Unity;
-using static UnityEditor.Progress;
-
-
-class HarvestDB // 수확물의 데이터베이스.
+﻿class HarvestDB // 수확물의 데이터베이스.
 {
     int iD;
     public int items; // 종류수

@@ -1,6 +1,4 @@
-﻿using System;
-using Unity;
-class SeedDB // 하드 코딩
+﻿class SeedDB // 하드 코딩
 {
     public int maxLevle; //최대 성장단계
     public int maxDays;

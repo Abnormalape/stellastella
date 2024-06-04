@@ -1,7 +1,4 @@
-﻿using System;
-using Unity;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 

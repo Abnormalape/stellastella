@@ -3,6 +3,7 @@ public class WeedLand : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
     [SerializeField] GameObject[] weedPrefabs;
+    LandControl LandControl;
 
     [SerializeField] bool atFarm;
 
@@ -13,11 +14,13 @@ public class WeedLand : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         currentDate = gameManager.currentDay;
         currentMonth = gameManager.currentMonth;
+
+        //LandControl = GetComponent<LandControl>();
     }
 
     private void Update()
     {
-        if(atFarm == false)
+        if (atFarm == false)
         {
             OutSideFarm();
         }
@@ -25,7 +28,15 @@ public class WeedLand : MonoBehaviour
         {
             InSideFarm();
         }
+
+        //아직 summonWeed가 초기화 되지 않은 상태 이므로 LandControl에게 summonWeed를 저장하면 된다.
+
+        //if(summonWeed != null){
+        //LandControl.SummonedPrefab(summonWeed);}
     }
+
+    GameObject summonWeed;
+    public string prefabPath;
     public void OutSideFarm()
     {
         if (currentDate != gameManager.currentDay)
@@ -38,11 +49,17 @@ public class WeedLand : MonoBehaviour
                 int R = Random.Range(0, 100);
                 if (R >= 40)
                 {
-                    GameObject summonWeed;
-                    int i = Random.Range(0,2);
-                    if (i == 0){ summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i+1}") as GameObject; } 
-                    else { summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i+1}") as GameObject; } 
-                    Instantiate(summonWeed,this.transform.position,Quaternion.identity).transform.parent = this.transform;
+                    int i = Random.Range(0, 2);
+                    if (i == 0)
+                    {
+                        summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i + 1}") as GameObject;
+                    }
+                    else
+                    {
+                        summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i + 1}") as GameObject;
+                    }
+                    Instantiate(summonWeed, this.transform.position, Quaternion.identity).transform.parent = this.transform;
+                    prefabPath = $"Prefabs/Weedprefabs/Weed{i + 1}";
                 }
             }
         }
@@ -62,8 +79,16 @@ public class WeedLand : MonoBehaviour
                 {
                     GameObject summonWeed;
                     int i = Random.Range(0, 2);
-                    if (i == 0) { summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i + 1}") as GameObject; }
-                    else { summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i + 1}") as GameObject; }
+                    if (i == 0)
+                    {
+                        summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i + 1}") as GameObject;
+                        prefabPath = $"Prefabs/Weedprefabs/Weed{i + 1}";
+                    }
+                    else
+                    {
+                        summonWeed = Resources.Load($"Prefabs/Weedprefabs/Weed{i + 1}") as GameObject;
+                        prefabPath = $"Prefabs/Weedprefabs/Weed{i + 1}";
+                    }
                     Instantiate(summonWeed, this.transform.position, Quaternion.identity).transform.parent = this.transform;
                 }
                 return;
@@ -86,4 +111,14 @@ public class WeedLand : MonoBehaviour
         //    }
         //}
     }
+
+
+
+    //public LandData GetLandData()
+    //{
+    //    LandData data = new LandData();
+    //    data.prefabPath = prefabPath;
+
+    //    return data;
+    //}
 }

@@ -1,4 +1,3 @@
-using UnityEditor.SearchService;
 using UnityEngine;
 using Random = UnityEngine.Random;
 public class StoneLand : MonoBehaviour // Á¶°Ç¿¡ µû¶ó ±¤¼® ÀÚ½Ä ¿ÀºêÁ§Æ®¸¦ »ı¼ºÇÑ´Ù.
@@ -11,6 +10,8 @@ public class StoneLand : MonoBehaviour // Á¶°Ç¿¡ µû¶ó ±¤¼® ÀÚ½Ä ¿ÀºêÁ§Æ®¸¦ »ı¼ºÇ
 
     [SerializeField] int currentDate;
     [SerializeField] int currentMonth;
+
+    public string prefabPath;
     private void Awake() // °ÔÀÓ ½ÃÀÛÇÒ ¶§ ÃÊ±âÈ­
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -50,13 +51,17 @@ public class StoneLand : MonoBehaviour // Á¶°Ç¿¡ µû¶ó ±¤¼® ÀÚ½Ä ¿ÀºêÁ§Æ®¸¦ »ı¼ºÇ
                 int i = Random.Range(0, 100);
                 if (i >= 90) // 10%ÀÇ È®·ü·Î
                 {
-                    int j = Random.Range(0, 100);
-                    if (j >= 50) { Instantiate(Resources.Load($"Prefabs/FieldStone/FieldStone1") as GameObject, this.transform.position, Quaternion.identity).transform.parent = this.transform; }
-                    else { Instantiate(Resources.Load($"Prefabs/FieldStone/FieldStone2") as GameObject, this.transform.position, Quaternion.identity).transform.parent = this.transform; }
+                    int j = Random.Range(0, 2);
+                    if (j >= 1) { Instantiate(Resources.Load($"Prefabs/FieldStone/FieldStone{j+1}") as GameObject, this.transform.position, Quaternion.identity).transform.parent = this.transform; }
+                    else { Instantiate(Resources.Load($"Prefabs/FieldStone/FieldStone{j+1}") as GameObject, this.transform.position, Quaternion.identity).transform.parent = this.transform; }
+
+                    prefabPath = $"Prefabs/FieldStone/FieldStone{j+1}";
                 }
             }
             currentMonth = gameManager.currentMonth;
-        }
+
+            
+}
         else if (transform.childCount > 0) // LandController¿¡ ÀÚ½ÄÀÌ ÀÖ´Ù¸é
         {
             // ÀÚ½Ä ¿ÀºêÁ§Æ®°¡ °¡Áø Component¸¦ ÆÇ´ÜÇØ¼­ ´ë½Å ³ª¸¦ ¼ÒÈ¯ÇÑ´Ù

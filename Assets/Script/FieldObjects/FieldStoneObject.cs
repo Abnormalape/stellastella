@@ -1,10 +1,5 @@
-﻿using System;
-using Unity;
-using UnityEditor;
-using UnityEngine;
-using Unity.VisualScripting;
+﻿using UnityEngine;
 using Unity.Mathematics;
-using Unity.Properties;
 
 class FieldStoneObject : MonoBehaviour
 { //필드에 존재하는 나무의 속성을 만든다.

@@ -1,6 +1,4 @@
-﻿using System;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 class FishingMiniGame : MonoBehaviour // FishGrade미완성
 {
     [SerializeField]public int fishID;

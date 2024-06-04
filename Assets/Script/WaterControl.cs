@@ -1,7 +1,4 @@
-using Unity;
-using System;
 using UnityEngine;
-using Unity.VisualScripting;
 
 class WaterControl : MonoBehaviour
 {/* 나중에 다시 돌아오마

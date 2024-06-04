@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net.Sockets;
-using System.Xml.Serialization;
-using Unity.Properties;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 class TreasureLand : MonoBehaviour
 {   // 보물이 있는가 없는가만 판정.

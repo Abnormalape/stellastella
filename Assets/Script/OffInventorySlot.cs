@@ -1,8 +1,5 @@
 ﻿using System;
-using Unity;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 
 class OffInventorySlot : MonoBehaviour

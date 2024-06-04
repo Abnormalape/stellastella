@@ -1,7 +1,4 @@
-﻿using System;
-using Unity;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 class MyPlayerCursor : MonoBehaviour
 {

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7095378594250437853}
   - component: {fileID: 375312300704003819}
+  - component: {fileID: 2939300362027334163}
   m_Layer: 0
   m_Name: TreeLand
   m_TagString: Untagged
@@ -47,4 +48,17 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   myTreePrefab: {fileID: 6535852047778970605, guid: 5795964bb0492c043b87ae224885914e, type: 3}
   treePrefabs: []
+  prefabPath: 
   AtFarm: 0
+--- !u!114 &2939300362027334163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4271077337736765095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df68ce773a7e8ed4597da696c0a934e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
@@ -7,20 +6,36 @@ class Entrance : MonoBehaviour
 {
     [SerializeField] Vector3 GoingTo;
     [SerializeField] string GoingScene;
+    string currentSceneName;
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void Awake()
     {
-        TransformPlayer(collision);
+        currentSceneName = SceneManager.GetActiveScene().name;
     }
 
-    void TransformPlayer(Collider2D collision)
+    Collider2D collisionn;
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && collision != null)
-        {   //우클릭과 접촉했는데, 그 부모에 플레이어 컨트롤러가 있다면.
-            //문이 가진 씬의 좌표로 플레이어를 전송한다.
-            SceneManager.LoadScene(GoingScene);
-            collision.transform.position = GoingTo;
+        collisionn = collision;
+        if (collisionn.tag == "Player" && collisionn != null)
+        {   //플레이어와 접촉했다면.
+            //입구가 가진 씬의 좌표로 플레이어를 전송한다.
+
+            if (currentSceneName == "Farm")
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().SaveLandData();
+            }
+
+            Invoke("TransformPlayer", 0.5f);
         }
+    }
+
+    void TransformPlayer()
+    {
+        SceneManager.LoadScene(GoingScene);
+        collisionn.transform.position = GoingTo;
+        collisionn = null;
     }
 }

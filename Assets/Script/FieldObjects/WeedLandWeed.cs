@@ -10,6 +10,7 @@ class WeedLandWeed : MonoBehaviour
     [SerializeField] PlayerInventroy playerInventroy;
     ItemDB itemDB;
     ItemDB onHandItem;
+
     void FieldStickSetting() // 오브젝트의 요소들을 생성한다
     {
         itemDB = new ItemDB(WeedItemID);
@@ -22,15 +23,7 @@ class WeedLandWeed : MonoBehaviour
         FieldStickSetting();
         dropItemPrefab = Resources.Load($"Prefabs/FieldItems/{weedName}") as GameObject;
     }
-    private void Start()
-    {
-
-    }
-    private void Update() 
-    {
-        
-    }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "LeftClick" && collision.transform.parent.tag == "Player")
@@ -38,8 +31,8 @@ class WeedLandWeed : MonoBehaviour
             playerInventroy = collision.GetComponentInParent<PlayerInventroy>();
             onHandItem = new ItemDB(playerInventroy.currentInventoryItem);
             onHandItem.itemSetting();
-            //도끼 일때
-            if (onHandItem.toolType == 1 && onHandItem.toolType == 2 && onHandItem.toolType == 4 && onHandItem.toolType == 5)
+            
+            if (onHandItem.toolType == 1 || onHandItem.toolType == 2 || onHandItem.toolType == 4 || onHandItem.toolType == 5)
             {
                 dropItem();
             }

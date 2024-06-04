@@ -1,14 +1,10 @@
-using System;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static UnityEditor.PlayerSettings;
-using static UnityEditor.Progress;
 using Random = UnityEngine.Random;
-public class FarmLand : MonoBehaviour   // 다른 Land들은 자식오브젝트가 없을 때 프리팹을 자식 오브젝트로 만든다
-                                        // 얘의 기능은 농장외부에선 보물 프리팹은 만드는 역할이고
-                                        // 괭이질을 받으면, 자신의 스프라이트를 변경하고 작물 스프라이트를 만드는 FarmLandControl을 만든다
-                                        // 얘는 자신이 속한 GameObject가 자식 오브젝트가 없을때, 괭이질을 하면 경작지 프리팹을 자식오브젝트에 만드는 기능을 한다.
+public class FarmLand : MonoBehaviour
+    // 다른 Land들은 자식오브젝트가 없을 때 프리팹을 자식 오브젝트로 만든다
+    // 얘의 기능은 농장외부에선 보물 프리팹은 만드는 역할이고
+    // 괭이질을 받으면, 자신의 스프라이트를 변경하고 작물 스프라이트를 만드는 FarmLandControl을 만든다
+    // 얘는 자신이 속한 GameObject가 자식 오브젝트가 없을때, 괭이질을 하면 경작지 프리팹을 자식오브젝트에 만드는 기능을 한다.
 {
     ItemDB itemDB;
     [SerializeField] GameManager gameManager;
@@ -26,6 +22,7 @@ public class FarmLand : MonoBehaviour   // 다른 Land들은 자식오브젝트가 없을 때 
     [SerializeField] bool leftDigged = false;
     [SerializeField] bool rightDigged = false;
 
+    public string prefabPath;
     private void Awake() // 게임 시작할 때 초기화
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -66,6 +63,7 @@ public class FarmLand : MonoBehaviour   // 다른 Land들은 자식오브젝트가 없을 때 
                     currentDate = gameManager.currentDay;
                     // 경작지 프리팹을 만들어서 그놈의 부모를 나와 같게하라.
                     GameObject.Instantiate(Resources.Load($"Prefabs/LandPrefabs/FarmLandController") as GameObject, this.transform.position, Quaternion.identity).transform.parent = this.transform;
+                    prefabPath = $"Prefabs/LandPrefabs/FarmLandController";
                     // 경작지 프리팹은 FarmLnadControl을 가지는 게임 오브젝트이다.
                 }
             }

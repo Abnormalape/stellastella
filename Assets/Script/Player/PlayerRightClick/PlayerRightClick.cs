@@ -1,9 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Unity;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 class PlayerRightClick : MonoBehaviour
 // 얘를 플레이어 컨트롤에 넣고, 툴타입을 받아온다

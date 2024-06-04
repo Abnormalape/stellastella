@@ -1,6 +1,4 @@
-﻿using System;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 class MovingFish : MonoBehaviour
 {

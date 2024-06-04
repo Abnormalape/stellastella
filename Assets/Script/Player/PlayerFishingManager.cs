@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 class PlayerFishingManager : MonoBehaviour
 {   //게임 매니져랑 연계해서 날씨 계절 시간에 맞게 물고기ID를 발행해 PlayerFishingMinigame에 전달하는 역할

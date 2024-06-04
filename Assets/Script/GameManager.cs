@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 대부분의 오브젝트가 얘를 참조한다
                                             // 추가로 1회만 획득 가능한 별방울, 해골열쇠, 가방등의 자료도 얘가 받는다.
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
     public int currentMinute; // 1min real = 1hour
     public string ampm;
     public bool dayOff; // 날이 끝났음을 전달, 혹은 씬의 변경?
+
+
 
     // 돈 관리
     int gold;
@@ -41,12 +44,15 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
         currentMinute = 0;
         ampm = "AM";
         dayOff = false;
-        // 인벤토리 호출 및 비활성화
+        currentSceneName = SceneManager.GetActiveScene().name;
     }
+
 
 
     private void Update()
     {
+        Debug.Log(currentSceneName);
+
         dayTimePassed = dayTimePassed + Time.deltaTime;
 
         // 시간경과 체크
@@ -59,6 +65,8 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
 
         // 골드관리, 다른오브젝트가 직접적으로 gold를 쓰지 않고 goldearn을 통해 관리: 근데 이거 의미 있나?
         if (goldEarn != 0) { gold += goldEarn; goldEarn = 0; } // 이벤트화 요소
+
+        WhenSceneChanged();
     }
     void UpdateTime()
     {
@@ -156,8 +164,173 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
     }
 
 
+
+
     // 인벤토리 관리
     GameObject inventory;
     public bool isInventoryOn { get; private set; }
     PlayerLeftClick playerLeftClick;
+
+
+
+    //씬이 변경되기 전에 각 개체의 데이터를 저장해야 한다.
+    LandData[] landData;
+    LandControl[] landControls;
+    void InitializeLandUnitList()
+    {
+        landControls = FindObjectsOfType<LandControl>();
+    }
+
+
+    public void SaveLandData()
+    {   //LandController를 가진 object들을 로드.
+        InitializeLandUnitList();
+        landData = new LandData[landControls.Length]; //LandData를 생성
+
+        //목록을 생성해서.
+        if (landControls == null)
+        {
+            return;
+        }
+        else if (landControls.Length > 0)
+        {   //목록의 갯수가 1개 이상이라면.
+            //각 LandData에 LandUnitList.get
+
+            for (int i = 0; i < landControls.Length; i++)
+            {
+                landData[i] = new LandData();
+                landData[i].LandCode = landControls[i].thislandcode;
+                landData[i].landType = landControls[i].landType;
+
+                if (landData[i].landType == LandType.Empty) { }
+
+                else if (landData[i].landType == LandType.Weed ||
+                         landData[i].landType == LandType.Stone ||
+                         landData[i].landType == LandType.Stick)
+                {
+                    landData[i].prefabPath = landControls[i].prefabPath;
+                    landData[i].currentHP = landControls[i].currentHP;
+                }
+                else if (landData[i].landType == LandType.Tree)
+                {
+                    landData[i].prefabPath = landControls[i].prefabPath;
+                    landData[i].currentHP = landControls[i].currentHP;
+                    landData[i].level = landControls[i].level;
+                }
+                else if (landData[i].landType == LandType.Farm)
+                {
+                    landData[i].prefabPath = landControls[i].prefabPath;
+                    landData[i].currentHP = landControls[i].currentHP;
+                    landData[i].digged = landControls[i].digged;
+                    landData[i].watered = landControls[i].watered;
+                    landData[i].seeded = landControls[i].seeded;
+                    if (landData[i].seeded)
+                    {
+                        landData[i].prefabPath_Crop = landControls[i].prefabPath_Crop;
+                        landData[i].days = landControls[i].days;
+                    }
+                }
+            }
+        }
+    } // 씬이 Farm에서 변경 될 때
+
+    public void LoadLandData()
+    {   //LandController를 가진 object들을 로드.
+        InitializeLandUnitList();
+
+
+        if (landData == null)
+        {
+            return;
+        }
+        else if (landControls.Length > 0)
+        {   //목록의 갯수가 1개 이상이라면.
+            //각 LandUnitList에 자식오브젝트를 생성 및, 자식오브젝트의 설정 변경.
+            for (int i = 0; i < landControls.Length; i++)
+            {
+                for(int k = 0; k < landControls.Length; k++)
+                {
+                    if (landData[i].LandCode == landControls[k].thislandcode) //i번째 저장된 코드와, 훑고있는 오브젝트의 코드가 같다면
+                    {   //k번째 오브젝트에 i번째 데이터를 삽입한다.
+                        landControls[k].landType = landData[i].landType;    // 해당 LandController의 타입을 변경
+                        if (landData[i].landType == LandType.Empty) { }     // empty일 경우의 행동.
+                        else if (landData[i].landType == LandType.Weed ||   // 잡초, 나뭇가지, 막대기의 경우.
+                                 landData[i].landType == LandType.Stone ||
+                                 landData[i].landType == LandType.Stick)
+                        {
+                            GameObject child = Resources.Load(landData[i].prefabPath) as GameObject;//경로의 프리팹을 child라고 이름 붙여서 생성하는데.
+                            Instantiate(child, landControls[k].transform.position, Quaternion.identity).transform.parent = landControls[k].transform;//landcontroller의 자식으로 배정한다.
+                                                                                                                                                     //사실 체력을 배정해야 하긴 하나, 어차피 생성되면서 체력이 1로 초기화 되기 때문에 생략한다.
+                        }
+                        else if (landData[i].landType == LandType.Tree)     // 나무일 경우.
+                        {
+                            GameObject child = Resources.Load(landData[i].prefabPath) as GameObject;
+                            Instantiate(child, landControls[k].transform.position, Quaternion.identity).transform.parent = landControls[k].transform;
+                            // 이후 생성된 자식 오브젝트의 속성(체력과 성장단계)을 변경한다. 이 경우에는 FieldTreeLand 이다.
+                            FieldTreeLand fieldTreeLand = landControls[k].GetComponentInChildren<FieldTreeLand>();
+                            fieldTreeLand.hp = landData[i].currentHP;
+                            fieldTreeLand.currentLevel = landData[i].level;
+                        }
+                        else if (landData[i].landType == LandType.Farm)     // 농경지일 경우.
+                        {
+                            GameObject child = Resources.Load(landData[i].prefabPath) as GameObject;
+                            Instantiate(child, landControls[k].transform.position, Quaternion.identity).transform.parent = landControls[k].transform;
+                            //생성된 자식 오브젝트의 속성(경작여부, 관개여부, 파종여부, 파종종류(프리팹), 성장단계)을 변경한다. 이 경우에는 farmlandcontrol 과 cropcontrol이다.
+                            FarmLandControl farmLandControl = landControls[k].GetComponentInChildren<FarmLandControl>();
+                            landControls[k].GetComponent<FarmLand>().digged = landData[i].digged;
+                            farmLandControl.watered = landData[i].watered;
+                            farmLandControl.seeded = landData[i].seeded;
+                            if (landData[i].seeded)
+                            {
+                                GameObject grandChild = Resources.Load(landData[i].prefabPath_Crop) as GameObject;
+                                Instantiate(grandChild, landControls[k].transform.position, Quaternion.identity).transform.parent = landControls[k].transform.GetChild(0).transform;
+                                CropControl cropControl = landControls[k].transform.GetChild(0).GetComponentInChildren<CropControl>();
+                                landControls[k].days = landData[i].days;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } // 씬이 Farm으로 변경 될 때
+
+    string currentSceneName;
+    private void WhenSceneChanged()
+    {
+        if (currentSceneName != SceneManager.GetActiveScene().name)
+        {
+            if (SceneManager.GetActiveScene().name == "Farm")
+            {
+                LoadLandData();
+            }
+            currentSceneName = SceneManager.GetActiveScene().name;
+        }
+    }
+}
+
+public class LandData
+{
+    public int LandCode;
+
+    public string prefabPath;
+    public string prefabPath_Crop;
+    public LandType landType;
+    public int currentHP;
+    public int level;
+    public int days;
+    public bool digged;
+    public bool watered;
+    public bool seeded;
+    public LandData()
+    {
+        //prefabPath = string.Empty;
+        //prefabPath_Crop = string.Empty;
+        //landType = LandType.Empty;
+        //currentHP = 1;
+        //level = 0;
+        //days = 0;
+        //digged = false;
+        //watered = false;
+        //seeded = false;
+    }
 }

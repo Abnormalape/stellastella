@@ -1,6 +1,3 @@
-using System;
-using Unity;
-using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 class ItemDrop : MonoBehaviour

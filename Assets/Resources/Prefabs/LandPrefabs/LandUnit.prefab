@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 9004185742432791039}
   - component: {fileID: 8169588568137953013}
   - component: {fileID: 2454366685895714043}
+  - component: {fileID: 7390167380936433679}
   m_Layer: 7
   m_Name: LandUnit
   m_TagString: FarmLand
@@ -197,6 +198,7 @@ MonoBehaviour:
   downDigged: 0
   leftDigged: 0
   rightDigged: 0
+  prefabPath: 
 --- !u!114 &9004185742432791039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +217,7 @@ MonoBehaviour:
   makeStone: 1
   currentDate: 0
   currentMonth: 0
+  prefabPath: 
 --- !u!114 &8169588568137953013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +233,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   myTreePrefab: {fileID: 0}
   treePrefabs: []
+  prefabPath: 
   AtFarm: 1
 --- !u!114 &2454366685895714043
 MonoBehaviour:
@@ -248,3 +252,25 @@ MonoBehaviour:
   atFarm: 1
   currentDate: 0
   currentMonth: 0
+  prefabPath: 
+--- !u!114 &7390167380936433679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8064248480643093365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df68ce773a7e8ed4597da696c0a934e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabPath: 
+  prefabPath_Crop: 
+  landType: 0
+  currentHP: 0
+  level: 0
+  days: 0
+  digged: 0
+  watered: 0
+  seeded: 0

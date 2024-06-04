@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2033182771594998114}
   - component: {fileID: 5768244533190082038}
   - component: {fileID: 5545189771890624106}
-  - component: {fileID: 1575019399558959015}
+  - component: {fileID: 5174084980699565213}
   m_Layer: 3
   m_Name: Weed1
   m_TagString: Untagged
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1575019399558959015
+--- !u!114 &5174084980699565213
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,8 +140,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6565544058500274232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5c82490dcc125341b1aad2b04476153, type: 3}
+  m_Script: {fileID: 11500000, guid: a02ebf811a73f8a4298b570acdac3b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldStickItemID: 301
+  WeedItemID: 301
   playerInventroy: {fileID: 0}

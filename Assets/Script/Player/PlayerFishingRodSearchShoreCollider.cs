@@ -1,9 +1,4 @@
-﻿using System;
-using System.Drawing;
-using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
-using UnityEngine;
-using UnityEngine.Tilemaps;
+﻿using UnityEngine;
 
 
 class PlayerFishingRodSearchShoreCollider : MonoBehaviour

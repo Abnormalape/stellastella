@@ -31416,7 +31416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GoingTo: {x: 10.5, y: 10.5, z: 0}
-  GoingSnece: InsideHouse
+  GoingScene: InsideHouse
 --- !u!1001 &1091900427
 PrefabInstance:
   m_ObjectHideFlags: 0

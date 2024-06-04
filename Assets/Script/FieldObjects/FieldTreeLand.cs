@@ -1,9 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using Unity;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 //각 성장 상태 별로 별개의 개체라는 사실을 인지해야 했으나 일단은 그냥 진행함
@@ -14,7 +9,7 @@ class FieldTreeLand : MonoBehaviour
     [SerializeField] int fieldTreeObjectID;
     FieldTreeObjectDb thisTree;
     
-    [SerializeField] int hp;
+    [SerializeField] public int hp;
 
     int currentDay;
     int currentMonth;

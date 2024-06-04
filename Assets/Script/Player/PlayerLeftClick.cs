@@ -1,10 +1,4 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Unity;
-using Unity.VisualScripting;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 class PlayerLeftClick : MonoBehaviour // swingTool 미완성, 물뿌리개 물충전 미완성
 {

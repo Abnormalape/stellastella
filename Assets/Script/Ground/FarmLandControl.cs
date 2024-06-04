@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using Unity;
-using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가는 클래스, 이미 갈린상태
@@ -23,7 +19,7 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
 
     [SerializeField] // 씨앗심기를 관리하는 bool
     bool atFarm = true;
-
+    
     SpriteRenderer spriteRenderer;
     [SerializeField]
     Sprite[] wateredGround = new Sprite[16];
@@ -56,6 +52,7 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
         { seeded = false; }
     }
 
+    public string prefabPath;
     private void OnTriggerEnter2D(Collider2D collision)
     {   //충돌이 일어 났다
         if (collision.tag == "RightClick")
@@ -73,6 +70,7 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
                     Instantiate((GameObject)Resources.Load($"Prefabs/CropPrefabs/{seedName}"), this.transform.position, Quaternion.identity).transform.parent = this.transform;
                     //내가 가진 아이템 ID와 맞는 프리팹을 만들어서 그놈의 부모를 나로 만들어라.
                     seeded = true;
+                    prefabPath = $"Prefabs/CropPrefabs/{seedName}";
                 }
             }
             else if (itemDB.type == "비료") //플레이어 손에 비료가 있다.

@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public int currentHp = 200;
     public int currentGold = 500;
 
-
+    public UnityEvent asdf;
 
     public bool exhaust;
     public bool dead;

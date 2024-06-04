@@ -1,7 +1,3 @@
-using Unity;
-using System;
-using static UnityEditor.Progress;
-
 class SlimeDB : MonsterData
 { 
     public SlimeDB(string slimename)

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 class MovingFishingBar : MonoBehaviour
 {   //얘는 2D물리 적용되게 할거라 큰 신경 X.
     Rigidbody2D rb;

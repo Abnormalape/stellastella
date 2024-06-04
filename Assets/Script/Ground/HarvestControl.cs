@@ -1,7 +1,4 @@
-﻿using System;
-using Unity;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브젝트의 스크립트, 중요)ID로 아이템을 생성한다

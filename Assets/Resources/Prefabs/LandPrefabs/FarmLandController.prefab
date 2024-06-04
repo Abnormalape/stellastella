@@ -53,6 +53,7 @@ MonoBehaviour:
   downWatered: 0
   leftWatered: 0
   rightWatered: 0
+  seedName: 
   seeded: 0
   atFarm: 1
   wateredGround:
@@ -72,6 +73,7 @@ MonoBehaviour:
   - {fileID: 523914016, guid: 2e591cc57a22967488b59b07fa3d9f30, type: 3}
   - {fileID: -740126020, guid: 2e591cc57a22967488b59b07fa3d9f30, type: 3}
   - {fileID: 1262585175, guid: 2e591cc57a22967488b59b07fa3d9f30, type: 3}
+  prefabPath: 
 --- !u!61 &-2872159391814208622
 BoxCollider2D:
   m_ObjectHideFlags: 0

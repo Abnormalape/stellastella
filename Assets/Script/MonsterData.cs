@@ -1,6 +1,3 @@
-using Unity;
-using System;
-
 class MonsterData
 {
     public int hp;

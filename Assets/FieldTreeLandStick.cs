@@ -23,14 +23,7 @@ class FieldTreeLandStick : MonoBehaviour
         FieldStickSetting();
         dropItemPrefab = Resources.Load($"Prefabs/FieldItems/{stickName}") as GameObject;
     }
-    private void Start()
-    {
-
-    }
-    private void Update() //플레이어가 특정조건을 만족시켰을때 반응해야한다.
-    {
-        
-    }
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
