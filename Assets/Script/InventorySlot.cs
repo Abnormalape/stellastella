@@ -9,6 +9,7 @@ class InventorySlot : MonoBehaviour
     public int inventoryitemcount;
     public int thisInvenToryNumber;// 이 인벤토리의 번호 (0~35)
     GameObject mouseCursor;
+    
 
     PlayerInventroy playerInventroy;
 
@@ -21,7 +22,41 @@ class InventorySlot : MonoBehaviour
     {
         inventoryitemDB = new ItemDB(inventoryitemID);
         inventoryitemDB.itemSetting();
+        ImageSetting(inventoryitemDB.name);
     }
+
+    public void ImageSetting(string itemName)
+    {   //경로에서 주어진 이름과 같은 이름의 이미지를 자식 오브젝트의 이미지에 넣어라.
+
+        if (SpriteManager.Instance.GetSprite(itemName) != null)
+        {
+            transform.GetChild(1).GetComponent<Image>().sprite = SpriteManager.Instance.GetSprite(itemName);
+            transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        }
+        else
+        {
+            transform.GetChild(1).GetComponent<Image>().sprite = null;
+            transform.GetChild(1).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        }
+
+        //Debug.Log(Resources.Load($"Image/ItemImage/Stone"));
+        //if (Resources.Load($"Image/ItemImage/{itemName}") != null && transform.GetChild(1).GetComponent<Image>() != null)
+        //{
+        //    Image itemsprite = Resources.Load($"Image/ItemImage/{itemName}") as Image;
+        //    transform.GetChild(1).GetComponent<Image>().sprite = itemsprite.sprite;
+        //    Debug.Log("이미지 설정 성공");
+        //}
+        //else if(transform.childCount == 1)
+        //{
+            
+        //}
+        //else
+        //{
+        //    Debug.Log("이미지 설정 실패");
+        //}
+    }
+
+
     public void ClickSlot()
     {
         if (mouseCursor.GetComponent<MyPlayerCursor>().itemOnHand == false)

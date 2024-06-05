@@ -18,16 +18,14 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
     public bool harvested;
     bool onceharvested = false;
 
-    public int days = 0; // 초기 day는 0
-    int levle;
+    public int days; // 초기 day는 0
+    int level;
 
     [SerializeField] GameObject harvestControl; //수확을 가능하게 하는 게임오브젝트
 
 
     private void OnEnable()
     {
-        days = 0;
-
         seedDB = new SeedDB(seedID);
         thisSR = this.GetComponent<SpriteRenderer>();
 
@@ -50,10 +48,10 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
         {
             Destroy(this.gameObject);
         }
-
         UpdateDate();
         UpdateLevel();
         UpdateSprite();
+        
     }
     void UpdateDate()
     {
@@ -92,15 +90,15 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
     {
         if (days == 0)
         {
-            levle = 0;
+            level = 0;
         }
         else if (days == 1)
         {
-            levle = 1;
+            level = 1;
         }
         else if (days == maxDay)
         {
-            levle = maxLevel;
+            level = maxLevel;
         }
         else
         {
@@ -108,7 +106,7 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
             {
                 if (days <= (maxDay * i) / maxLevel)
                 {
-                    levle = i;
+                    level = i;
                     return;
                 }
             }
@@ -132,7 +130,7 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
             }
             else
             {
-                thisSR.sprite = sprites[levle]; // 현재 레벨의 스프라이트로 변경
+                thisSR.sprite = sprites[level]; // 현재 레벨의 스프라이트로 변경
             }
         }
         else if (seedDB.reGather == true) 
@@ -153,7 +151,7 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
                 }
                 else
                 {
-                    thisSR.sprite = sprites[levle]; // 현재 레벨의 스프라이트로 변경
+                    thisSR.sprite = sprites[level]; // 현재 레벨의 스프라이트로 변경
                 }
             }
             else if (onceharvested == true)

@@ -51,8 +51,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
     private void Update()
     {
-        Debug.Log(currentSceneName);
-
         dayTimePassed = dayTimePassed + Time.deltaTime;
 
         // ½Ã°£°æ°ú Ã¼Å©
@@ -185,8 +183,8 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     public void SaveLandData()
     {   //LandController¸¦ °¡Áø objectµéÀ» ·Îµå.
         InitializeLandUnitList();
-        landData = new LandData[landControls.Length]; //LandData¸¦ »ý¼º
 
+        landData = new LandData[landControls.Length]; //LandData¸¦ »ý¼º
         //¸ñ·ÏÀ» »ý¼ºÇØ¼­.
         if (landControls == null)
         {
@@ -199,7 +197,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
             for (int i = 0; i < landControls.Length; i++)
             {
                 landData[i] = new LandData();
-                landData[i].LandCode = landControls[i].thislandcode;
                 landData[i].landType = landControls[i].landType;
 
                 if (landData[i].landType == LandType.Empty) { }
@@ -230,6 +227,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                         landData[i].days = landControls[i].days;
                     }
                 }
+                landData[i].savePosition = landControls[i].savePosition;
             }
         }
     } // ¾ÀÀÌ Farm¿¡¼­ º¯°æ µÉ ¶§
@@ -237,7 +235,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     public void LoadLandData()
     {   //LandController¸¦ °¡Áø objectµéÀ» ·Îµå.
         InitializeLandUnitList();
-
 
         if (landData == null)
         {
@@ -248,46 +245,46 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
             //°¢ LandUnitList¿¡ ÀÚ½Ä¿ÀºêÁ§Æ®¸¦ »ý¼º ¹×, ÀÚ½Ä¿ÀºêÁ§Æ®ÀÇ ¼³Á¤ º¯°æ.
             for (int i = 0; i < landControls.Length; i++)
             {
-                for(int k = 0; k < landControls.Length; k++)
+                landControls[i].transform.position = landData[i].savePosition;
+
+                landControls[i].landType = landData[i].landType;    // ÇØ´ç LandControllerÀÇ Å¸ÀÔÀ» º¯°æ
+                if (landData[i].landType == LandType.Empty) { }     // emptyÀÏ °æ¿ìÀÇ Çàµ¿.
+                else if (landData[i].landType == LandType.Weed ||   // ÀâÃÊ, ³ª¹µ°¡Áö, ¸·´ë±âÀÇ °æ¿ì.
+                         landData[i].landType == LandType.Stone ||
+                         landData[i].landType == LandType.Stick)
                 {
-                    if (landData[i].LandCode == landControls[k].thislandcode) //i¹øÂ° ÀúÀåµÈ ÄÚµå¿Í, ÈÈ°íÀÖ´Â ¿ÀºêÁ§Æ®ÀÇ ÄÚµå°¡ °°´Ù¸é
-                    {   //k¹øÂ° ¿ÀºêÁ§Æ®¿¡ i¹øÂ° µ¥ÀÌÅÍ¸¦ »ðÀÔÇÑ´Ù.
-                        landControls[k].landType = landData[i].landType;    // ÇØ´ç LandControllerÀÇ Å¸ÀÔÀ» º¯°æ
-                        if (landData[i].landType == LandType.Empty) { }     // emptyÀÏ °æ¿ìÀÇ Çàµ¿.
-                        else if (landData[i].landType == LandType.Weed ||   // ÀâÃÊ, ³ª¹µ°¡Áö, ¸·´ë±âÀÇ °æ¿ì.
-                                 landData[i].landType == LandType.Stone ||
-                                 landData[i].landType == LandType.Stick)
-                        {
-                            GameObject child = Resources.Load(landData[i].prefabPath) as GameObject;//°æ·ÎÀÇ ÇÁ¸®ÆÕÀ» child¶ó°í ÀÌ¸§ ºÙ¿©¼­ »ý¼ºÇÏ´Âµ¥.
-                            Instantiate(child, landControls[k].transform.position, Quaternion.identity).transform.parent = landControls[k].transform;//landcontrollerÀÇ ÀÚ½ÄÀ¸·Î ¹èÁ¤ÇÑ´Ù.
-                                                                                                                                                     //»ç½Ç Ã¼·ÂÀ» ¹èÁ¤ÇØ¾ß ÇÏ±ä ÇÏ³ª, ¾îÂ÷ÇÇ »ý¼ºµÇ¸é¼­ Ã¼·ÂÀÌ 1·Î ÃÊ±âÈ­ µÇ±â ¶§¹®¿¡ »ý·«ÇÑ´Ù.
-                        }
-                        else if (landData[i].landType == LandType.Tree)     // ³ª¹«ÀÏ °æ¿ì.
-                        {
-                            GameObject child = Resources.Load(landData[i].prefabPath) as GameObject;
-                            Instantiate(child, landControls[k].transform.position, Quaternion.identity).transform.parent = landControls[k].transform;
-                            // ÀÌÈÄ »ý¼ºµÈ ÀÚ½Ä ¿ÀºêÁ§Æ®ÀÇ ¼Ó¼º(Ã¼·Â°ú ¼ºÀå´Ü°è)À» º¯°æÇÑ´Ù. ÀÌ °æ¿ì¿¡´Â FieldTreeLand ÀÌ´Ù.
-                            FieldTreeLand fieldTreeLand = landControls[k].GetComponentInChildren<FieldTreeLand>();
-                            fieldTreeLand.hp = landData[i].currentHP;
-                            fieldTreeLand.currentLevel = landData[i].level;
-                        }
-                        else if (landData[i].landType == LandType.Farm)     // ³ó°æÁöÀÏ °æ¿ì.
-                        {
-                            GameObject child = Resources.Load(landData[i].prefabPath) as GameObject;
-                            Instantiate(child, landControls[k].transform.position, Quaternion.identity).transform.parent = landControls[k].transform;
-                            //»ý¼ºµÈ ÀÚ½Ä ¿ÀºêÁ§Æ®ÀÇ ¼Ó¼º(°æÀÛ¿©ºÎ, °ü°³¿©ºÎ, ÆÄÁ¾¿©ºÎ, ÆÄÁ¾Á¾·ù(ÇÁ¸®ÆÕ), ¼ºÀå´Ü°è)À» º¯°æÇÑ´Ù. ÀÌ °æ¿ì¿¡´Â farmlandcontrol °ú cropcontrolÀÌ´Ù.
-                            FarmLandControl farmLandControl = landControls[k].GetComponentInChildren<FarmLandControl>();
-                            landControls[k].GetComponent<FarmLand>().digged = landData[i].digged;
-                            farmLandControl.watered = landData[i].watered;
-                            farmLandControl.seeded = landData[i].seeded;
-                            if (landData[i].seeded)
-                            {
-                                GameObject grandChild = Resources.Load(landData[i].prefabPath_Crop) as GameObject;
-                                Instantiate(grandChild, landControls[k].transform.position, Quaternion.identity).transform.parent = landControls[k].transform.GetChild(0).transform;
-                                CropControl cropControl = landControls[k].transform.GetChild(0).GetComponentInChildren<CropControl>();
-                                landControls[k].days = landData[i].days;
-                            }
-                        }
+                    landControls[i].transform.gameObject.GetComponent<LandControl>().prefabPath = landData[i].prefabPath;
+                    GameObject child = Resources.Load(landData[i].prefabPath) as GameObject;//°æ·ÎÀÇ ÇÁ¸®ÆÕÀ» child¶ó°í ÀÌ¸§ ºÙ¿©¼­ »ý¼ºÇÏ´Âµ¥.
+                    Instantiate(child, landControls[i].transform.position, Quaternion.identity).transform.parent = landControls[i].transform;//landcontrollerÀÇ ÀÚ½ÄÀ¸·Î ¹èÁ¤ÇÑ´Ù.
+                                                                                                                                             //»ç½Ç Ã¼·ÂÀ» ¹èÁ¤ÇØ¾ß ÇÏ±ä ÇÏ³ª, ¾îÂ÷ÇÇ »ý¼ºµÇ¸é¼­ Ã¼·ÂÀÌ 1·Î ÃÊ±âÈ­ µÇ±â ¶§¹®¿¡ »ý·«ÇÑ´Ù.
+                }
+                else if (landData[i].landType == LandType.Tree)     // ³ª¹«ÀÏ °æ¿ì.
+                {
+                    landControls[i].transform.gameObject.GetComponent<LandControl>().prefabPath = landData[i].prefabPath;
+                    GameObject child = Resources.Load(landData[i].prefabPath) as GameObject;
+                    Instantiate(child, landControls[i].transform.position, Quaternion.identity).transform.parent = landControls[i].transform;
+                    // ÀÌÈÄ »ý¼ºµÈ ÀÚ½Ä ¿ÀºêÁ§Æ®ÀÇ ¼Ó¼º(Ã¼·Â°ú ¼ºÀå´Ü°è)À» º¯°æÇÑ´Ù. ÀÌ °æ¿ì¿¡´Â FieldTreeLand ÀÌ´Ù.
+                    FieldTreeLand fieldTreeLand = landControls[i].GetComponentInChildren<FieldTreeLand>();
+                    fieldTreeLand.hp = landData[i].currentHP;
+                    fieldTreeLand.currentLevel = landData[i].level;
+                }
+                else if (landData[i].landType == LandType.Farm)     // ³ó°æÁöÀÏ °æ¿ì.
+                {
+                    landControls[i].transform.gameObject.GetComponent<LandControl>().prefabPath = landData[i].prefabPath;
+                    GameObject child = Resources.Load(landData[i].prefabPath) as GameObject;
+                    Instantiate(child, landControls[i].transform.position, Quaternion.identity).transform.parent = landControls[i].transform;
+                    //»ý¼ºµÈ ÀÚ½Ä ¿ÀºêÁ§Æ®ÀÇ ¼Ó¼º(°æÀÛ¿©ºÎ, °ü°³¿©ºÎ, ÆÄÁ¾¿©ºÎ, ÆÄÁ¾Á¾·ù(ÇÁ¸®ÆÕ), ¼ºÀå´Ü°è)À» º¯°æÇÑ´Ù. ÀÌ °æ¿ì¿¡´Â farmlandcontrol °ú cropcontrolÀÌ´Ù.
+                    FarmLandControl farmLandControl = landControls[i].GetComponentInChildren<FarmLandControl>();
+                    landControls[i].GetComponent<FarmLand>().digged = landData[i].digged;
+                    farmLandControl.watered = landData[i].watered;
+                    farmLandControl.seeded = landData[i].seeded;
+                    if (landData[i].seeded)
+                    {
+                        landControls[i].transform.gameObject.GetComponent<LandControl>().prefabPath_Crop = landData[i].prefabPath_Crop;
+                        GameObject grandChild = Resources.Load(landData[i].prefabPath_Crop) as GameObject;
+                        Instantiate(grandChild, landControls[i].transform.position, Quaternion.identity).transform.parent = landControls[i].transform.GetChild(0).transform;
+                        CropControl cropControl = landControls[i].transform.GetChild(0).GetComponentInChildren<CropControl>();
+                        cropControl.days = landData[i].days;
                     }
                 }
             }
@@ -310,10 +307,9 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
 public class LandData
 {
-    public int LandCode;
-
+    public Vector3 savePosition;
     public string prefabPath;
-    public string prefabPath_Crop;
+    public string prefabPath_Crop; 
     public LandType landType;
     public int currentHP;
     public int level;

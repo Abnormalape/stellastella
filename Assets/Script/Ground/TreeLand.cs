@@ -14,6 +14,7 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
 
     [SerializeField]
     bool AtFarm = false;
+
     private void Awake() // 게임 시작할 때 초기화
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -39,6 +40,8 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
                 //그러니 외부용 나무의 LandControl의 summonedprefab은 mytreeprefab이다. 
             }
         }
+
+        
     }
 
     

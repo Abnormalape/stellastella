@@ -44,7 +44,7 @@ class ItemDB
 				type = "Àç·á";
 				return;
 			case 4:
-				name = "µµ³¢";
+				name = "Axe";
 				type = "µµ±¸";
 				grade = 1;
 				toolType = 1;
@@ -52,21 +52,21 @@ class ItemDB
                 hpRestore = 1;
 				return;
             case 5:
-                name = "±ªÀÌ";
+                name = "Hoe";
                 type = "µµ±¸";
                 grade = 5;
                 toolType = 2;
                 staminaRestor = 10;
                 return;
             case 6:
-                name = "¹°»Ñ¸®°³";
+                name = "WateringCan";
                 type = "µµ±¸";
                 grade = 5;
                 toolType = 3;
                 staminaRestor = 10;
                 return;
             case 7:
-                name = "°î±ªÀÌ";
+                name = "PickAxe";
                 type = "µµ±¸";
                 grade = 1;
                 toolType = 4;
@@ -74,13 +74,13 @@ class ItemDB
                 hpRestore = 1;
                 return;
             case 8:
-                name = "³´";
+                name = "Sickle";
                 type = "µµ±¸";
                 grade = 1;
                 toolType = 5;
                 return;
             case 9:
-                name = "°­È­µµ³¢";
+                name = "SteelAxe";
                 type = "µµ±¸";
                 grade = 3;
                 toolType = 1;
@@ -88,7 +88,7 @@ class ItemDB
                 hpRestore = 2;
                 return;
             case 10:
-                name = "°­È­°î±ªÀÌ";
+                name = "SteelPickAxe";
                 type = "µµ±¸";
                 grade = 3;
                 toolType = 4;

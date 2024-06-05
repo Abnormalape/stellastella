@@ -23,7 +23,8 @@ class DoorEnter : MonoBehaviour
             //문이 가진 씬의 좌표로 플레이어를 전송한다.
             collisionn = collision;
             if (currentSceneName == "Farm")
-            {   
+            {
+                Debug.Log("농장에서 이동");
                 GameObject.Find("GameManager").GetComponent<GameManager>().SaveLandData();
             }
 
