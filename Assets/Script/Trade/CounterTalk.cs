@@ -1,24 +1,23 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
 class CounterTalk : MonoBehaviour//카운터에 말을 걸었을 때, 상점 주인이 있는 경우 상점창 출력.
-{
-    bool ChasherOn = false;
+{   //카운터는 본인의 아이템 품목을 플레이어가 지닌 tradewindow에 넘긴다.
+    //카운터는 본인이 저장한 이미지를 tradewindow에 넘겨 portrait를 설정한다.
+    [SerializeField] Sprite myOwner;
+    [SerializeField] bool CasherOn = false;
 
-    UnityEvent OpenTradeWindow;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(ChasherOn && collision.tag == "RightClick" && collision.transform.parent.tag == "Player")
+        if(CasherOn && collision.tag == "RightClick" && collision.transform.parent.tag == "Player")
         {
-            OpenTradeWindow.Invoke();
+            GameObject playerObject = collision.transform.parent.gameObject;
+            TradeManage tradeManage = playerObject.GetComponent<TradeManage>();
+
+            tradeManage.ActivateTrade(); // activatetrade 메서드에 요소를 추가하여 원하는 거래창을 띄울 수 있다.
+                                         //tradeManage.ActivateTrade(sellDB, portrait, 등등).; 
+
+            // nowTradingWindow. 카운터에서 판매 물품을 거래창에 전달.
+            // 즉 카운터에서 DB를 가지고 있다가 조건에 맞는 DB만 추출하여 거래창에 전달해야함.
         }
     }
-
-    //void TradeWindow()
-    //{
-    //    // 1. 숨겨진 게임 오브젝트를 부르기.
-    //    // 2. 상점창을 프리팹으로 만들어 불러오기.
-    //    // 상점창은 기록된 다양한 정보들을 반영해 물품을 불러온다.
-    //}
 }

@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public int currentStamina = 200;
     public int currentHp = 200;
     public int currentGold = 500;
+    public nowLocation nowLocation;
 
     public UnityEvent asdf;
 
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviour
     //날짜가 지나면 금액정산, 레벨정산을 개인별로 실시한다.
     //따라서 게임매니저는 하루가 종료되었다는 신호만 플레이어 에게 보낸다.
 
+    GameObject tradeWindowShop;
+
     private void Awake()
     {
         currentHp = maxHp;
@@ -28,8 +31,11 @@ public class PlayerController : MonoBehaviour
         pInven = GetComponent<PlayerInventroy>();
         inventoryBarUI = transform.Find("InventoryBarUI").gameObject;
         inventoryUI = transform.Find("InventoryUI").gameObject;
+        tradeWindowShop = transform.Find("TradeWindowShop").gameObject;
         inventoryUI.SetActive(false);
         inventoryBarUI.SetActive(true);
+        tradeWindowShop.SetActive(false);
+        nowLocation = nowLocation.FarmHouse;
     }
 
     void Start()
@@ -129,10 +135,12 @@ public class PlayerController : MonoBehaviour
     public void Minigame(bool i) { minigame = i; }
     public bool inventory { get; private set; }
     public void Inventroy(bool i) { inventory = i; }
+    public bool trade { get; private set; }
+    public void Trade(bool i) { trade = i; }
 
     private void MakeIdleState()
     {   // 본인의 상태를 잘 끄기만 한다면 상태는 항상 Idle로 돌아온다.
-        if (conversation || motion || moving || waitingForBait || fishCharge || charge || minigame || inventory)
+        if (conversation || motion || moving || waitingForBait || fishCharge || charge || minigame || inventory || trade)
         { idle = false; }
         else { idle = true; }
     }
@@ -161,5 +169,10 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void DoingTrade()
+    {
+
     }
 }

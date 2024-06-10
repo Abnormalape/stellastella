@@ -20,7 +20,7 @@ class InventoryManage : MonoBehaviour
         {
             LoadInventory();
         }
-        else if (pCon.inventory == false)
+        else if (pCon.inventory == false && GameObject.Find("InventoryBarUI") != null)
         {
             LoadOffInventory();
         }

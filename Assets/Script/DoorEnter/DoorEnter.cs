@@ -8,7 +8,7 @@ class DoorEnter : MonoBehaviour
     [SerializeField] string GoingScene;
     string currentSceneName;
 
-
+    [SerializeField] nowLocation ToPlace; // 이동하는 장소의 이름.
 
     private void Awake()
     {
@@ -36,6 +36,7 @@ class DoorEnter : MonoBehaviour
     {
         SceneManager.LoadScene(GoingScene);
         collisionn.transform.parent.transform.position = GoingTo;
+        collisionn.transform.parent.GetComponent<PlayerController>().nowLocation = ToPlace;
         collisionn = null;
     }
 }

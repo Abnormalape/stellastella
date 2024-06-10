@@ -9,8 +9,6 @@ class InventorySlot : MonoBehaviour
     public int inventoryitemcount;
     public int thisInvenToryNumber;// 이 인벤토리의 번호 (0~35)
     GameObject mouseCursor;
-    
-
     PlayerInventroy playerInventroy;
 
     private void Awake()
@@ -101,6 +99,19 @@ class InventorySlot : MonoBehaviour
             mouseCursor.GetComponentInChildren<Text>().text = "";                              //마우스의 텍스트를 제거한다.
 
             mouseCursor.GetComponent<MyPlayerCursor>().itemOnHand = false;          //마우스에 아이템이 더 이상 없다.
+        }
+        else if (this.inventoryitemID == mouseCursor.GetComponent<MyPlayerCursor>().itemID)
+        {
+            playerInventroy.outerImportedSlotNumber = thisInvenToryNumber;
+            playerInventroy.outerImportedID = mouseCursor.GetComponent<MyPlayerCursor>().itemID;
+            playerInventroy.outerImportedCount = mouseCursor.GetComponent<MyPlayerCursor>().itemCounts + this.inventoryitemcount;
+            playerInventroy.outerDataImported = true;
+
+            mouseCursor.GetComponent<MyPlayerCursor>().itemID = 0;
+            mouseCursor.GetComponent<MyPlayerCursor>().itemCounts = 0;
+            mouseCursor.GetComponentInChildren<Text>().text = "";
+
+            mouseCursor.GetComponent<MyPlayerCursor>().itemOnHand = false;
         }
         else
         {   //내 아이템 인벤토리가 무언가로 차있다면.

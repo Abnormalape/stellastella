@@ -16,12 +16,10 @@ class MyPlayerCursor : MonoBehaviour
     {
         if(mainCamera == null)
         {
-            mainCamera= Camera.main;
+            mainCamera = Camera.main;
         }
 
         this.transform.position = new Vector3 (mainCamera.ScreenToWorldPoint(Input.mousePosition).x, mainCamera.ScreenToWorldPoint(Input.mousePosition).y, this.transform.position.z);
-
-
     }
 }
 
