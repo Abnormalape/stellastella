@@ -15,16 +15,42 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
     [SerializeField]
     bool AtFarm = false;
 
+
     private void Awake() // 게임 시작할 때 초기화
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         currentDate = gameManager.currentDay;
         currentMonth = gameManager.currentMonth;
+
+        if (GetComponent<LandControl>() != null)
+        {
+            landControl = GetComponent<LandControl>();
+        }
+    }
+    private void Start()
+    {
+        if (GetComponent<LandControl>() != null)
+        {
+            landControl.OnAValueUpdated += HandleAValueUpdated;
+            landControl.OnBValueUpdated += HandleBValueUpdated;
+        }
     }
 
+    LandControl landControl;
+    bool monthChanged;
+    bool dayChanged;
+    void HandleAValueUpdated(bool newValue)
+    {
+        monthChanged = newValue;
+    }
+
+    void HandleBValueUpdated(bool newValue)
+    {
+        dayChanged = newValue;
+    }
     private void Update()
     {
-        if (currentDate != gameManager.currentDay || currentMonth != gameManager.currentMonth)
+        if (dayChanged || monthChanged)
         {
             if (AtFarm)
             {   //농장 내부용 메서드
@@ -41,16 +67,17 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
             }
         }
 
-        
+
     }
 
-    
+
     public void OutSideFarmSummonTree()
     {
-        if (currentDate != gameManager.currentDay)
+        if (dayChanged)
         {
             //날짜 동기화는 항상.
             currentDate = gameManager.currentDay;
+            dayChanged = false;
 
             if (transform.childCount == 0 && gameManager.currentMonth != 3)
             {   // 자식이 없다면 20% 확률로 3단계 묘목 생성, 겨울이 아님.
@@ -69,8 +96,9 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
     public void InSideFarmSummonTree()
     {
         //다달이 확률적으로 나무조각 생성
-        if (currentMonth != gameManager.currentMonth)
+        if (monthChanged)
         {
+            monthChanged = false;
             // 날짜 동기화는 항상.
             currentMonth = gameManager.currentMonth;
             if (transform.childCount == 0)
@@ -89,8 +117,9 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
             }
         }
         //매일 확률적으로 씨앗생성
-        else if (currentDate != gameManager.currentDay)
+        else if (dayChanged)
         {
+            dayChanged = false;
             // 날짜 동기화는 항상.
             currentDate = gameManager.currentDay;
             // 자식 오브젝트가 있고, 계절이 겨울이 아니며, 자식오브젝트에 "필드트리 오브젝트"스크립트 가 있다면.

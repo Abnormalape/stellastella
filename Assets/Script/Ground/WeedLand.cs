@@ -15,9 +15,26 @@ public class WeedLand : MonoBehaviour
         currentDate = gameManager.currentDay;
         currentMonth = gameManager.currentMonth;
 
-        //LandControl = GetComponent<LandControl>();
+        landControl = GetComponent<LandControl>();
+    }
+    private void Start()
+    {
+        landControl.OnAValueUpdated += HandleAValueUpdated;
+        landControl.OnBValueUpdated += HandleBValueUpdated;
     }
 
+    LandControl landControl;
+    bool monthChanged;
+    bool dayChanged;
+    void HandleAValueUpdated(bool newValue)
+    {
+        monthChanged = newValue;
+    }
+
+    void HandleBValueUpdated(bool newValue)
+    {
+        dayChanged = newValue;
+    }
     private void Update()
     {
         if (atFarm == false)
@@ -39,8 +56,9 @@ public class WeedLand : MonoBehaviour
     public string prefabPath;
     public void OutSideFarm()
     {
-        if (currentDate != gameManager.currentDay)
+        if (dayChanged)
         {
+            dayChanged = false;
             //날짜 동기화는 항상.
             currentDate = gameManager.currentDay;
             currentMonth = gameManager.currentMonth;
@@ -67,9 +85,12 @@ public class WeedLand : MonoBehaviour
 
     public void InSideFarm()
     {
-        if (currentMonth != gameManager.currentMonth)
+        if (monthChanged)
         {   // 달에한번
             // 날짜 동기화는 항상.
+            monthChanged = false;
+            dayChanged = false;
+
             currentMonth = gameManager.currentMonth;
             currentDate = gameManager.currentDay;
             if (transform.childCount == 0)

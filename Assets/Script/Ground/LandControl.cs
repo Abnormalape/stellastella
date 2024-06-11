@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum LandType
@@ -21,20 +22,34 @@ class LandControl : MonoBehaviour
     public bool watered;
     public bool seeded;
 
-    private void Awake()
+    //=====================================
+    public delegate void AValueUpdated(bool newValue);
+    public event AValueUpdated OnAValueUpdated;
+    public delegate void BValueUpdated(bool newValue);
+    public event BValueUpdated OnBValueUpdated;
+
+    private bool a;
+    private bool b;
+    public bool monthChanged
     {
-        
+        get { return a; }
+        set
+        {
+            a = value; // value는 this.bool 의 값과 같다.
+            OnAValueUpdated?.Invoke(a); // A 값이 변경될 때 이벤트 호출
+        }
     }
 
-    private void OnEnable()
+    public bool dayChanged
     {
-        
+        get { return b; }
+        set
+        {
+            b = value;
+            OnBValueUpdated?.Invoke(b); // B 값이 변경될 때 이벤트 호출
+        }
     }
-
-    private void Start()
-    {
-        
-    }
+    //=====================================
 
     private void Update()
     {

@@ -1,6 +1,3 @@
-using JetBrains.Annotations;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,7 +24,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     bool wetherTotemUse; // ³¯¾¾ ÅäÅÛ
     float luck; // Çà¿î
     int wetherTotemNum;
-    public int weather = 0; // 0:¸¼À½
+    public int weather { get; private set; } = 0; // 0:¸¼À½
     int nextdayweather; // ´ÙÀ½³¯ ³¯¾¾, Á¶°Ç¿¡ µû¶ó È®·üÀû ¹èÁ¤
 
     // ½Ã°£Ã¼Å©
@@ -36,6 +33,8 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
     private void Awake()
     {
+ 
+
         currentYear = 1;
         currentSeason = 0; // º½
         currentMonth = 1;
@@ -88,14 +87,35 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         else { ampm = "PM"; }
     }
 
+    public void DayOff()
+    {
+        dayOff = true;
+    }
     void EndOfTheDay() //dayoff°¡ trueÀÏ¶§ Á¤»ê¾ÀÀ» È£Ãâ, ³ª¸ÓÁö ±â´ÉÀº Á¤»ê¾À¿¡¼­ ½ÇÇà
     {
+        dayTimePassed = 0;
         currentHour = 6;
         currentMinute = 0;
         ampm = "AM";
         currentDay++;
-        if (currentDay > 28) { currentMonth++; currentDay = 1; }
+
+        Debug.Log("EndOfDay Called");
+
+        bool monthChanged = false;
+        if (currentDay > 28) { currentMonth++; currentDay = 1; monthChanged = true; }
         if (currentMonth > 4) { currentYear++; currentMonth = 1; } // ÃÊ±âÈ­ ¹× ÀÏÂ÷ ÁøÇà
+
+
+        if (landData != null)
+        {
+            Debug.Log("saving");
+            for (int i = 0; i < landData.Length ; i++)
+            {
+                landData[i].dayChanged = true;
+                landData[i].monthChanged = monthChanged;
+            }
+        }
+
         // ÇÏ·ç°¡ Á¾·áµÇ¾úÀ»¶§ : Ä§´ë¿¡¼­ ÀáÀ» ÀÚµµ dayOff°¡ true°¡ µÈ´Ù.
         // ÃâÇÏ»óÀÚ¿¡ µé¾î°£ ¹°Ç°µéÀÇ sell price¸¦ ÇÕ»êÇØ È­¸é¿¡ Ç¥½ÃÇÑ´Ù
         // ½ºÅ³ÀÇ ·¹º§ÀÌ ¿À¸£¸é ¾Ë·ÁÁØ´Ù
@@ -103,9 +123,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         // goldEarn = ÃâÇÏ»óÀÚ¿¡ µé¾îÀÖ´Â ¹°Ç°µéÀÇ °¡°ÝÇÕ
         // ÃâÇÏ»óÀÚ¿¡ µé¾îÀÖ´Â ¹°Ç°µéÀÇ Á¾·ù¿¡ µû¶ó ´Ù¸£°Ô ´õÇØ¼­ goldEarn¿¡ ³Ö¾îµµ µÇ±äÇÏ´Âµ¥
         // °Å±â´Ù°¡ ¹» ¾ó¸¶³ª ÆÈ¾Ò´ÂÁö Ã¼Å© ÇÒ ¼öµµ ÀÖ±ä ÇÑµ¥......
-
-        gold += goldEarn;
-
         // ÀÛ¹°ÀÌ ¹°ÀÌ »Ñ·ÁÁ³´ÂÁö È®ÀÎÈÄ ÀÛ¹° »óÅÂ¿¡ 1À» ´õÇÏ°í ¹°À» ÃÊ±âÈ­ÇÑ´Ù
         // µ¿¹°µéÀÇ ³ªÀÌ¿¡ 1À» ´õÇÑ´Ù
         NewDayBegin();
@@ -199,6 +216,9 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                 landData[i] = new LandData();
                 landData[i].landType = landControls[i].landType;
 
+                landData[i].dayChanged = false;
+                landData[i].monthChanged = false;
+
                 if (landData[i].landType == LandType.Empty) { }
 
                 else if (landData[i].landType == LandType.Weed ||
@@ -246,6 +266,8 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
             for (int i = 0; i < landControls.Length; i++)
             {
                 landControls[i].transform.position = landData[i].savePosition;
+                landControls[i].dayChanged = landData[i].dayChanged;
+                landControls[i].monthChanged = landData[i].monthChanged;
 
                 landControls[i].landType = landData[i].landType;    // ÇØ´ç LandControllerÀÇ Å¸ÀÔÀ» º¯°æ
                 if (landData[i].landType == LandType.Empty) { }     // emptyÀÏ °æ¿ìÀÇ Çàµ¿.
@@ -286,10 +308,14 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                         CropControl cropControl = landControls[i].transform.GetChild(0).GetComponentInChildren<CropControl>();
                         cropControl.days = landData[i].days;
                     }
+
+                    farmLandControl.dayChanged = landData[i].dayChanged;
+                    farmLandControl.monthChanged = landData[i].monthChanged;
                 }
             }
         }
     } // ¾ÀÀÌ FarmÀ¸·Î º¯°æ µÉ ¶§
+
 
     string currentSceneName;
     private void WhenSceneChanged()
@@ -309,7 +335,7 @@ public class LandData
 {
     public Vector3 savePosition;
     public string prefabPath;
-    public string prefabPath_Crop; 
+    public string prefabPath_Crop;
     public LandType landType;
     public int currentHP;
     public int level;
@@ -317,16 +343,13 @@ public class LandData
     public bool digged;
     public bool watered;
     public bool seeded;
+
+    
+
+    public bool dayChanged = true;
+    public bool monthChanged = true;
     public LandData()
     {
-        //prefabPath = string.Empty;
-        //prefabPath_Crop = string.Empty;
-        //landType = LandType.Empty;
-        //currentHP = 1;
-        //level = 0;
-        //days = 0;
-        //digged = false;
-        //watered = false;
-        //seeded = false;
+
     }
 }

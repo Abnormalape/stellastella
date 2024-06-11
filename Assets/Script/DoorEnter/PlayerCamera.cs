@@ -51,8 +51,8 @@ class PlayerCamera : MonoBehaviour
                 cameraLimit_1 = new Vector2(15, 19);
                 return;
             case 6://잡화점
-                cameraLimit_0 = new Vector2(13, 14);
-                cameraLimit_1 = new Vector2(15, 19);
+                cameraLimit_0 = new Vector2(63, 13);
+                cameraLimit_1 = new Vector2(65, 22);
                 return;
         }
     }

@@ -25,6 +25,32 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
     Sprite[] wateredGround = new Sprite[16];
     Collider2D[] nearWatered;
 
+    private void Awake()
+    {
+        
+    }
+    private void Start()
+    {
+        landControl = GetComponentInParent<LandControl>();
+        landControl.OnAValueUpdated += HandleAValueUpdated;
+        landControl.OnBValueUpdated += HandleBValueUpdated;
+        Debug.Log("get land control");
+    }
+
+    LandControl landControl;
+
+    public bool monthChanged;
+    public bool dayChanged;
+    void HandleAValueUpdated(bool newValue)
+    {
+        monthChanged = newValue;
+    }
+
+    void HandleBValueUpdated(bool newValue)
+    {
+        dayChanged = newValue;
+    }
+
     private void OnEnable()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -35,6 +61,7 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
 
     private void Update() // 계절 변경에 따른 작물 및 경작지 초기화 아직 못함
     {
+
         Rainy();
         CropData();
 
@@ -99,8 +126,11 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
     }
     void CropData()
     {
-        if (this.currentDate != gameManager.currentDay)
+        if (dayChanged)
         {
+            Debug.Log("crop day");
+
+            dayChanged = false;
             this.currentDate = gameManager.currentDay;
             if (seeded && watered) // 심어진 상태로 물이 뿌려진 상태로 날이 바뀌었다면.
             {
@@ -129,6 +159,8 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
                 watered = false;
             }
         }
+        else { Debug.Log("crop day  not"); }
+
 
     }//자식(작물)관리
 

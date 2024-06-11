@@ -23,6 +23,7 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
 
     [SerializeField] GameObject harvestControl; //수확을 가능하게 하는 게임오브젝트
 
+    
 
     private void OnEnable()
     {
