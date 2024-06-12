@@ -5,8 +5,15 @@ class PlayerRightClickCollider : MonoBehaviour
 {
     float harvestTerm;
     bool motion = false;
+
+    PlayerController pCon;
+    private void Awake()
+    {
+        pCon = GetComponentInParent<PlayerController>();
+    }
     private void Update()
     {
+        motion = pCon.motion;
         CheckHarvestTerm();
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -15,10 +22,10 @@ class PlayerRightClickCollider : MonoBehaviour
         {
             if (!motion)
             {
-                Debug.Log($"{collision.name}");
-                collision.gameObject.GetComponent<HarvestControl>().handHarvest = true;
-                collision.gameObject.GetComponent<HarvestControl>().touchedObject = this.GetComponent<BoxCollider2D>();
+                collision.gameObject.GetComponents<HarvestControl>()[0].handHarvest = true;
+                collision.gameObject.GetComponents<HarvestControl>()[0].touchedObject = this.GetComponent<BoxCollider2D>();
                 //텀을 두고 순차적으로 하고 싶은데
+                pCon.Motion(true);
                 motion = true;
             }
         }

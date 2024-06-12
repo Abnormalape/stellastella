@@ -1,3 +1,5 @@
+using System.Linq;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -33,7 +35,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
     private void Awake()
     {
- 
+
 
         currentYear = 1;
         currentSeason = 0; // º½
@@ -108,13 +110,29 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
         if (landData != null)
         {
-            Debug.Log("saving");
-            for (int i = 0; i < landData.Length ; i++)
+            for (int i = 0; i < landData.Length; i++)
             {
                 landData[i].dayChanged = true;
                 landData[i].monthChanged = monthChanged;
             }
         }
+        if(landTreeData != null)
+        {
+            for(int i = 0; i < landTreeData.Length; i++)
+            {
+                landTreeData[i].dayChanged = true;
+                landTreeData[i].monthChanged = monthChanged;
+            }
+        }
+        if(landWeedData != null)
+        {
+            for(int i = 0; i<landWeedData.Length; i++)
+            {
+                landTreeData[i].dayChanged = true;
+                landTreeData[i].monthChanged = monthChanged;
+            }
+        }
+
 
         // ÇÏ·ç°¡ Á¾·áµÇ¾úÀ»¶§ : Ä§´ë¿¡¼­ ÀáÀ» ÀÚµµ dayOff°¡ true°¡ µÈ´Ù.
         // ÃâÇÏ»óÀÚ¿¡ µé¾î°£ ¹°Ç°µéÀÇ sell price¸¦ ÇÕ»êÇØ È­¸é¿¡ Ç¥½ÃÇÑ´Ù
@@ -191,15 +209,45 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     //¾ÀÀÌ º¯°æµÇ±â Àü¿¡ °¢ °³Ã¼ÀÇ µ¥ÀÌÅÍ¸¦ ÀúÀåÇØ¾ß ÇÑ´Ù.
     LandData[] landData;
     LandControl[] landControls;
-    void InitializeLandUnitList()
-    {
-        landControls = FindObjectsOfType<LandControl>();
+    GameObject[] LandInFarm;
+    void InitializeLandInFarmUnitList()
+    {   //³óÀå¿¡ ÀÖ´Â Landµé;
+        LandInFarm = GameObject.FindGameObjectsWithTag("LandInFarm");
+        landControls = new LandControl[LandInFarm.Length];
+        for (int i = 0; i < LandInFarm.Length; i++)
+        {
+            landControls[i] = LandInFarm[i].GetComponent<LandControl>();
+        }
+    }
+
+    LandControl[] LandTreeControls;
+    LandData[] landTreeData;
+    void InitializeTreeLand()
+    {   //³ª¹«¸¸ ÀÚ¶ó´Â Land.
+        GameObject[] treelands = GameObject.FindGameObjectsWithTag("TreeLand");
+        LandTreeControls = new LandControl[treelands.Length];
+        for (int i = 0; i < treelands.Length; i++)
+        {
+            LandTreeControls[i] = treelands[i].GetComponent<LandControl>();
+        }
+    }
+
+    LandControl[] LandWeedControls;
+    LandData[] landWeedData;
+    void InitializeWeedLand()
+    {   //ÀâÃÊ¸¸ ÀÚ¶ó´Â Land.
+        GameObject[] weedlands = GameObject.FindGameObjectsWithTag("WeedLand");
+        LandWeedControls = new LandControl[weedlands.Length];
+        for (int i = 0; i < weedlands.Length; i++)
+        {
+            LandWeedControls[i] = weedlands[i].GetComponent<LandControl>();
+        }
     }
 
 
-    public void SaveLandData()
+    public void SaveLandInFarmData()
     {   //LandController¸¦ °¡Áø objectµéÀ» ·Îµå.
-        InitializeLandUnitList();
+        InitializeLandInFarmUnitList();
 
         landData = new LandData[landControls.Length]; //LandData¸¦ »ý¼º
         //¸ñ·ÏÀ» »ý¼ºÇØ¼­.
@@ -250,11 +298,14 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                 landData[i].savePosition = landControls[i].savePosition;
             }
         }
+
+        SaveLandTreeData();
+        SaveLandWeedDate();
     } // ¾ÀÀÌ Farm¿¡¼­ º¯°æ µÉ ¶§
 
-    public void LoadLandData()
+    public void LoadLandInFarmData()
     {   //LandController¸¦ °¡Áø objectµéÀ» ·Îµå.
-        InitializeLandUnitList();
+        InitializeLandInFarmUnitList();
 
         if (landData == null)
         {
@@ -314,7 +365,139 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                 }
             }
         }
+        LoadLandTreeData();
+        LoadLandWeedData();
     } // ¾ÀÀÌ FarmÀ¸·Î º¯°æ µÉ ¶§
+
+    public void SaveLandTreeData()
+    {
+        InitializeTreeLand();
+        landTreeData = new LandData[LandTreeControls.Length];
+        if (LandTreeControls == null) { return; }
+        else if (LandTreeControls.Length > 0)
+        {
+            for (int i = 0; i < LandTreeControls.Length; i++)
+            {
+                landTreeData[i] = new LandData();
+                landTreeData[i].landType = LandTreeControls[i].landType;
+                landTreeData[i].dayChanged = false;
+                landTreeData[i].monthChanged = false;
+                landTreeData[i].savePosition = LandTreeControls[i].savePosition;
+
+                if (landTreeData[i].landType == LandType.Empty) { }
+                else if (landTreeData[i].landType == LandType.Stick)
+                {
+                    landTreeData[i].prefabPath = LandTreeControls[i].prefabPath;
+                    landTreeData[i].currentHP = LandTreeControls[i].currentHP;
+                }
+                else if (landTreeData[i].landType == LandType.Tree)
+                {   //ºñ¾îÀÖ°Å³ª ³ª¹«ÀÌ°Å³ª.
+                    landTreeData[i].prefabPath = LandTreeControls[i].prefabPath;
+                    landTreeData[i].currentHP = LandTreeControls[i].currentHP;
+                    landTreeData[i].level = LandTreeControls[i].level;
+                }
+                Debug.Log(landTreeData[i].prefabPath);
+                
+            }
+
+            
+        }
+    }
+
+    public void LoadLandTreeData()
+    {
+        InitializeTreeLand();
+        if (landTreeData == null)
+        {
+            return;
+        }
+        else if (LandTreeControls.Length > 0)
+        {   //¸ñ·ÏÀÇ °¹¼ö°¡ 1°³ ÀÌ»óÀÌ¶ó¸é.
+            //°¢ LandUnitList¿¡ ÀÚ½Ä¿ÀºêÁ§Æ®¸¦ »ý¼º ¹×, ÀÚ½Ä¿ÀºêÁ§Æ®ÀÇ ¼³Á¤ º¯°æ.
+            for (int i = 0; i < LandTreeControls.Length; i++)
+            {
+                LandTreeControls[i].transform.position = landTreeData[i].savePosition;
+                LandTreeControls[i].dayChanged = landTreeData[i].dayChanged;
+                LandTreeControls[i].monthChanged = landTreeData[i].monthChanged;
+
+                LandTreeControls[i].landType = landTreeData[i].landType;    // ÇØ´ç LandControllerÀÇ Å¸ÀÔÀ» º¯°æ
+
+                if (landTreeData[i].landType == LandType.Empty) { }     // emptyÀÏ °æ¿ìÀÇ Çàµ¿.
+                else if (landTreeData[i].landType == LandType.Stick)
+                {
+                    LandTreeControls[i].transform.gameObject.GetComponent<LandControl>().prefabPath = landTreeData[i].prefabPath;
+                    GameObject child = Resources.Load(landTreeData[i].prefabPath) as GameObject;
+                    Instantiate(child, LandTreeControls[i].transform.position, Quaternion.identity).transform.parent = LandTreeControls[i].transform;
+                }
+                else if (landTreeData[i].landType == LandType.Tree)
+                {
+                    LandTreeControls[i].transform.gameObject.GetComponent<LandControl>().prefabPath = landTreeData[i].prefabPath;
+                    GameObject child = Resources.Load(landTreeData[i].prefabPath) as GameObject;
+                    Instantiate(child, LandTreeControls[i].transform.position, Quaternion.identity).transform.parent = LandTreeControls[i].transform;
+                    // ÀÌÈÄ »ý¼ºµÈ ÀÚ½Ä ¿ÀºêÁ§Æ®ÀÇ ¼Ó¼º(Ã¼·Â°ú ¼ºÀå´Ü°è)À» º¯°æÇÑ´Ù. ÀÌ °æ¿ì¿¡´Â FieldTreeLand ÀÌ´Ù.
+                    FieldTreeLand fieldTreeLand = LandTreeControls[i].GetComponentInChildren<FieldTreeLand>();
+                    fieldTreeLand.hp = landTreeData[i].currentHP;
+                    fieldTreeLand.currentLevel = landData[i].level;
+                }
+
+                Debug.Log(landTreeData[i].dayChanged);
+            }
+        }
+    }
+
+    public void SaveLandWeedDate()
+    {
+        InitializeWeedLand();
+        landWeedData = new LandData[LandWeedControls.Length];
+        if (LandWeedControls == null) { return; }
+        else if (LandWeedControls.Length > 0)
+        {
+            for (int i = 0; i < LandWeedControls.Length; i++)
+            {
+                landWeedData[i] = new LandData();
+                landWeedData[i].landType = LandWeedControls[i].landType;
+                landWeedData[i].dayChanged = false;
+                landWeedData[i].monthChanged = false;
+                landWeedData[i].savePosition = LandWeedControls[i].savePosition;
+
+                if (landWeedData[i].landType == LandType.Empty) { }
+                else if (landWeedData[i].landType == LandType.Weed)
+                {   //ºñ¾îÀÖ°Å³ª ³ª¹«ÀÌ°Å³ª.
+                    landWeedData[i].prefabPath = LandWeedControls[i].prefabPath;
+                    landWeedData[i].currentHP = LandWeedControls[i].currentHP;
+                }
+            }
+        }
+    }
+
+    public void LoadLandWeedData()
+    {
+        InitializeWeedLand();
+        if (landWeedData == null)
+        {
+            return;
+        }
+        else if (LandWeedControls.Length > 0)
+        {   //¸ñ·ÏÀÇ °¹¼ö°¡ 1°³ ÀÌ»óÀÌ¶ó¸é.
+            //°¢ LandUnitList¿¡ ÀÚ½Ä¿ÀºêÁ§Æ®¸¦ »ý¼º ¹×, ÀÚ½Ä¿ÀºêÁ§Æ®ÀÇ ¼³Á¤ º¯°æ.
+            for (int i = 0; i < LandWeedControls.Length; i++)
+            {
+                LandWeedControls[i].transform.position = landWeedData[i].savePosition;
+                LandWeedControls[i].dayChanged = landWeedData[i].dayChanged;
+                LandWeedControls[i].monthChanged = landWeedData[i].monthChanged;
+
+                LandWeedControls[i].landType = landWeedData[i].landType;    // ÇØ´ç LandControllerÀÇ Å¸ÀÔÀ» º¯°æ
+
+                if (landWeedData[i].landType == LandType.Empty) { }     // emptyÀÏ °æ¿ìÀÇ Çàµ¿.
+                else if (landWeedData[i].landType == LandType.Weed)
+                {
+                    LandWeedControls[i].transform.gameObject.GetComponent<LandControl>().prefabPath = landWeedData[i].prefabPath;
+                    GameObject child = Resources.Load(landWeedData[i].prefabPath) as GameObject;
+                    Instantiate(child, LandWeedControls[i].transform.position, Quaternion.identity).transform.parent = LandWeedControls[i].transform;
+                }
+            }
+        }
+    }
 
 
     string currentSceneName;
@@ -324,7 +507,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         {
             if (SceneManager.GetActiveScene().name == "Farm")
             {
-                LoadLandData();
+                LoadLandInFarmData();
             }
             currentSceneName = SceneManager.GetActiveScene().name;
         }
@@ -344,7 +527,7 @@ public class LandData
     public bool watered;
     public bool seeded;
 
-    
+
 
     public bool dayChanged = true;
     public bool monthChanged = true;

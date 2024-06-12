@@ -48,7 +48,7 @@ class ItemDB
 				type = "도구";
 				grade = 1;
 				toolType = 1;
-                staminaRestor = 10;
+                staminaRestor = 1;
                 hpRestore = 1;
 				return;
             case 5:
@@ -56,21 +56,21 @@ class ItemDB
                 type = "도구";
                 grade = 5;
                 toolType = 2;
-                staminaRestor = 10;
+                staminaRestor = 1;
                 return;
             case 6:
                 name = "WateringCan";
                 type = "도구";
                 grade = 5;
                 toolType = 3;
-                staminaRestor = 10;
+                staminaRestor = 1;
                 return;
             case 7:
                 name = "PickAxe";
                 type = "도구";
                 grade = 1;
                 toolType = 4;
-                staminaRestor = 10;
+                staminaRestor = 1;
                 hpRestore = 1;
                 return;
             case 8:
@@ -84,7 +84,7 @@ class ItemDB
                 type = "도구";
                 grade = 3;
                 toolType = 1;
-                staminaRestor = 10;
+                staminaRestor = 1;
                 hpRestore = 2;
                 return;
             case 10:
@@ -92,7 +92,7 @@ class ItemDB
                 type = "도구";
                 grade = 3;
                 toolType = 4;
-                staminaRestor = 10;
+                staminaRestor = 1;
                 hpRestore = 2;
                 return;
             case 11:
@@ -214,6 +214,87 @@ class ItemDB
                 sellPrice = 10;
                 buyPrice = 0;
                 type = "재료";
+                return;
+
+            case 401:
+                name = "SpringEasyFish";
+                sellPrice = 100;
+                buyPrice = 0;
+                hpRestore = 10;
+                staminaRestor = 10;
+                type = "Fish";
+                return;
+            case 402:
+                name = "SpringHardFish";
+                sellPrice = 1000;
+                buyPrice = 0;
+                hpRestore = 100;
+                staminaRestor = 100;
+                type = "Fish";
+                return;
+            case 403:
+                name = "SummerEasyFish";
+                sellPrice = 100;
+                buyPrice = 0;
+                hpRestore = 10;
+                staminaRestor = 10;
+                type = "Fish";
+                return;
+            case 404:
+                name = "SummerHardFish";
+                sellPrice = 1000;
+                buyPrice = 0;
+                hpRestore = 100;
+                staminaRestor = 100;
+                type = "Fish";
+                return;
+            case 405:
+                name = "FallEasyFish";
+                sellPrice = 100;
+                buyPrice = 0;
+                hpRestore = 10;
+                staminaRestor = 10;
+                type = "Fish";
+                return;
+            case 406:
+                name = "FallHardFish";
+                sellPrice = 1000;
+                buyPrice = 0;
+                hpRestore = 100;
+                staminaRestor = 100;
+                type = "Fish";
+                return;
+            case 407:
+                name = "WinterEasyFish";
+                sellPrice = 100;
+                buyPrice = 0;
+                hpRestore = 10;
+                staminaRestor = 10;
+                type = "Fish";
+                return;
+            case 408:
+                name = "WinterHardFish";
+                sellPrice = 1000;
+                buyPrice = 0;
+                hpRestore = 100;
+                staminaRestor = 100;
+                type = "Fish";
+                return;
+            case 409:
+                name = "DayFish";
+                sellPrice = 500;
+                buyPrice = 0;
+                hpRestore = 50;
+                staminaRestor = 50;
+                type = "Fish";
+                return;
+            case 410:
+                name = "NightFish";
+                sellPrice = 500;
+                buyPrice = 0;
+                hpRestore = 50;
+                staminaRestor = 50;
+                type = "Fish";
                 return;
         }
 	}

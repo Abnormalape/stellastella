@@ -119,7 +119,7 @@ public class FarmLand : MonoBehaviour
 
         for (int i = 0; i < nearGround.Length; i++)
         {
-            if (nearGround[i] != null && nearGround[i].tag == "FarmLand")
+            if (nearGround[i] != null && nearGround[i].GetComponent<FarmLand>() != null)
             {
                 if (nearGround[i].transform.position.x - this.transform.position.x == 1 && nearGround[i].transform.position.y - this.transform.position.y == 0)
                 {

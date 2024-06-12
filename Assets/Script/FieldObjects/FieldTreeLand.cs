@@ -1,14 +1,21 @@
 ﻿using UnityEngine;
+using static LandControl;
+using static TreeLand;
 using Random = UnityEngine.Random;
 
 //각 성장 상태 별로 별개의 개체라는 사실을 인지해야 했으나 일단은 그냥 진행함
 class FieldTreeLand : MonoBehaviour
 {
+    //TreeLand는 이 클래스의 currentlevel을 변화시키고.
+    //이 클래스는 currentlevel을 활용한다.
+
+
+
     [SerializeField] GameManager gameManager;
 
     [SerializeField] int fieldTreeObjectID;
     FieldTreeObjectDb thisTree;
-    
+
     [SerializeField] public int hp;
 
     int currentDay;
@@ -31,8 +38,33 @@ class FieldTreeLand : MonoBehaviour
     SpriteRenderer root;
     [SerializeField] Sprite[] rootImages = new Sprite[6];
 
-    private void OnEnable()
+
+    //===========================================//
+    TreeLand parentTreeLand;
+    private void Start()
     {
+        //Debug.Log("Start() 0");
+        //parentTreeLand = GetComponentInParent<TreeLand>();
+        //parentTreeLand.OnCurrentTreeLevelUpdated += CurrentLevel;
+    }
+
+    public void CurrentLevel(int currentlevel) // 바뀐 날짜값.
+    {
+        Debug.Log(currentlevel + "FieldTree");
+        currentLevel = currentlevel; // 바뀐 날짜값 동기화.
+        WhenLevelChanged();
+        MakeSprite();
+    }
+    //===========================================//
+
+
+    private void Awake()
+    {
+
+        Debug.Log("Start() 0");
+        parentTreeLand = GetComponentInParent<TreeLand>();
+        parentTreeLand.OnCurrentTreeLevelUpdated += CurrentLevel;
+
         mybox = GetComponent<BoxCollider2D>();
         mybox.isTrigger = true;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -51,11 +83,7 @@ class FieldTreeLand : MonoBehaviour
         }
         WhenLevelChanged();
     }
-    private void Update()
-    {
-        UpdateDate();
-        MakeSprite();
-    }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "LeftClick" && collision.GetComponentInParent<PlayerController>() != null)
@@ -73,7 +101,7 @@ class FieldTreeLand : MonoBehaviour
                 case 1://싹
                     if (onHandItem.toolType == 1 || onHandItem.toolType == 2 || onHandItem.toolType == 4 || onHandItem.toolType == 5) // 도끼거나, 괭이거나, 곡괭이거나, 낫이라면
                     {
-                        
+
                         DestroyTree();
                     }
                     break;
@@ -92,21 +120,7 @@ class FieldTreeLand : MonoBehaviour
             }
         }
     }
-    void UpdateDate()
-    {
-        if (currentMonth != gameManager.currentMonth || currentDay != gameManager.currentDay)
-        {
-            currentMonth = gameManager.currentMonth;
-            currentDay = gameManager.currentDay;
 
-            int i = Random.Range(0, 100);
-            if (currentMonth != 3 && i >= 80 && currentLevel < 4)
-            {
-                currentLevel++;
-                WhenLevelChanged();
-            }
-        }
-    }
 
     void MakeSprite()
     {
@@ -234,7 +248,7 @@ class FieldTreeLand : MonoBehaviour
             int r = Random.Range(0, 100);
             if (r < thisTree.droprate[i] % 100)
             {
-                
+
                 Instantiate(dropItemPrefab[i], transform.position, Quaternion.identity);
             }
         }

@@ -46,7 +46,8 @@ class LandControl : MonoBehaviour
         set
         {
             b = value;
-            OnBValueUpdated?.Invoke(b); // B 값이 변경될 때 이벤트 호출
+            //OnBValueUpdated?.Invoke(b); // B 값이 변경될 때 이벤트 호출
+            OnBValueUpdated.Invoke(b); // B 값이 변경될 때 이벤트 호출
         }
     }
     //=====================================

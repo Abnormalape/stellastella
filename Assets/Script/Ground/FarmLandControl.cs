@@ -34,7 +34,7 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
         landControl = GetComponentInParent<LandControl>();
         landControl.OnAValueUpdated += HandleAValueUpdated;
         landControl.OnBValueUpdated += HandleBValueUpdated;
-        Debug.Log("get land control");
+        
     }
 
     LandControl landControl;
@@ -128,8 +128,6 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
     {
         if (dayChanged)
         {
-            Debug.Log("crop day");
-
             dayChanged = false;
             this.currentDate = gameManager.currentDay;
             if (seeded && watered) // 심어진 상태로 물이 뿌려진 상태로 날이 바뀌었다면.
@@ -159,9 +157,7 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
                 watered = false;
             }
         }
-        else { Debug.Log("crop day  not"); }
-
-
+        
     }//자식(작물)관리
 
     private void CheckNearWatered()

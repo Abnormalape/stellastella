@@ -129,6 +129,10 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
             {
                 thisSR.sprite = sprites[maxLevel];
             }
+            else if (days != maxDay && level == maxLevel)
+            {
+                thisSR.sprite = sprites[maxLevel - 1];
+            }
             else
             {
                 thisSR.sprite = sprites[level]; // 현재 레벨의 스프라이트로 변경

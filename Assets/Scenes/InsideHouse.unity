@@ -13657,7 +13657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39dc297b23af7a949938f3a91ad945aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoingTo: {x: 10.5, y: 5.5, z: 0}
+  GoingTo: {x: 10.5, y: 4.5, z: 0}
   GoingScene: Farm
   ToPlace: 0
 --- !u!1 &1918893432

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 class PlayerRightClick : MonoBehaviour
 // 얘를 플레이어 컨트롤에 넣고, 툴타입을 받아온다
@@ -10,6 +11,8 @@ class PlayerRightClick : MonoBehaviour
     ItemDB currentData;
     GameObject HitBox;
 
+    float buttonTime;
+
     private void Awake()
     {
         pCon = this.gameObject.GetComponent<PlayerController>();
@@ -19,16 +22,19 @@ class PlayerRightClick : MonoBehaviour
         HitBox.GetComponent<BoxCollider2D>().enabled = false; // 콜라이더를 끄거나 자체를 숨기거나 스프라이트를 뽑아버리거나.
         HitBox.transform.localScale = new Vector2(1.3f, 1.3f);
     }
+
+    private void Start()
+    {
+        
+    }
     private void Update()
     {
         currentData = new ItemDB(pInven.currentInventoryItem);
-        ColliderOnOff();
-        ColliderLocation();
-        ColliderSize();
-
         if (pCon.idle || pCon.moving) // 움직이거나, 대기상태에서만 우클릭이 가능하다.
         {
-
+            ColliderOnOff();
+            ColliderLocation();
+            ColliderSize();
         }
     }
 
@@ -58,9 +64,20 @@ class PlayerRightClick : MonoBehaviour
     {   //콜라이더 키고 끄기
         currentData = new ItemDB(pInven.currentInventoryItem);
 
-        if (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             HitBox.GetComponent<BoxCollider2D>().enabled = true;
+        }
+        else if (Input.GetMouseButton(1))
+        {
+            HitBox.GetComponent<BoxCollider2D>().enabled = true;
+
+            buttonTime += Time.deltaTime;
+            if(buttonTime > 0.5f)
+            {
+                HitBox.GetComponent<BoxCollider2D>().enabled = false;
+                buttonTime = 0f;
+            }
         }
         else if (Input.GetMouseButtonUp(1) || !Input.GetMouseButton(1))
         {
@@ -68,4 +85,8 @@ class PlayerRightClick : MonoBehaviour
         }
     }
 
+    void ColliderOff()
+    {
+        HitBox.GetComponent<BoxCollider2D>().enabled = false;
+    }
 }

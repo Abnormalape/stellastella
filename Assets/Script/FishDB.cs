@@ -20,13 +20,15 @@ class FishDB
 
     void FishSetting(int i)
     {
-        fishID = i;
+        
         switch (i)
         {
             case 0:
                 return;
             case 1:
                 fishName = "SpringEasyFish";
+
+                fishID = 401;
 
                 fishDifficulty = 10;
                 fishPercentage = 90;
@@ -46,6 +48,9 @@ class FishDB
                 return;
             case 2:
                 fishName = "SpringHardFish";
+
+                fishID = 402;
+
                 fishDifficulty = 80;
                 fishPercentage = 10;
                 season[0] = true;
@@ -63,6 +68,9 @@ class FishDB
                 return;
             case 3:
                 fishName = "SummerEasyFish";
+
+                fishID = 403;
+
                 fishDifficulty = 10;
                 fishPercentage = 90;
                 season[0] = false;
@@ -80,6 +88,9 @@ class FishDB
                 return;
             case 4:
                 fishName = "SummerHardFish";
+
+                fishID = 404;
+
                 fishDifficulty = 80;
                 fishPercentage = 10;
                 season[0] = false;
@@ -97,6 +108,9 @@ class FishDB
                 return;
             case 5:
                 fishName = "FallEasyFish";
+
+                fishID = 405;
+
                 fishDifficulty = 10;
                 fishPercentage = 90;
                 season[0] = false;
@@ -114,6 +128,9 @@ class FishDB
                 return;
             case 6:
                 fishName = "FallHardFish";
+
+                fishID = 406;
+
                 fishDifficulty = 80;
                 fishPercentage = 10;
                 season[0] = false;
@@ -131,6 +148,9 @@ class FishDB
                 return;
             case 7:
                 fishName = "WinterEasyFish";
+
+                fishID = 407;
+
                 fishDifficulty = 10;
                 fishPercentage = 90;
                 season[0] = false;
@@ -148,6 +168,9 @@ class FishDB
                 return;
             case 8:
                 fishName = "WinterHardFish";
+
+                fishID = 408;
+
                 fishDifficulty = 80;
                 fishPercentage = 10;
                 season[0] = false;
@@ -165,6 +188,9 @@ class FishDB
                 return;
             case 9:
                 fishName = "DayFish";
+
+                fishID = 409;
+
                 fishDifficulty = 10;
                 fishPercentage = 50;
                 season[0] = true;
@@ -185,6 +211,9 @@ class FishDB
                 return;
             case 10:
                 fishName = "NightFish";
+
+                fishID = 410;
+
                 fishDifficulty = 10;
                 fishPercentage = 50;
                 season[0] = true;
