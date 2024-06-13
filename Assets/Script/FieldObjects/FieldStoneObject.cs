@@ -67,7 +67,7 @@ class FieldStoneObject : MonoBehaviour
                 }
                 else if (onHandItem.grade < this.toolLevel)
                 {
-                    Debug.Log("도구가 충분히 강하지 않은 것 같다.");
+                    
                 }
             }
         }

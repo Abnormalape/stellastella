@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum LandType
@@ -21,20 +22,35 @@ class LandControl : MonoBehaviour
     public bool watered;
     public bool seeded;
 
-    private void Awake()
+    //=====================================
+    public delegate void AValueUpdated(bool newValue);
+    public event AValueUpdated OnAValueUpdated;
+    public delegate void BValueUpdated(bool newValue);
+    public event BValueUpdated OnBValueUpdated;
+
+    private bool a;
+    private bool b;
+    public bool monthChanged
     {
-        
+        get { return a; }
+        set
+        {
+            a = value; // value는 this.bool 의 값과 같다.
+            OnAValueUpdated.Invoke(a); // A 값이 변경될 때 이벤트 호출
+        }
     }
 
-    private void OnEnable()
+    public bool dayChanged
     {
-        
+        get { return b; }
+        set
+        {
+            b = value;
+            //OnBValueUpdated?.Invoke(b); // B 값이 변경될 때 이벤트 호출
+            OnBValueUpdated.Invoke(b); // B 값이 변경될 때 이벤트 호출
+        }
     }
-
-    private void Start()
-    {
-        
-    }
+    //=====================================
 
     private void Update()
     {
@@ -51,16 +67,20 @@ class LandControl : MonoBehaviour
         {   //Empty.
             landType = LandType.Empty;
         }
+        //==========================================//
         else if (GetComponentInChildren<WeedLandWeed>() != null)
         {   //자식이 WeedLandWeed class를 가지고 있다면.
-
             landType = LandType.Weed; //여기서 설정.
             if (GetComponent<WeedLand>().prefabPath != "")
             {
                 prefabPath = GetComponent<WeedLand>().prefabPath;
-            }  //WeedLand에서 가져옴.
-            currentHP = 1;  //WeedLandWeed에서 가져와야 하나 어차피 체력은 1.
-                            //level = 0; WeedLandWeed에서 가져와야 하나 얘는 레벨이 없음.
+                currentHP = 1;
+            }
+            else
+            {
+                prefabPath = tempstring;
+                currentHP = 1;
+            }
         }
         else if (GetComponentInChildren<FieldStoneObject>() != null)
         {   //돌맹이가 생성된 케이스.
@@ -68,9 +88,13 @@ class LandControl : MonoBehaviour
             if (GetComponent<StoneLand>().prefabPath != "")
             {
                 prefabPath = GetComponent<StoneLand>().prefabPath;
-            }  //StoneLand에서 가져옴.
-            currentHP = 1;  //자식오브젝트에서 가져와야 하나 어차피 체력은 1.
-                            //얘는 레벨이 없음, 아니 있기는 한데, 그건 다른 오브젝트긴 한데...
+                currentHP = 1;
+            }
+            else
+            {
+                prefabPath = tempstring;
+                currentHP = 1;
+            }
         }
         else if (GetComponentInChildren<FieldTreeLandStick>() != null)
         {   //나뭇가지가 생성된 케이스.
@@ -78,19 +102,25 @@ class LandControl : MonoBehaviour
             if (GetComponent<TreeLand>().prefabPath != "")
             {
                 prefabPath = GetComponent<TreeLand>().prefabPath;
+                currentHP = 1;
             }
-            currentHP = 1;  //자식오브젝트에서 가져와야 하나 어차피 체력은 1.
-            //얘는 레벨이 없음.
-        }
-        else if (GetComponentInChildren<FieldTreeLand>() != null)
-        {   //나무가 자란 케이스.
-            landType = LandType.Tree;
-            if (GetComponent<TreeLand>().prefabPath != "")
+            else
             {
-                prefabPath = GetComponent<TreeLand>().prefabPath;
+                prefabPath = tempstring;
+                currentHP = 1;
             }
-            currentHP = GetComponentInChildren<FieldTreeLand>().hp;         //FieldTreeObject에서 가져와야함.
-            level = GetComponentInChildren<FieldTreeLand>().currentLevel;   //FieldTreeObject에서 가져와야함.
+        }
+        //==========================================//
+        else if (GetComponentInChildren<FieldTreeLand>() != null)
+        {   //나무가 자란 케이스. => 농장외부와 농장내부 =>
+            //농장외부의 경우 본인이 가진 프리팹을 전달하면 되는데, 농장 내부의 경우 그때마다 별도의 경로를 지닌다.
+
+            landType = LandType.Tree;
+
+            //path, hp, level
+            prefabPath = GetComponent<TreeLand>().prefabPath;
+            level = GetComponent<TreeLand>().CurrentLevel;
+            currentHP = GetComponentInChildren<FieldTreeLand>().hp;
         }
         else if (GetComponentInChildren<FarmLandControl>() != null)
         {   //농사를 한 케이스.

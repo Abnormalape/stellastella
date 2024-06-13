@@ -157,12 +157,15 @@ class PlayerMovement : MonoBehaviour // swingtool 미완성
         else { timeCheck = 0; }
     }
 
+    public Vector2 rightClickPostion { get; private set; }
     void NormalChargeHitBox()
     {
         double xx = math.round(this.transform.position.x);
         if (xx > this.transform.position.x) { xx -= 0.5; } else { xx += 0.5; }
         double yy = math.round(this.transform.position.y);
         if (yy > this.transform.position.y) { yy -= 0.5; } else { yy += 0.5; }
+
+        rightClickPostion = new Vector2((float)xx, (float)yy) + nowFacing;
         chargedHitBox.transform.position = new Vector2((float)xx, (float)yy) + nowFacing;
         chargedHitBox.transform.localScale = new Vector2(0.8f, 0.8f);
         if (nowFacing.x == 1 || nowFacing.x == -1)

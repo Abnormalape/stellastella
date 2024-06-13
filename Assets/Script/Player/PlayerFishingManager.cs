@@ -14,7 +14,7 @@ class PlayerFishingManager : MonoBehaviour
     {
         MakeFishList();
         VoteFish();
-        Debug.Log(votedFishID);
+        
         return votedFishID;
     }
 
@@ -29,7 +29,7 @@ class PlayerFishingManager : MonoBehaviour
         fishlistnumber = 0;
         fishListLength = 0;
 
-        for (int i = 1; i < 11; i++)
+        for (int i = 1; i < 11; i++) // fishDB의 마지막 물고기 번호.
         {
             FishDB fishDB = new FishDB(i);
             if (fishDB.weather[gameManager.weather] == true && //날씨
@@ -50,12 +50,12 @@ class PlayerFishingManager : MonoBehaviour
                 fishDB.time[0] <= gameManager.currentHour && fishDB.time[1] > gameManager.currentHour) // 장소는 임시로 강으로 설정
             {
                 fishList[j] = i + 1;
-                Debug.Log($"{fishDB.fishName},{j}번째자리에 등록 성공!");
+                
                 j++;
             }
             else
             {
-                Debug.Log($"{fishDB.fishName},등록 실패!");
+                
             }
         }
         

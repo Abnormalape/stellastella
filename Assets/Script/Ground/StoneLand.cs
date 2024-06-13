@@ -11,12 +11,37 @@ public class StoneLand : MonoBehaviour // Á¶°Ç¿¡ µû¶ó ±¤¼® ÀÚ½Ä ¿ÀºêÁ§Æ®¸¦ »ý¼ºÇ
     [SerializeField] int currentDate;
     [SerializeField] int currentMonth;
 
-    public string prefabPath;
+    public string prefabPath = "";
+
+    bool dayChanged;
+    bool monthChanged;
+    LandControl landControl;
+
+
+
     private void Awake() // °ÔÀÓ ½ÃÀÛÇÒ ¶§ ÃÊ±âÈ­
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         currentDate = gameManager.currentDay;
         currentMonth= gameManager.currentMonth;
+
+        landControl = GetComponent<LandControl>();    
+    }
+
+    private void Start()
+    {
+        landControl.OnAValueUpdated += HandleAValueUpdated;
+        landControl.OnBValueUpdated += HandleBValueUpdated;
+    }
+
+    void HandleAValueUpdated(bool newValue)
+    {
+        monthChanged = newValue;
+    }
+
+    void HandleBValueUpdated(bool newValue)
+    {
+        dayChanged = newValue;
     }
 
     private void Update()
@@ -42,9 +67,11 @@ public class StoneLand : MonoBehaviour // Á¶°Ç¿¡ µû¶ó ±¤¼® ÀÚ½Ä ¿ÀºêÁ§Æ®¸¦ »ý¼ºÇ
 
     public void MakeStone()
     {
-        if (currentMonth != gameManager.currentMonth) // °èÀýÀÌ ¹Ù²ð¶§.
+        if (monthChanged) // °èÀýÀÌ ¹Ù²ð¶§.
         {
-            Debug.Log("season change detected");
+            monthChanged = false;
+            dayChanged = false;
+
 
             if (transform.childCount == 0) // LandController¿¡ ÀÚ½ÄÀÌ ¾ø´Ù¸é.
             {

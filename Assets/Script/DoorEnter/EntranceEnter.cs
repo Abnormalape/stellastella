@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
@@ -18,19 +19,29 @@ class Entrance : MonoBehaviour
     Collider2D collisionn;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collisionn = collision;
-        if(GoingScene == "" && collisionn != null)
+        if (collision.tag == "Player")
         {
+            collisionn = collision;
+        }
+
+        if(GoingScene == "" && collisionn != null && collision.tag == "Player")
+        {
+            collision.GetComponent<PlayerController>().Conversation(true);
+            collision.GetComponentInChildren<Fading>().fadeIn = true;
+
             Invoke("TeleportPlayer", 0.5f);
         }
-        else if (collisionn.tag == "Player" && collisionn != null)
+        else if (collision.tag == "Player" && collisionn != null)
         {   //플레이어와 접촉했다면.
             //입구가 가진 씬의 좌표로 플레이어를 전송한다.
 
             if (currentSceneName == "Farm")
             {
-                GameObject.Find("GameManager").GetComponent<GameManager>().SaveLandData();
+                GameObject.Find("GameManager").GetComponent<GameManager>().SaveLandInFarmData();
             }
+
+            collision.GetComponent<PlayerController>().Conversation(true);
+            collision.GetComponentInChildren<Fading>().fadeIn = true;
 
             Invoke("TransformPlayer", 0.5f);
         }
@@ -38,9 +49,11 @@ class Entrance : MonoBehaviour
 
     void TransformPlayer()
     {
-        SceneManager.LoadScene(GoingScene);
+        
         collisionn.transform.position = GoingTo;
         collisionn.transform.GetComponent<PlayerController>().nowLocation = ToPlace;
+        
+        SceneManager.LoadScene(GoingScene);
         collisionn = null;
     }
     

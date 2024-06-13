@@ -24,11 +24,13 @@ class DoorEnter : MonoBehaviour
             collisionn = collision;
             if (currentSceneName == "Farm")
             {
-                Debug.Log("농장에서 이동");
-                GameObject.Find("GameManager").GetComponent<GameManager>().SaveLandData();
+                GameObject.Find("GameManager").GetComponent<GameManager>().SaveLandInFarmData();
             }
 
             Invoke("Transporting", 0.5f);
+
+            collision.GetComponentInParent<PlayerController>().Conversation(true);
+            collision.transform.parent.GetComponentInChildren<Fading>().fadeIn = true;
         }
     }
 

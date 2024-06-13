@@ -28,8 +28,26 @@ public class FarmLand : MonoBehaviour
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         currentDate = gameManager.currentDay;
         spriteRenderer = this.GetComponent<SpriteRenderer>();
+        landControl = GetComponent<LandControl>();
+    }
+    private void Start()
+    {
+        landControl.OnAValueUpdated += HandleAValueUpdated;
+        landControl.OnBValueUpdated += HandleBValueUpdated;
     }
 
+    LandControl landControl;
+    bool monthChanged;
+    bool dayChanged;
+    void HandleAValueUpdated(bool newValue)
+    {
+        monthChanged = newValue;
+    }
+
+    void HandleBValueUpdated(bool newValue)
+    {
+        dayChanged = newValue;
+    }
     private void Update()
     {
         DayChange();
@@ -75,9 +93,11 @@ public class FarmLand : MonoBehaviour
     }
     void DayChange()
     {
-        if (currentDate != gameManager.currentDay) // 날짜가 바뀐다면.
+        if (dayChanged) // 날짜가 바뀐다면.
         {
             currentDate = gameManager.currentDay; // 날짜를 업데이트 하고.
+            dayChanged = false;
+            monthChanged = false;
             if (digged) 
             {
                 if (this.transform.GetComponentInChildren<FarmLandControl>().seeded == false)
@@ -99,7 +119,7 @@ public class FarmLand : MonoBehaviour
 
         for (int i = 0; i < nearGround.Length; i++)
         {
-            if (nearGround[i] != null && nearGround[i].tag == "FarmLand")
+            if (nearGround[i] != null && nearGround[i].GetComponent<FarmLand>() != null)
             {
                 if (nearGround[i].transform.position.x - this.transform.position.x == 1 && nearGround[i].transform.position.y - this.transform.position.y == 0)
                 {

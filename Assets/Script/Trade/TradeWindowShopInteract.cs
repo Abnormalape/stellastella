@@ -19,6 +19,7 @@ class TradeWindowShopInteract : MonoBehaviour
 
     private void Awake()
     {
+        pCon = transform.parent.parent.GetComponent<PlayerController>();
         mouseCursor = transform.parent.parent.transform.Find("Cursor").gameObject;
         playerInventroy = transform.parent.parent.GetComponent<PlayerInventroy>();
         tradeWindow = transform.parent.GetComponent<TradeWindow>();
@@ -32,17 +33,28 @@ class TradeWindowShopInteract : MonoBehaviour
     {   //버튼이 클릭 되었을때 실행할 메서드.
         if (mouseCursor.GetComponent<MyPlayerCursor>().itemOnHand == false)
         {
+            if(pCon.currentGold < ItemDB.buyPrice)
+            {
+                return;
+            }
+
             mouseCursor.GetComponent<MyPlayerCursor>().itemID = tradeWindow.sellList[invNum];
             mouseCursor.GetComponent<MyPlayerCursor>().itemCounts++;
             mouseCursor.GetComponentInChildren<Text>().text = ItemDB.name;
 
-
+            pCon.currentGold = pCon.currentGold - ItemDB.buyPrice;
             mouseCursor.GetComponent<MyPlayerCursor>().itemOnHand = true;
         }
         else if (mouseCursor.GetComponent<MyPlayerCursor>().itemOnHand == true
             && mouseCursor.GetComponent<MyPlayerCursor>().itemID == tradeWindow.sellList[invNum])
         {
+            if (pCon.currentGold < ItemDB.buyPrice)
+            {
+                return;
+            }
+
             mouseCursor.GetComponent<MyPlayerCursor>().itemCounts++;
+            pCon.currentGold = pCon.currentGold - ItemDB.buyPrice;
         }
     }
 }

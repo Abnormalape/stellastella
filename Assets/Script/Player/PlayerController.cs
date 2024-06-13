@@ -55,6 +55,9 @@ public class PlayerController : MonoBehaviour
         CurrentMax(currentHp, maxHp);
         CurrentMax(currentStamina, maxStamina);
         InvenToryButton();
+
+
+
         //if (idle)
         //{
         //    Debug.Log("idle");

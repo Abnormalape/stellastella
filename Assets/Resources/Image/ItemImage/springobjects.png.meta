@@ -2000,7 +2000,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sip
+      name: Sap
       rect:
         serializedVersion: 2
         x: 320
@@ -2924,7 +2924,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_134
+      name: SpringEasyFish
       rect:
         serializedVersion: 2
         x: 256
@@ -2945,7 +2945,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_135
+      name: SpringHardFish
       rect:
         serializedVersion: 2
         x: 272
@@ -2966,7 +2966,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_136
+      name: SummerEasyFish
       rect:
         serializedVersion: 2
         x: 288
@@ -2987,7 +2987,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_137
+      name: SummerHardFish
       rect:
         serializedVersion: 2
         x: 304
@@ -3008,7 +3008,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_138
+      name: FallEasyFish
       rect:
         serializedVersion: 2
         x: 320
@@ -3029,7 +3029,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_139
+      name: FallHardFish
       rect:
         serializedVersion: 2
         x: 336
@@ -3050,7 +3050,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_140
+      name: WinterEasyFish
       rect:
         serializedVersion: 2
         x: 352
@@ -3071,7 +3071,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_141
+      name: WinterHardFish
       rect:
         serializedVersion: 2
         x: 368
@@ -3092,7 +3092,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_142
+      name: DayFish
       rect:
         serializedVersion: 2
         x: 0
@@ -3113,7 +3113,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_143
+      name: NightFish
       rect:
         serializedVersion: 2
         x: 16
@@ -19547,18 +19547,28 @@ TextureImporter:
     nameFileIdTable:
       Coal: -668928508
       CopperOre: -1077965645
+      DayFish: 1125854912
       FallCrop1Seed: -288055284
       FallCrop2Seed: 1239549155
+      FallEasyFish: 1318055136
+      FallHardFish: 318216032
       HardWood: 2023112526
+      NightFish: -853830285
       OakTreeSeed: 1385149909
-      Sip: -1503830036
+      Sap: -1503830036
       SpringCrop1: -1993135857
       SpringCrop1Seed: -1679213298
       SpringCrop2Seed: 1549726443
+      SpringEasyFish: -914548318
+      SpringHardFish: -823648340
       Stone: 881205708
       SummerCrop1Seed: 1600997807
       SummerCrop2Seed: -1202373920
+      SummerEasyFish: -1086362721
+      SummerHardFish: -2139142780
       Weed: -1847615005
+      WinterEasyFish: -339251992
+      WinterHardFish: 1613000786
       Wood: 1613563724
       springobjects_0: 2138993626
       springobjects_1: -1823825311
@@ -19600,17 +19610,7 @@ TextureImporter:
       springobjects_131: 1768514413
       springobjects_132: 1925565967
       springobjects_133: 254299737
-      springobjects_134: -914548318
-      springobjects_135: -823648340
-      springobjects_136: -1086362721
-      springobjects_137: -2139142780
-      springobjects_138: 1318055136
-      springobjects_139: 318216032
       springobjects_14: 1124436347
-      springobjects_140: -339251992
-      springobjects_141: 1613000786
-      springobjects_142: 1125854912
-      springobjects_143: -853830285
       springobjects_144: 433022991
       springobjects_145: 75151333
       springobjects_146: 1951578031

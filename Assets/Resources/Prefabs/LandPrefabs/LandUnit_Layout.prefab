@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 7754830488464963748}
   m_Layer: 7
   m_Name: LandUnit_Layout
-  m_TagString: FarmLand
+  m_TagString: LandInFarm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -290,3 +290,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df68ce773a7e8ed4597da696c0a934e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  savePosition: {x: 0, y: 0, z: 0}
+  prefabPath: 
+  prefabPath_Crop: 
+  landType: 0
+  currentHP: 0
+  level: 0
+  days: 0
+  digged: 0
+  watered: 0
+  seeded: 0

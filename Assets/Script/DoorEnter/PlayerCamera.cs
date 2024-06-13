@@ -38,21 +38,29 @@ class PlayerCamera : MonoBehaviour
     {
         switch (i)
         {
-            case 0://농장
+            case 0://농장.
                 cameraLimit_0 = new Vector2(-16, -10);
                 cameraLimit_1 = new Vector2(17, 10);
                 return;
-            case 1://마을
+            case 1://마을.
                 cameraLimit_0 = new Vector2(38, -30);
                 cameraLimit_1 = new Vector2(100, 10);
                 return;
-            case 5://집안
+            case 3: // 산.
+                cameraLimit_0 = new Vector2(-1300, -1400);
+                cameraLimit_1 = new Vector2(1500, 1900);
+                return;
+            case 4:
+                cameraLimit_0 = new Vector2(-56, -60);
+                cameraLimit_1 = new Vector2(2, -29);
+                return;
+            case 5://집안.
                 cameraLimit_0 = new Vector2(13, 14);
                 cameraLimit_1 = new Vector2(15, 19);
                 return;
-            case 6://잡화점
-                cameraLimit_0 = new Vector2(13, 14);
-                cameraLimit_1 = new Vector2(15, 19);
+            case 6://잡화점.
+                cameraLimit_0 = new Vector2(63, 13);
+                cameraLimit_1 = new Vector2(65, 22);
                 return;
         }
     }

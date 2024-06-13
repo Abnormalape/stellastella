@@ -39,7 +39,6 @@ class PlayerFishingRodSearchShoreCollider : MonoBehaviour
             if (hit[i].gameObject.layer == LayerMask.NameToLayer("Shore"))
             {
                 j = b; // 물가로부터의 거리: 물고기의 등급결정.
-                Debug.Log(j); 
                 stopit = true;
             }
         }

@@ -14,6 +14,9 @@ TagManager:
   - FieldItem
   - Cursor
   - Door
+  - LandInFarm
+  - TreeLand
+  - WeedLand
   layers:
   - Default
   - TransparentFX
