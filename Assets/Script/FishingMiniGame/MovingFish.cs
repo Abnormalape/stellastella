@@ -33,7 +33,7 @@ class MovingFish : MonoBehaviour
             timepassed = 0;
             fishID = GetComponentInParent<FishingMiniGame>().fishID;
             fishDB = new FishDB(fishID);
-            Debug.Log("나는 물고기다!" + fishID);
+            
             fishdifficulty = fishDB.fishDifficulty;
             fishUp();
             float NM = Random.Range(50f / fishdifficulty, 100f / fishdifficulty);
@@ -77,17 +77,17 @@ class MovingFish : MonoBehaviour
     private void fishUp()
     {   //물고기 상승 : 난이도가 높을수록 빠르게 상승.
         transform.localPosition = (Vector2)transform.localPosition + (Vector2.up * fishdifficulty /10f) * Time.deltaTime;
-        Debug.Log("UP" + fishdifficulty);
+        
     }
     private void fishDown()
     {   //물고기 하강 : 난이도가 높을수록 빠르게 하강.
         transform.localPosition = (Vector2)transform.localPosition + (Vector2.down * fishdifficulty /10f) * Time.deltaTime;
-        Debug.Log("Down" + fishdifficulty);
+        
     }
     private void fishStay()
     {   //물고기 정지 : 
         transform.localPosition = (Vector2)transform.localPosition;
-        Debug.Log("Stay" + fishdifficulty);
+        
     }
 
     bool movementReady = false;

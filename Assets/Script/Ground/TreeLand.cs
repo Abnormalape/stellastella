@@ -11,12 +11,21 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
     int currentDate;
     int currentMonth;
 
-    public string prefabPath;
+    private string prefabpath = "";
+    public string prefabPath
+    {
+        get { return prefabpath; }
+        set
+        {
+            prefabpath = value;
+        }
+    }
+
 
     [SerializeField] int myPrefabNumber; // myprefab의 번호 : oaktree = 1, mapletree = 2, pinetree = 3;
 
     [SerializeField]
-    bool AtFarm = false;
+    public bool AtFarm = false;
 
     //=======================================//
     public delegate void CurrentTreeLevelUpdated(int newValue);
@@ -28,7 +37,6 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
         get { return currentlevel; }
         set
         {
-            Debug.Log("Start() 1");
             currentlevel = value;
             OnCurrentTreeLevelUpdated?.Invoke(currentlevel);
         }
@@ -72,6 +80,9 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
         }
     }
 
+
+
+
     LandControl landControl;
     bool monthChanged;
     bool dayChanged;
@@ -99,7 +110,7 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
         dayChanged = newValue; //일이 바뀌었을때.
 
         if (AtFarm)
-        {   
+        {
             InSideFarmSummonTree();
         }
         else
@@ -109,14 +120,13 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
     }
     private void Update()
     {
-        
+
     }
 
     public void OutSideFarmSummonTree()
     {
         if (dayChanged)
         {
-            Debug.Log("OutSideTreeDayChanged");
 
             //날짜 동기화는 항상.
             currentDate = gameManager.currentDay;
@@ -131,16 +141,22 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
                     Instantiate(myTreePrefab, this.transform.position, Quaternion.identity, this.transform);
                     //외부용 나무는 프리팹에 생성할 프리팹이 이미 배정되어 있다.
                     CurrentLevel = 2;
-                    Debug.Log(" Instantiate(myTreePrefab: "+ this.transform.position);
                 }
-                
+
             }
             else if (transform.childCount != 0 && transform.GetComponentInChildren<FieldTreeLand>() != null)
             {   //자식이 있고, 자식이 필드트리를 가지고 있다면.
                 int i = Random.Range(0, 100);
                 if (i >= 20)
                 {   // 80퍼 확률로 성장.
-                    CurrentLevel++;
+                    if (currentlevel < 4)
+                    {
+                        CurrentLevel++;
+                    }
+                    else
+                    {
+                        CurrentLevel = CurrentLevel;
+                    }
                 }
             }
         }

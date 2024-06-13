@@ -15,12 +15,13 @@ public class ChatManager : MonoBehaviour
     {
         gameManager.DayOff();
         player.GetComponent<PlayerController>().Conversation(false);
-        chatbox.SetActive(false);
+        Destroy(chatbox);
+        //player.
     }
 
     public void BedNo(GameObject player, GameObject chatbox)
     {
         player.GetComponent<PlayerController>().Conversation(false);
-        chatbox.SetActive(false);
+        Destroy(chatbox);
     }
 }

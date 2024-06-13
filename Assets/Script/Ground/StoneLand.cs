@@ -11,7 +11,7 @@ public class StoneLand : MonoBehaviour // Á¶°Ç¿¡ µû¶ó ±¤¼® ÀÚ½Ä ¿ÀºêÁ§Æ®¸¦ »ý¼ºÇ
     [SerializeField] int currentDate;
     [SerializeField] int currentMonth;
 
-    public string prefabPath;
+    public string prefabPath = "";
 
     bool dayChanged;
     bool monthChanged;
@@ -72,7 +72,6 @@ public class StoneLand : MonoBehaviour // Á¶°Ç¿¡ µû¶ó ±¤¼® ÀÚ½Ä ¿ÀºêÁ§Æ®¸¦ »ý¼ºÇ
             monthChanged = false;
             dayChanged = false;
 
-            Debug.Log("season change detected");
 
             if (transform.childCount == 0) // LandController¿¡ ÀÚ½ÄÀÌ ¾ø´Ù¸é.
             {

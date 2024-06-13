@@ -24,7 +24,6 @@ class DoorEnter : MonoBehaviour
             collisionn = collision;
             if (currentSceneName == "Farm")
             {
-                Debug.Log("농장에서 이동");
                 GameObject.Find("GameManager").GetComponent<GameManager>().SaveLandInFarmData();
             }
 

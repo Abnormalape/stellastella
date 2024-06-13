@@ -50,8 +50,9 @@ class FieldTreeLand : MonoBehaviour
 
     public void CurrentLevel(int currentlevel) // 바뀐 날짜값.
     {
-        Debug.Log(currentlevel + "FieldTree");
+        
         currentLevel = currentlevel; // 바뀐 날짜값 동기화.
+
         WhenLevelChanged();
         MakeSprite();
     }
@@ -60,10 +61,13 @@ class FieldTreeLand : MonoBehaviour
 
     private void Awake()
     {
+        transform.localPosition = Vector3.zero;
 
-        Debug.Log("Start() 0");
-        parentTreeLand = GetComponentInParent<TreeLand>();
-        parentTreeLand.OnCurrentTreeLevelUpdated += CurrentLevel;
+        if (GetComponentInParent<TreeLand>() != null)
+        {
+            parentTreeLand = GetComponentInParent<TreeLand>();
+            parentTreeLand.OnCurrentTreeLevelUpdated += CurrentLevel;
+        }
 
         mybox = GetComponent<BoxCollider2D>();
         mybox.isTrigger = true;
@@ -86,6 +90,7 @@ class FieldTreeLand : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.tag == "LeftClick" && collision.GetComponentInParent<PlayerController>() != null)
         {
             onHandItem = new ItemDB(collision.GetComponentInParent<PlayerInventroy>().currentInventoryItem);
@@ -112,6 +117,7 @@ class FieldTreeLand : MonoBehaviour
                 case 5:
                     if (onHandItem.toolType == 1) // 도끼라면
                     {
+                        
                         this.hp -= onHandItem.hpRestore;
                         BranchDestroy(collision);
                         DestroyTree();
@@ -262,6 +268,7 @@ class FieldTreeLand : MonoBehaviour
 
 
             currentLevel = 5;
+            GetComponentInParent<TreeLand>().CurrentLevel = currentLevel;
             WhenLevelChanged();
             branchOn = false;
             branch.transform.parent = null;

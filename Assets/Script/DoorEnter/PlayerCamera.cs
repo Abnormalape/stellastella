@@ -50,6 +50,10 @@ class PlayerCamera : MonoBehaviour
                 cameraLimit_0 = new Vector2(-1300, -1400);
                 cameraLimit_1 = new Vector2(1500, 1900);
                 return;
+            case 4:
+                cameraLimit_0 = new Vector2(-56, -60);
+                cameraLimit_1 = new Vector2(2, -29);
+                return;
             case 5://집안.
                 cameraLimit_0 = new Vector2(13, 14);
                 cameraLimit_1 = new Vector2(15, 19);

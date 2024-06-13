@@ -21,7 +21,7 @@ class Fading : MonoBehaviour
     {
         if (fadeIn)
         {
-            Debug.Log("fadeIn");
+            
             image.SetActive(true);
             DoFade();
         }

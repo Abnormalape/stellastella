@@ -29,7 +29,7 @@ class TradeManage : MonoBehaviour
         {
             OpenPlayerTradeWindow();
             
-            if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
+            if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyUp(KeyCode.E))
             {
                 DeActivateTrade();
             }
@@ -43,8 +43,9 @@ class TradeManage : MonoBehaviour
         for (int i = 0; i < pInven.inventSlots; i++) // 추후에 36개로
         {
             tradeUISlot[i] = transform.GetComponentsInChildren<TradeWindowPlayerInteract>()[i].gameObject;
-            if (tradeUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
 
+
+            if (tradeUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
             itemDB = new ItemDB(pInven.pInventoryItemID[i]);
             tradeUISlot[i].GetComponentInChildren<Text>().text = $"{itemDB.name}";
             tradeUISlot[i].GetComponentInChildren<TradeWindowPlayerInteract>().inventoryitemID = pInven.pInventoryItemID[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 아이디가 삽입된다.
@@ -57,6 +58,7 @@ class TradeManage : MonoBehaviour
     {
         tradeWindowShop.SetActive(true);
         tradeWindowPlayer.SetActive(true);
+
         inventoryBar.SetActive(false);
         GetComponent<PlayerController>().Trade(true);
     }
@@ -64,7 +66,8 @@ class TradeManage : MonoBehaviour
     {
         tradeWindowShop.SetActive(false);
         tradeWindowPlayer.SetActive(false);
+
         inventoryBar.SetActive(true);
-        GetComponent<PlayerController>().Trade(false);
+        GetComponent<PlayerController>().Trade(false);   
     }
 }

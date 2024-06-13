@@ -53,7 +53,7 @@ public class WeedLand : MonoBehaviour
     }
 
     GameObject summonWeed;
-    public string prefabPath;
+    public string prefabPath = "";
     public void OutSideFarm()
     {
         if (dayChanged)

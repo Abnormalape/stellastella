@@ -17,7 +17,6 @@ class ChatBox : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log(ChoiceButtons.Length);
         for (int i = 0; i < ChoiceButtons.Length; i++)
         {
             Choices[i] = ChoiceButtons[i].gameObject;

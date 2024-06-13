@@ -6,6 +6,9 @@ class PlayerFishingMinigame : MonoBehaviour //플레이어의 낚시 레벨, 사
     public int fishGrade;
     PlayerController pCon;
 
+    [SerializeField] GameObject bite;
+    [SerializeField] GameObject caught;
+
     private void Awake()
     {
         pCon = GetComponent<PlayerController>();
@@ -19,6 +22,17 @@ class PlayerFishingMinigame : MonoBehaviour //플레이어의 낚시 레벨, 사
         { Baiting(); }
     }
 
+    bool annbait;
+    void AnnounceBait()
+    {
+        Instantiate(bite, this.transform.position, Quaternion.identity);
+    }
+    bool anncaught;
+    void AnnounceCaught()
+    {
+        Instantiate(caught, this.transform.position, Quaternion.identity);
+    }
+
     bool makeR = false;
     float R;
     private void Baiting()
@@ -29,20 +43,33 @@ class PlayerFishingMinigame : MonoBehaviour //플레이어의 낚시 레벨, 사
             makeR = true;
         }
         passedTime += Time.deltaTime;
-        
+
         if (passedTime > R)
         {
-            Debug.Log("당겨!");
+            if (!annbait)
+            {
+                
+                AnnounceBait();
+                annbait = true;
+            }
+
 
             baitTime += Time.deltaTime;
             if (baitTime <= 1f && Input.GetMouseButtonDown(0))
             {
-                Debug.Log("물었다!");
+                if (!anncaught)
+                {
+                    AnnounceCaught();
+                    anncaught = true;
+                }
+
+
                 passedTime = 0;
                 baitTime = 0;
 
                 makeR = false;
-                FishingMiniGame();
+                Invoke("FishingMiniGame",0.5f);
+                //FishingMiniGame();
             }
             else if (baitTime > 1f && Input.GetMouseButtonDown(0))
             {
@@ -53,6 +80,8 @@ class PlayerFishingMinigame : MonoBehaviour //플레이어의 낚시 레벨, 사
                 makeR = false;
                 pCon.Motion(true);
                 pCon.WaitingForBait(false);
+                annbait = false;
+                anncaught = false;
             }
         }
         else if (passedTime <= R && Input.GetMouseButtonDown(0))
@@ -64,6 +93,8 @@ class PlayerFishingMinigame : MonoBehaviour //플레이어의 낚시 레벨, 사
             makeR = false;
             pCon.Motion(true);
             pCon.WaitingForBait(false);
+            annbait = false;
+            anncaught = false;
         }
     }
 
@@ -71,7 +102,7 @@ class PlayerFishingMinigame : MonoBehaviour //플레이어의 낚시 레벨, 사
     {
         pCon.Minigame(true);
         pCon.WaitingForBait(false);
-        
+
 
         this.fishID = GetComponent<PlayerFishingManager>().GiveFishtoPlayerFishMiniGame();
         //Time.timeScale = 0f;
@@ -81,6 +112,10 @@ class PlayerFishingMinigame : MonoBehaviour //플레이어의 낚시 레벨, 사
     public void EndFishing()
     {
         Destroy(GetComponentInChildren<FishingMiniGame>().gameObject);
+
+        anncaught = false;
+        annbait = false;
+
         pCon.Minigame(false);
         pCon.Motion(true);
     }
