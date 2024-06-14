@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 667865700690504175}
   - component: {fileID: 6804678669089254868}
+  - component: {fileID: -8683210448341799429}
   m_Layer: 0
   m_Name: WeedLand
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: WeedLand
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -49,3 +50,26 @@ MonoBehaviour:
   atFarm: 0
   currentDate: 0
   currentMonth: 0
+  prefabPath: 
+--- !u!114 &-8683210448341799429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691907512427170656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df68ce773a7e8ed4597da696c0a934e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  savePosition: {x: 0, y: 0, z: 0}
+  prefabPath: 
+  prefabPath_Crop: 
+  landType: 0
+  currentHP: 0
+  level: 0
+  days: 0
+  digged: 0
+  watered: 0
+  seeded: 0

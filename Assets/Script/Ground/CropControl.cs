@@ -112,65 +112,76 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
                 }
             }
         }
+
+        if(days!=maxDay && level == maxLevel)
+        {
+            level = level - 1;
+        }
     }
     void UpdateSprite()
     {
-        if (seedDB.reGather == false)
+        thisSR.sprite = sprites[level];
+        if (reHarvset) // 재수확
         {
-            if (days == 0)
-            {
-                thisSR.sprite = sprites[0]; // 씨앗
-            }
-            else if (days == 1)
-            {
-                thisSR.sprite = sprites[1];
-            }
-            else if (days == maxDay)
-            {
-                thisSR.sprite = sprites[maxLevel];
-            }
-            else if (days != maxDay && level == maxLevel)
-            {
-                thisSR.sprite = sprites[maxLevel - 1];
-            }
-            else
-            {
-                thisSR.sprite = sprites[level]; // 현재 레벨의 스프라이트로 변경
-            }
+
         }
-        else if (seedDB.reGather == true) 
-        {
-            if (onceharvested == false)
-            {
-                if (days == 0)
-                {
-                    thisSR.sprite = sprites[0]; // 씨앗
-                }
-                else if (days == 1)
-                {
-                    thisSR.sprite = sprites[1];
-                }
-                else if (days == maxDay)
-                {
-                    thisSR.sprite = sprites[maxLevel];
-                }
-                else
-                {
-                    thisSR.sprite = sprites[level]; // 현재 레벨의 스프라이트로 변경
-                }
-            }
-            else if (onceharvested == true)
-            {
-                if (days == maxDay)
-                {
-                    thisSR.sprite = sprites[maxLevel];
-                }
-                else
-                {
-                    thisSR.sprite = sprites[maxLevel -1];
-                }
-            }
-        }
+
+        //if (seedDB.reGather == false)
+        //{
+        //    if (days == 0)
+        //    {
+        //        thisSR.sprite = sprites[0]; // 씨앗
+        //    }
+        //    else if (days == 1)
+        //    {
+        //        thisSR.sprite = sprites[1];
+        //    }
+        //    else if (days == maxDay)
+        //    {
+        //        thisSR.sprite = sprites[maxLevel];
+        //    }
+        //    else if (days != maxDay && level == maxLevel)
+        //    {
+        //        thisSR.sprite = sprites[maxLevel - 1];
+        //    }
+        //    else
+        //    {
+        //        thisSR.sprite = sprites[level]; // 현재 레벨의 스프라이트로 변경
+        //    }
+        //}
+        //else if (seedDB.reGather == true) 
+        //{
+        //    if (onceharvested == false)
+        //    {
+        //        if (days == 0)
+        //        {
+        //            thisSR.sprite = sprites[0]; // 씨앗
+        //        }
+        //        else if (days == 1)
+        //        {
+        //            thisSR.sprite = sprites[1];
+        //        }
+        //        else if (days == maxDay)
+        //        {
+        //            thisSR.sprite = sprites[maxLevel];
+        //        }
+        //        else
+        //        {
+        //            thisSR.sprite = sprites[level]; // 현재 레벨의 스프라이트로 변경
+        //        }
+        //    }
+        //    else if (onceharvested == true)
+        //    {
+        //        if (days == maxDay)
+        //        {
+        //            thisSR.sprite = sprites[maxLevel];
+        //        }
+        //        else
+        //        {
+        //            thisSR.sprite = sprites[maxLevel -1];
+        //        }
+        //    }
+        //}
     }
 
 

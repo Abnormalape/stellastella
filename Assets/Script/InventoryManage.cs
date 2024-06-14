@@ -11,7 +11,7 @@ class InventoryManage : MonoBehaviour
     private void Awake()
     {
         pCon = GetComponent<PlayerController>();
-        pInven = GetComponent<PlayerInventroy>(); 
+        pInven = GetComponent<PlayerInventroy>();
     }
 
     private void Update()
@@ -28,7 +28,7 @@ class InventoryManage : MonoBehaviour
 
     void LoadInventory()
     {
-        for (int i = 0; i < pInven.inventSlots ; i++) // 추후에 36개로
+        for (int i = 0; i < pInven.inventSlots; i++) // 추후에 36개로
         {
             inventoryUISlot[i] = transform.GetComponentsInChildren<InventorySlot>()[i].gameObject;
             if (inventoryUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
@@ -44,16 +44,39 @@ class InventoryManage : MonoBehaviour
     int currentInventory;
     void LoadOffInventory()
     {
-        
+
         for (int i = 0; i < 12; i++)
         {
             inventoryUISlot[i] = GameObject.Find("InventoryBarUI").GetComponentsInChildren<OffInventorySlot>()[i].gameObject;
             if (inventoryUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
 
             itemDB = new ItemDB(pInven.pInventoryItemID[i]);
-            inventoryUISlot[i].GetComponentInChildren<Text>().text = $"{itemDB.name}";
 
-            if(pInven.currentInventory == i)
+            if (pInven.pInventoryItemCount[i] == 1 || pInven.pInventoryItemCount[i] == 0)
+            {
+                inventoryUISlot[i].GetComponentInChildren<Text>().text = $"";
+            }
+            else
+            {
+                inventoryUISlot[i].GetComponentInChildren<Text>().text = $"{pInven.pInventoryItemCount[i]}";
+            }
+
+            
+
+
+            if (SpriteManager.Instance.GetSprite(itemDB.name) != null)
+            {
+                inventoryUISlot[i].transform.GetChild(0).GetComponent<Image>().sprite =
+                    SpriteManager.Instance.GetSprite(itemDB.name);
+                inventoryUISlot[i].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            }
+            else
+            {
+                inventoryUISlot[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
+                inventoryUISlot[i].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
+            }
+
+            if (pInven.currentInventory == i)
             {
                 currentInventory = i;
             }

@@ -454,7 +454,7 @@ TextureImporter:
         width: 7
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -462,6 +462,90 @@ TextureImporter:
       bones: []
       spriteID: 4532c50d31791d54883781a0b44e623c
       internalID: -436623156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spring
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 1807
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e3d6ec71a0afa348b59480e98d7e340
+      internalID: 1798538661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Summer
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 1799
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ba09c9b32dfcd547a2af6f9e7698c3f
+      internalID: 466126520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fall
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 1791
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12694cbb101da8a4f9096641871d239c
+      internalID: 722670015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Winter
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 1783
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1eb295be76c31024f869f2a624f24579
+      internalID: -294810901
       vertices: []
       indices: 
       edges: []
@@ -481,10 +565,14 @@ TextureImporter:
       Bait: 1881814741
       Cursors.ko-KR_0: 1330811667
       Energy: -1510833704
+      Fall: 722670015
       Health: 1532053993
       OffInventoryBack: -1766561200
       SellBox: 467135272
       SellBox2: 1318145908
+      Spring: 1798538661
+      Summer: 466126520
+      Winter: -294810901
       inven1: 232360838
       inven2: -1059719847
       inven3: -119225175

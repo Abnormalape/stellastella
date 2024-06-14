@@ -10,6 +10,7 @@ class OffInventorySlot : MonoBehaviour
         pInven = transform.parent.parent.parent.GetComponent<PlayerInventroy>();
     }
 
+
     
     public void ChangeCurrentInventory()
     {   

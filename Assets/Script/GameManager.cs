@@ -8,7 +8,21 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 {
     // ½Ã°£°ü¸®
     public int currentYear; // year
-    public int currentSeason; // 0:º½
+
+    private int currentseason;
+    public int currentSeason 
+    {
+        get
+        {
+            return currentseason; 
+        }
+        private set 
+        {
+            currentseason = value;
+            seasonUiSprite.WhenSeasonChange(currentseason); 
+        } 
+    } // 0:º½
+
     public int currentMonth;
     public int currentDay; // 28
     public int currentHour; // 06:00 ~ 02:00
@@ -33,9 +47,10 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     float timePassed;
     public float dayTimePassed = 0; //ÇÏ·ç 20½Ã°£(06~02), 10ÃÊ=10ºÐ 60ÃÊ=1½Ã°£, 
 
+    SeasonUiSprite seasonUiSprite;
     private void Awake()
     {
-
+        seasonUiSprite = GetComponentInChildren<SeasonUiSprite>();
 
         currentYear = 1;
         currentSeason = 0; // º½
@@ -129,8 +144,8 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         {
             for (int i = 0; i < landWeedData.Length; i++)
             {
-                landTreeData[i].dayChanged = true;
-                landTreeData[i].monthChanged = monthChanged;
+                landWeedData[i].dayChanged = true;
+                landWeedData[i].monthChanged = monthChanged;
             }
         }
 
@@ -239,6 +254,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     {   //ÀâÃÊ¸¸ ÀÚ¶ó´Â Land.
         GameObject[] weedlands = GameObject.FindGameObjectsWithTag("WeedLand");
         LandWeedControls = new LandControl[weedlands.Length];
+
         for (int i = 0; i < weedlands.Length; i++)
         {
             LandWeedControls[i] = weedlands[i].GetComponent<LandControl>();
@@ -426,7 +442,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
             {
                 LandTreeControls[i].transform.position = landTreeData[i].savePosition;
                 LandTreeControls[i].landType = landTreeData[i].landType;    // ÇØ´ç LandControllerÀÇ Å¸ÀÔÀ» º¯°æ
-
                 if (landTreeData[i].landType == LandType.Empty)
                 {
                     LandTreeControls[i].dayChanged = landTreeData[i].dayChanged;
@@ -434,8 +449,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                 }     // emptyÀÏ °æ¿ìÀÇ Çàµ¿.
                 else if (landTreeData[i].landType == LandType.Tree)
                 {
-                    
-
                     Instantiate(Resources.Load(landTreeData[i].prefabPath) as GameObject,
                         Vector3.zero, Quaternion.identity, LandTreeControls[i].transform);
                     GameObject childObject = LandTreeControls[i].GetComponentInChildren<FieldTreeLand>().gameObject;
@@ -456,6 +469,8 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     {
         InitializeWeedLand();
         landWeedData = new LandData[LandWeedControls.Length];
+
+
         if (LandWeedControls == null) { return; }
         else if (LandWeedControls.Length > 0)
         {
@@ -466,6 +481,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                 landWeedData[i].dayChanged = false;
                 landWeedData[i].monthChanged = false;
                 landWeedData[i].savePosition = LandWeedControls[i].savePosition;
+
 
                 if (landWeedData[i].landType == LandType.Empty) { }
                 else if (landWeedData[i].landType == LandType.Weed)
@@ -492,8 +508,9 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                 LandWeedControls[i].transform.position = landWeedData[i].savePosition;
                 LandWeedControls[i].dayChanged = landWeedData[i].dayChanged;
                 LandWeedControls[i].monthChanged = landWeedData[i].monthChanged;
-
                 LandWeedControls[i].landType = landWeedData[i].landType;    // ÇØ´ç LandControllerÀÇ Å¸ÀÔÀ» º¯°æ
+
+
 
                 if (landWeedData[i].landType == LandType.Empty) { }     // emptyÀÏ °æ¿ìÀÇ Çàµ¿.
                 else if (landWeedData[i].landType == LandType.Weed)

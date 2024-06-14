@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.UI;
 
 class HpSpControl : MonoBehaviour
@@ -13,9 +14,9 @@ class HpSpControl : MonoBehaviour
         pCon = transform.parent.parent.parent.GetComponent<PlayerController>();
         image = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
-
         firstScale = rectTransform.localScale;
     }
+    public string mystring { get; private set; }
 
     [SerializeField] private bool thisHP;
     [SerializeField] private bool thisSP;
@@ -26,11 +27,13 @@ class HpSpControl : MonoBehaviour
         {
             HpBarSize();
             HpBarColor();
+            mystring = $"{pCon.currentHp}/{pCon.maxHp}";
         }
         else if(thisSP)
         {
             SpBarSize();
             SpBarColor();
+            mystring = $"{pCon.currentStamina}/{pCon.maxStamina}";
         }
     }
 

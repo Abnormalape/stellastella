@@ -6,7 +6,7 @@ public class InventoryOffUI : MonoBehaviour
 
     private void Awake()
     {
-        gameManager = GetComponentInParent<GameManager>();
+        
     }
     private void Update()
     {

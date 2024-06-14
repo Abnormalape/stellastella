@@ -9,7 +9,7 @@ public class FarmLand : MonoBehaviour
     ItemDB itemDB;
     [SerializeField] GameManager gameManager;
     int currentDate;
-    int currentSeason;
+    public int currentSeason;
 
     SpriteRenderer spriteRenderer;
     [SerializeField]

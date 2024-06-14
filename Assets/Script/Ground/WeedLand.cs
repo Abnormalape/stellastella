@@ -16,11 +16,12 @@ public class WeedLand : MonoBehaviour
         currentMonth = gameManager.currentMonth;
 
         landControl = GetComponent<LandControl>();
+        landControl.OnAValueUpdated += HandleAValueUpdated;
+        landControl.OnBValueUpdated += HandleBValueUpdated;
     }
     private void Start()
     {
-        landControl.OnAValueUpdated += HandleAValueUpdated;
-        landControl.OnBValueUpdated += HandleBValueUpdated;
+        
     }
 
     LandControl landControl;
@@ -45,7 +46,6 @@ public class WeedLand : MonoBehaviour
         {
             InSideFarm();
         }
-
         //아직 summonWeed가 초기화 되지 않은 상태 이므로 LandControl에게 summonWeed를 저장하면 된다.
 
         //if(summonWeed != null){
@@ -57,9 +57,7 @@ public class WeedLand : MonoBehaviour
     public void OutSideFarm()
     {
         if (dayChanged)
-        {
-            dayChanged = false;
-            //날짜 동기화는 항상.
+        {   
             currentDate = gameManager.currentDay;
             currentMonth = gameManager.currentMonth;
             if (transform.childCount == 0 && gameManager.currentMonth != 3)
@@ -80,6 +78,8 @@ public class WeedLand : MonoBehaviour
                     prefabPath = $"Prefabs/Weedprefabs/Weed{i + 1}";
                 }
             }
+
+            dayChanged = false;
         }
     }
 

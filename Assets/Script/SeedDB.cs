@@ -16,8 +16,8 @@
                 reGather = false;
                 return;
             case 15: //봄2
-                maxLevle = 4;
-                maxDays = 8;
+                maxLevle = 7;
+                maxDays = 10;
                 reGather = true;
                 return;
             case 16: //여름1
