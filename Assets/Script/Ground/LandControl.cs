@@ -140,7 +140,7 @@ class LandControl : MonoBehaviour
                 } //작물의 프리팹 경로.
                 if (transform.GetChild(0).GetComponentInChildren<CropControl>() != null)
                 {
-                    days = transform.GetChild(0).GetComponentInChildren<CropControl>().days;
+                    
                 } //프리팹으로 소환된 작물의 날짜경과(level로 퉁쳐도 되는데 헷갈릴것 같음).
             }
             currentHP = 1; //이건 쓸 일이 있나?

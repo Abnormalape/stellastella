@@ -381,14 +381,16 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
                     if (landData[i].seeded)
                     {
                         landControls[i].transform.gameObject.GetComponent<LandControl>().prefabPath_Crop = landData[i].prefabPath_Crop;
+                        landControls[i].days = landData[i].days;
                         GameObject grandChild = Resources.Load(landData[i].prefabPath_Crop) as GameObject;
                         Instantiate(grandChild, landControls[i].transform.position, Quaternion.identity).transform.parent = landControls[i].transform.GetChild(0).transform;
                         CropControl cropControl = landControls[i].transform.GetChild(0).GetComponentInChildren<CropControl>();
                         cropControl.days = landData[i].days;
+
+                        Debug.Log(cropControl);
+                        Debug.Log(cropControl.days);
                     }
 
-                    farmLandControl.dayChanged = landData[i].dayChanged;
-                    farmLandControl.monthChanged = landData[i].monthChanged;
                     landControls[i].dayChanged = landData[i].dayChanged;
                     landControls[i].monthChanged = landData[i].monthChanged;
                     continue;

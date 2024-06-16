@@ -47,17 +47,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a456b0f4f33579040a0e1f0fb562cd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seedID: 14
+  seedID: 18
   sprites:
-  - {fileID: 1869877075, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
-  - {fileID: -1470148724, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
-  - {fileID: 2047271924, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
-  - {fileID: 1780736820, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
-  - {fileID: 1828122722, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
-  maxDay: 6
-  maxLevel: 4
+  - {fileID: -248697238, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
+  - {fileID: 1813669533, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
+  - {fileID: 382331029, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
+  - {fileID: 1382341273, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
+  - {fileID: 364110248, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
+  - {fileID: -1953067635, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
+  maxDay: 8
+  maxLevel: 5
   reHarvset: 0
   reDay: 0
+  harvested: 0
   days: 0
   harvestControl: {fileID: 5291233567038812707, guid: 2ada3fb4ec70ffa4aa31721cb1955cd1, type: 3}
 --- !u!61 &4271694426419556387
@@ -146,7 +148,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 32
-  m_Sprite: {fileID: 1869877075, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
+  m_Sprite: {fileID: -248697238, guid: 9d1e61d4ccdb38241892573be7e4e66d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

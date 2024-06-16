@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가는 클래스, 이미 갈린상태
@@ -34,7 +35,6 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
         landControl = GetComponentInParent<LandControl>();
         landControl.OnAValueUpdated += HandleAValueUpdated;
         landControl.OnBValueUpdated += HandleBValueUpdated;
-        
     }
 
     LandControl landControl;
@@ -130,10 +130,19 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
         {
             dayChanged = false;
             this.currentDate = gameManager.currentDay;
+
             if (seeded && watered) // 심어진 상태로 물이 뿌려진 상태로 날이 바뀌었다면.
             {
+                
+
                 //자식오브젝트의 성장단계를 +1한다.
-                gameObject.GetComponentInChildren<CropControl>().days++;
+                int tDay;
+                tDay = landControl.days + 1;
+                landControl.days = tDay;
+
+                Debug.Log($"FarmLandCon : {landControl.days}");
+
+                gameObject.GetComponentInChildren<CropControl>().days = tDay;
                 watered = false; // 물뿌림을 초기화 한다.
             }
             else if (seeded) // 씨앗을 심은 상태로 날이 바뀌었다면.
@@ -143,6 +152,8 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
                 {
                     if (!scareCrow) // 허수아비 없음.
                     {
+                        Debug.Log($"작물 파괴됨 : {this.transform.position}");
+
                         Destroy(this.gameObject.GetComponentInChildren<CropControl>().gameObject); // 작물(자식오브젝트)파괴.
                         seeded = false;                                                              //Instantiate(); => 까마귀 생성.
                     }

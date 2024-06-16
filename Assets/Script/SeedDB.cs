@@ -21,22 +21,22 @@
                 reGather = true;
                 return;
             case 16: //여름1
-                maxLevle = 3;
-                maxDays = 6;
+                maxLevle = 5;
+                maxDays = 7;
                 reGather = false;
                 return;
             case 17: //여름2
-                maxLevle = 4;
-                maxDays = 8;
+                maxLevle = 6;
+                maxDays = 15;
                 reGather = true;
                 return;
             case 18: //가을1
-                maxLevle = 3;
-                maxDays = 6;
+                maxLevle = 5;
+                maxDays = 8;
                 reGather = false;
                 return;
             case 19: //가을2
-                maxLevle = 4;
+                maxLevle = 6;
                 maxDays = 8;
                 reGather = true;
                 return;
