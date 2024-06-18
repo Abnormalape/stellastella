@@ -845,7 +845,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tree2_spring_35
+      name: Maple_Root1
       rect:
         serializedVersion: 2
         x: 0
@@ -866,7 +866,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tree2_spring_36
+      name: Maple_Root2
       rect:
         serializedVersion: 2
         x: 16
@@ -887,7 +887,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tree2_spring_37
+      name: Maple_Root0
       rect:
         serializedVersion: 2
         x: 32
@@ -908,7 +908,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tree2_spring_38
+      name: Maple_Root5
       rect:
         serializedVersion: 2
         x: 0
@@ -1033,6 +1033,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Maple_Branch
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 48
+        height: 96
+      alignment: 9
+      pivot: {x: 0.5, y: 0.08333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bd867b72009d39498a205cdee4a1eb3
+      internalID: 478295089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maple_Root3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a98d737fda84764c8f6fea931f28690
+      internalID: -1207979087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Maple_Root4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad94d114d82d0e5409aa09e65ef0fa9e
+      internalID: -2055273918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1044,6 +1107,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Maple_Branch: 478295089
+      Maple_Root0: 1702006959
+      Maple_Root1: -1876698847
+      Maple_Root2: -461234823
+      Maple_Root3: -1207979087
+      Maple_Root4: -2055273918
+      Maple_Root5: 267837014
       mapleBranch: 1312142134
       mapleRoot: 1856488945
       tree2_spring_0: -1812932222
@@ -1075,10 +1145,6 @@ TextureImporter:
       tree2_spring_32: 1224128992
       tree2_spring_33: -1699415274
       tree2_spring_34: 726354961
-      tree2_spring_35: -1876698847
-      tree2_spring_36: -461234823
-      tree2_spring_37: 1702006959
-      tree2_spring_38: 267837014
       tree2_spring_39: 19597984
       tree2_spring_4: 930319442
       tree2_spring_40: -1222938780

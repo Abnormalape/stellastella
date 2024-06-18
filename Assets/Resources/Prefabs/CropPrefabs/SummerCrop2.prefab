@@ -59,9 +59,10 @@ MonoBehaviour:
   maxDay: 15
   maxLevel: 6
   reHarvset: 1
-  reDay: 0
-  harvested: 0
-  days: 0
+  reDay: 4
+  onceharvested: 0
+  tempSetDay: 0
+  tempSetDays: 0
   harvestControl: {fileID: 5291233567038812707, guid: 2ada3fb4ec70ffa4aa31721cb1955cd1, type: 3}
 --- !u!61 &4271694426419556387
 BoxCollider2D:

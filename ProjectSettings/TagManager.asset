@@ -17,6 +17,9 @@ TagManager:
   - LandInFarm
   - TreeLand
   - WeedLand
+  - OakTreeLand
+  - MapleTreeLand
+  - PineTreeLand
   layers:
   - Default
   - TransparentFX

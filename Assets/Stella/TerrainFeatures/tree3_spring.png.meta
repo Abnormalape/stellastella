@@ -824,7 +824,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tree3_spring_34
+      name: PineRoot5
       rect:
         serializedVersion: 2
         x: 32
@@ -866,7 +866,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tree3_spring_36
+      name: PineRoot1
       rect:
         serializedVersion: 2
         x: 0
@@ -887,7 +887,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tree3_spring_37
+      name: PineRoot2
       rect:
         serializedVersion: 2
         x: 16
@@ -908,7 +908,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tree3_spring_38
+      name: PineRoot0
       rect:
         serializedVersion: 2
         x: 32
@@ -1033,6 +1033,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: PineBranch
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 48
+        height: 96
+      alignment: 9
+      pivot: {x: 0.5, y: 0.08333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4cb42294365d05468aec707d07121f7
+      internalID: -590559237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PineRoot3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8afcb7a8b55f9645bc2a1dffcb2cb79
+      internalID: -754147864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PineRoot4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28dd834c756052b40a54433fd7106120
+      internalID: -171928504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1044,6 +1107,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      PineBranch: -590559237
+      PineRoot0: 296794227
+      PineRoot1: -180328103
+      PineRoot2: -966103917
+      PineRoot3: -754147864
+      PineRoot4: -171928504
+      PineRoot5: -515791015
       pineBranch: -1345195661
       pineRoot: 1215061262
       tree3_spring_0: -85375591
@@ -1074,11 +1144,7 @@ TextureImporter:
       tree3_spring_31: 1035135702
       tree3_spring_32: -7325406
       tree3_spring_33: -64666644
-      tree3_spring_34: -515791015
       tree3_spring_35: -2039635969
-      tree3_spring_36: -180328103
-      tree3_spring_37: -966103917
-      tree3_spring_38: 296794227
       tree3_spring_39: 1360356868
       tree3_spring_4: -1868508135
       tree3_spring_40: -2094593558

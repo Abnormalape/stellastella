@@ -31,7 +31,7 @@ class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브�
 
     private void Update()
     {
-        if(handHarvest)
+        if (handHarvest)
         {
             HandHarvest();
         }
@@ -41,10 +41,14 @@ class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브�
     {
         if (collision.gameObject.tag == "LeftClick" && collision.gameObject.GetComponent<EdgeCollider2D>() != null) // 좌클릭과 접촉했는데, 그놈에게 엣지콜라이더가 있다면(낫을 휘둘렀을때)
         {
-            touchedObject = collision;
             MakeDropItems(touchedObject);
+            this.gameObject.GetComponentInParent<CropControl>().onceharvested = true;
             this.gameObject.GetComponentInParent<CropControl>().harvested = true;
-            this.gameObject.SetActive(false);
+
+            if (this != null)
+            {
+                this.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -80,8 +84,15 @@ class HarvestControl : MonoBehaviour // cropcontrol이 가지는 자식 오브�
     }
     void HandHarvest()
     {
-        MakeDropItems(touchedObject);
-        Destroy(gameObject);
+        MakeDropItems(touchedObject); // todo: 여기 touchedobject가 null일 가능성.
+        this.gameObject.GetComponentInParent<CropControl>().onceharvested = true;
+        this.gameObject.GetComponentInParent<CropControl>().harvested = true;
+
+        if (this != null)
+        {
+            this.gameObject.SetActive(false);
+        }
+        handHarvest = false;
     }
 }
 

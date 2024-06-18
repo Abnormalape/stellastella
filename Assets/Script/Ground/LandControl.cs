@@ -21,7 +21,7 @@ class LandControl : MonoBehaviour
     public bool digged;
     public bool watered;
     public bool seeded;
-
+    public bool onceharvested;
     //=====================================
     public delegate void AValueUpdated(bool newValue);
     public event AValueUpdated OnAValueUpdated;
@@ -54,6 +54,7 @@ class LandControl : MonoBehaviour
 
     private void Update()
     {
+        //씬이 바뀌기 전에만 실행하면 됨.
         LandDataUpdate();
     }
 
@@ -62,6 +63,15 @@ class LandControl : MonoBehaviour
     {
         string tempstring = prefabPath;
         string tempstring_Crop = prefabPath_Crop;
+
+        if(GetComponent<TreeLand>() != null)
+        {
+            if (!GetComponent<TreeLand>().AtFarm)
+            {
+                prefabPath = GetComponent<TreeLand>().prefabPath;
+                Debug.Log(tag + " : " + prefabPath);
+            }
+        }
 
         if (transform.childCount == 0)
         {   //Empty.
@@ -118,7 +128,10 @@ class LandControl : MonoBehaviour
             landType = LandType.Tree;
 
             //path, hp, level
-            prefabPath = GetComponent<TreeLand>().prefabPath;
+            if (transform.childCount != 0)
+            {
+                prefabPath = GetComponent<TreeLand>().prefabPath;
+            }
             level = GetComponent<TreeLand>().CurrentLevel;
             currentHP = GetComponentInChildren<FieldTreeLand>().hp;
         }
@@ -140,7 +153,8 @@ class LandControl : MonoBehaviour
                 } //작물의 프리팹 경로.
                 if (transform.GetChild(0).GetComponentInChildren<CropControl>() != null)
                 {
-                    
+                    days = transform.GetChild(0).GetComponentInChildren<CropControl>().days;
+                    onceharvested = transform.GetChild(0).GetComponentInChildren<CropControl>().onceharvested;
                 } //프리팹으로 소환된 작물의 날짜경과(level로 퉁쳐도 되는데 헷갈릴것 같음).
             }
             currentHP = 1; //이건 쓸 일이 있나?

@@ -1,10 +1,11 @@
+using UnityEditor;
 using UnityEngine;
 using static TreeLand;
 using Random = UnityEngine.Random;
 public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
 {
     [SerializeField] GameManager gameManager;
-    [SerializeField] GameObject myTreePrefab; // 외부용(지정된 나무), 설정된 나무.
+    [SerializeField] public GameObject myTreePrefab; // 외부용(지정된 나무), 설정된 나무.
     [SerializeField] GameObject[] treePrefabs; // 내부용(3개의 기본나무)
     GameObject onMeTreePrefab; // 내부용(내가 자식으로 가지고 있는 나무의 프리팹)
 
@@ -54,6 +55,11 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
         {
             landControl = GetComponent<LandControl>();
         }
+
+        if (!AtFarm)
+        {
+            prefabpath = $"Prefabs/FieldTree/{myTreePrefab.name}";
+        }
     }
     private void Start()
     {
@@ -61,22 +67,6 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
         {
             landControl.OnAValueUpdated += HandleAValueUpdated;
             landControl.OnBValueUpdated += HandleBValueUpdated;
-        }
-
-        if (!AtFarm)
-        {
-            if (myPrefabNumber == 1)
-            {
-                prefabPath = "Prefabs/FieldTree/OakTree";
-            }
-            else if (myPrefabNumber == 2)
-            {
-                prefabPath = "Prefabs/FieldTree/MapleTree";
-            }
-            else if (myPrefabNumber == 3)
-            {
-                prefabPath = "Prefabs/FieldTree/PineTree";
-            }
         }
     }
 

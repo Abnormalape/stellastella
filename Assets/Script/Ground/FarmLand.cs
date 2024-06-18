@@ -80,7 +80,7 @@ public class FarmLand : MonoBehaviour
                     digged = true;
                     currentDate = gameManager.currentDay;
                     // 경작지 프리팹을 만들어서 그놈의 부모를 나와 같게하라.
-                    GameObject.Instantiate(Resources.Load($"Prefabs/LandPrefabs/FarmLandController") as GameObject, this.transform.position, Quaternion.identity).transform.parent = this.transform;
+                    GameObject.Instantiate(Resources.Load($"Prefabs/LandPrefabs/FarmLandController") as GameObject, this.transform.position, Quaternion.identity, this.transform);
                     prefabPath = $"Prefabs/LandPrefabs/FarmLandController";
                     // 경작지 프리팹은 FarmLnadControl을 가지는 게임 오브젝트이다.
                 }

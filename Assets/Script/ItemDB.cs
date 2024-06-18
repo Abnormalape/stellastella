@@ -8,9 +8,11 @@ class ItemDB
     public int buyPrice = 0;
     public int grade = 0;
     public int toolType = 0;
+    public int season;
     public string name = "";
     public string type = "";
     
+
     // 씨앗류 아이템은 자라는데 걸리는 시간, 성장단계 등을 추가로 DB로 가져야 한다
 
     // 아이템 속성이 들어간다
@@ -118,36 +120,42 @@ class ItemDB
                 buyPrice = 20;
                 name = "SpringCrop1Seed"; // 봄작물 1
                 type = "Seed";
+                season = 0;
                 return;
             case 15:
                 sellPrice = 20;
                 buyPrice = 40;
                 name = "SpringCrop2Seed"; // 봄작물2
                 type = "Seed";
+                season = 0;
                 return;
             case 16:
                 sellPrice = 11;
                 buyPrice = 22;
                 name = "SummerCrop1Seed"; // 여름작물1
                 type = "Seed";
+                season = 1;
                 return;
             case 17:
                 sellPrice = 22;
                 buyPrice = 44;
                 name = "SummerCrop2Seed"; // 여름작물2
                 type = "Seed";
+                season = 1;
                 return;
             case 18:
                 sellPrice = 13;
                 buyPrice = 26;
                 name = "FallCrop1Seed"; // 가을작물1
                 type = "Seed";
+                season = 2;
                 return;
             case 19:
                 sellPrice = 26;
                 buyPrice = 52;
                 name = "FallCrop2Seed"; // 가을작물2
                 type = "Seed";
+                season = 2;
                 return;
             case 20:
                 sellPrice = 100;
@@ -177,33 +185,55 @@ class ItemDB
                 type = "Fruit";
                 return;
             case 102:
+                name = "SpringCrop2";
                 sellPrice = 10;
                 buyPrice = 0;
                 grade = 1;
+                type = "Fruit";
                 return;
             case 103:
+                name = "SummerCrop1";
                 sellPrice = 10;
                 buyPrice = 0;
                 grade = 1;
+                type = "Fruit";
                 return;
             case 104:
+                name = "SummerCrop2";
                 sellPrice = 10;
                 buyPrice = 0;
                 grade = 1;
+                type = "Fruit";
                 return;
             case 105:
+                name = "FallCrop1";
                 sellPrice = 10;
                 buyPrice = 0;
                 grade = 1;
+                type = "Fruit";
                 return;
             case 106://가을작물2 열매
+                name = "FallCrop2";
                 sellPrice = 10;
                 buyPrice = 0;
                 grade = 1;
+                type = "Fruit";
                 return;
 
             case 201: //참나무 씨앗
                 name = "OakTreeSeed";
+                sellPrice = 10;
+                buyPrice = 0;
+                type = "TreeSeed";
+                return;
+            case 202: //단풍나무 씨앗
+                name = "MapleTreeSeed";
+                sellPrice = 10;
+                buyPrice = 0;
+                type = "TreeSeed";
+                return;
+            case 203: //소나무 씨앗
+                name = "PineTreeSeed";
                 sellPrice = 10;
                 buyPrice = 0;
                 type = "TreeSeed";

@@ -6536,7 +6536,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_306
+      name: MapleTreeSeed
       rect:
         serializedVersion: 2
         x: 352
@@ -6557,7 +6557,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_307
+      name: PineTreeSeed
       rect:
         serializedVersion: 2
         x: 368
@@ -19553,8 +19553,10 @@ TextureImporter:
       FallEasyFish: 1318055136
       FallHardFish: 318216032
       HardWood: 2023112526
+      MapleTreeSeed: -426285626
       NightFish: -853830285
       OakTreeSeed: 1385149909
+      PineTreeSeed: 405633436
       Sap: -1503830036
       SpringCrop1: -1993135857
       SpringCrop1Seed: -1679213298
@@ -19789,8 +19791,6 @@ TextureImporter:
       springobjects_302: 1676327372
       springobjects_303: 633432760
       springobjects_304: 1097887170
-      springobjects_306: -426285626
-      springobjects_307: 405633436
       springobjects_308: -367728545
       springobjects_309: -1114527236
       springobjects_31: -1363412266

@@ -16,24 +16,52 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
     [SerializeField] bool reHarvset;
     [SerializeField] int reDay;
 
-    public bool harvested;
-    bool onceharvested = false;
+    private bool tHarvested;
+    public bool harvested
+    {
+        get { return tHarvested; }
+
+        set
+        {
+            tHarvested = value;
+            Harvested();
+        }
+    }
+
+    private bool tOnceHarvested;
+    public bool onceharvested
+    {
+        get { return tOnceHarvested; }
+
+        set
+        {
+            tOnceHarvested = value;
+        }
+    }
 
 
     private int tDays;
-    public int days 
-    { 
-        get 
-        { 
-            return tDays; 
+    public int days
+    {
+        get
+        {
+            return tDays;
         }
         set
         {
             tDays = value;
-            Debug.Log($"CropDataSet : {tDays}");
             CropDataManage();
+            MakeParentsDays();
         }
     }
+
+    void MakeParentsDays()
+    {
+        transform.parent.parent.GetComponent<LandControl>().days = days;
+    }
+
+    [SerializeField] bool tempSetDay;
+    [SerializeField] int tempSetDays;
 
     int level;
 
@@ -45,7 +73,7 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
         seedDB = new SeedDB(seedID);
         thisSR = this.GetComponent<SpriteRenderer>();
 
-        tempInterval = (double)(maxDay-1) / (double)(maxLevel-1);
+        tempInterval = (double)(maxDay - 1) / (double)(maxLevel - 1);
 
         maxDay = seedDB.maxDays;
         maxLevel = seedDB.maxLevle; // 오타 났는데 일단 넘어감
@@ -56,104 +84,114 @@ class CropControl : MonoBehaviour // FarmLandControl이 불러온 씨앗에 맞�
         harvestControl.SetActive(false); // 일단은 보이지 않게 함
     }
 
-
-
-    private void Start()
-    {
-        
-    }
     private void Update()
     {
-        if (harvested && reHarvset == false) 
+        //임시코드
+        if (tempSetDay)
         {
-            Destroy(this.gameObject);
+            days = tempSetDays;
+            tempSetDays = 0;
+            tempSetDay = false;
         }
     }
-
 
     void CropDataManage()
     {   //days가 변경 되었을때.
         UpdateDate();
         UpdateLevel();
         UpdateSprite();
+
+        if (!onceharvested)
+        {
+            if (days >= maxDay)
+            {
+                harvestControl.SetActive(true);
+            }
+        }
+        else if (onceharvested)
+        {
+            if (days >= reDay)
+            {
+                harvestControl.SetActive(true);
+            }
+        }
     }
 
     void UpdateDate()
     {
-        if (days >= maxDay)  // days는 FLControl에서 관리
+        if (tDays >= maxDay)  // days는 FLControl에서 관리
         {   //수확할때까지 수확 가능한 상태유지
-            days = maxDay;
-
-            
-            if (harvestControl != null)
-            {
-                harvestControl.SetActive(true);
-            }
-            else // 수확오브젝트가 없다면 나를 파괴한다. 임시코드.  
-            {
-                Destroy(this.gameObject);
-            }
-        }
-        if(harvested)
-        {
-            if (maxDay != reDay)
-            {
-                maxDay = reDay;
-            }
-            days = 0;
-            harvested = false;
-
-            if (onceharvested == false)
-            {
-                onceharvested = true;
-            }
-        }
-    }
-
-
-    int templevel = 1;
-
-    int RecursiveTempIntervalCal(int tlevel, int tdays)
-    {
-        TempIntervalCal(tlevel, tdays);
-        return tlevel;
-    }
-    int TempIntervalCal(int tlevel, int tdays)
-    {
-        if(tdays <= tempInterval * tlevel)
-        {
-            return tlevel;
-        }
-        else
-        {
-            int ttlevel;
-            ttlevel = tlevel + 1;
-            return TempIntervalCal(ttlevel, tdays);
+            tDays = maxDay;
         }
     }
     void UpdateLevel()
     {
-        if(days == 0)
+        if (!onceharvested)
         {
-            level = 0;
+            if (days == 0)
+            {
+                level = 0;
+            }
+            else if (days >= maxDay)
+            {
+                level = maxLevel;
+            }
+            else
+            {
+                int i = 1; // 임시 레벨값
+                for (i = 1; i < maxLevel; i++)
+                {
+                    if (days <= tempInterval * i)
+                    {
+                        level = i;
+                        return;
+                    }
+                }
+            }
         }
-        else if(days == maxDay)
+        else if (onceharvested)
         {
-            level = maxLevel;
-        }
-        else
-        {
-            level = RecursiveTempIntervalCal(templevel, days);
-            Debug.Log(level);
+            if (days < maxDay)
+            {
+                level = maxLevel - 1;
+            }
+            else
+            {
+                level = maxLevel;
+            }
         }
     }
     void UpdateSprite()
     {
-        thisSR.sprite = sprites[level];
-
-        if (reHarvset) // 재수확
+        if (!onceharvested)
         {
-
+            thisSR.sprite = sprites[level];
+        }
+        else
+        {
+            if (days < reDay)
+            {
+                thisSR.sprite = sprites[maxLevel - 1];
+            }
+            else
+            {
+                thisSR.sprite = sprites[maxLevel];
+            }
+        }
+    }
+    void Harvested()
+    {
+        if (harvested)
+        {
+            if (reHarvset) // 재수확이 가능한 작물이라면.
+            {
+                days = 0;
+                harvested = false;
+            }
+            else    // 재수확이 불가능한 작물이라면.
+            {      // 수확시 파괴.
+                Destroy(this.gameObject);
+            }
         }
     }
 }

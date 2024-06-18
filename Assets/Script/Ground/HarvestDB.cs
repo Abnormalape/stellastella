@@ -33,7 +33,7 @@
                 itemID = new int[items];
                 itemID[0] = 102;
                 dropnumber = new int[items];
-                dropnumber[0] = 1; // 랜덤개
+                dropnumber[0] = 3; // 1~3까지의 랜덤갯수
                 return;
             case 16:
                 this.cropName = "여름작물1";
@@ -51,7 +51,7 @@
                 itemID = new int[items];
                 itemID[0] = 104;
                 dropnumber = new int[items];
-                dropnumber[0] = 1; // 랜덤개
+                dropnumber[0] = 3; // 1~3까지의 랜덤갯수
                 return;
             case 18:
                 this.cropName = "가을작물1";
@@ -69,7 +69,7 @@
                 itemID = new int[items];
                 itemID[0] = 106;
                 dropnumber = new int[items];
-                dropnumber[0] = 1; // 랜덤개
+                dropnumber[0] = 3; // 1~3까지의 랜덤갯수
                 return;
         }
     }

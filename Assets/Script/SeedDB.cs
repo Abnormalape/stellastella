@@ -18,6 +18,7 @@
             case 15: //봄2
                 maxLevle = 7;
                 maxDays = 10;
+                reDays = 3;
                 reGather = true;
                 return;
             case 16: //여름1
@@ -28,6 +29,7 @@
             case 17: //여름2
                 maxLevle = 6;
                 maxDays = 15;
+                reDays = 4;
                 reGather = true;
                 return;
             case 18: //가을1
@@ -38,6 +40,7 @@
             case 19: //가을2
                 maxLevle = 6;
                 maxDays = 8;
+                reDays = 2;
                 reGather = true;
                 return;
 
