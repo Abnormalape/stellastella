@@ -1,5 +1,6 @@
 using System.Linq;
 using TreeEditor;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,17 +11,17 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     public int currentYear; // year
 
     private int currentseason;
-    public int currentSeason 
+    public int currentSeason
     {
         get
         {
-            return currentseason; 
+            return currentseason;
         }
-        private set 
+        private set
         {
             currentseason = value;
-            seasonUiSprite.WhenSeasonChange(currentseason); 
-        } 
+            seasonUiSprite.WhenSeasonChange(currentseason);
+        }
     } // 0:º½
 
     public int currentMonth;
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         // °ñµå°ü¸®, ´Ù¸¥¿ÀºêÁ§Æ®°¡ Á÷Á¢ÀûÀ¸·Î gold¸¦ ¾²Áö ¾Ê°í goldearnÀ» ÅëÇØ °ü¸®: ±Ùµ¥ ÀÌ°Å ÀÇ¹Ì ÀÖ³ª?
         if (goldEarn != 0) { gold += goldEarn; goldEarn = 0; } // ÀÌº¥Æ®È­ ¿ä¼Ò
 
-        WhenSceneChanged();
+        //WhenSceneChanged();
     }
     void UpdateTime()
     {
@@ -341,7 +342,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                     landData[i].seeded = landControls[i].seeded;
                     if (landData[i].seeded)
                     {
-                        Debug.Log("Save Days : "+landControls[i].days);
                         landData[i].prefabPath_Crop = landControls[i].prefabPath_Crop;
                         landData[i].days = landControls[i].days;
                         landData[i].onceharvested = landControls[i].onceharvested;
@@ -354,9 +354,10 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         SaveLandWeedDate();
     } // ¾ÀÀÌ Farm¿¡¼­ º¯°æ µÉ ¶§
 
-    public void LoadLandInFarmData()    
+    public void LoadLandInFarmData()
     {   //LandController¸¦ °¡Áø objectµéÀ» ·Îµå.
         InitializeLandInFarmUnitList();
+
 
         if (landData == null)
         {
@@ -371,7 +372,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
                 landControls[i].landType = landData[i].landType;    // ÇØ´ç LandControllerÀÇ Å¸ÀÔÀ» º¯°æ
 
-                if (landData[i].landType == LandType.Empty) 
+                if (landData[i].landType == LandType.Empty)
                 {
                     landControls[i].dayChanged = landData[i].dayChanged;
                     landControls[i].monthChanged = landData[i].monthChanged;
@@ -398,7 +399,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                     GameObject childObject = landControls[i].GetComponentInChildren<FieldTreeLand>().gameObject;
                     landControls[i].GetComponent<TreeLand>().CurrentLevel = landData[i].level;
                     childObject.GetComponent<FieldTreeLand>().hp = landData[i].currentHP;
-                    
+
                     landControls[i].dayChanged = landData[i].dayChanged;
                     landControls[i].monthChanged = landData[i].monthChanged;
                     continue;
@@ -443,7 +444,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         InitializeTreeLand();
 
         OaklandTreeData = new LandData[OakLandTreeControls.Length];
-        ForEachTreesSave(OakLandTreeControls,OaklandTreeData);
+        ForEachTreesSave(OakLandTreeControls, OaklandTreeData);
         MaplelandTreeData = new LandData[MapleLandTreeControls.Length];
         ForEachTreesSave(MapleLandTreeControls, MaplelandTreeData);
         PinelandTreeData = new LandData[PineLandTreeControls.Length];
@@ -467,7 +468,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                 if (landTreeData[i].landType == LandType.Empty) { }
                 else if (landTreeData[i].landType == LandType.Tree)
                 {   //ºñ¾îÀÖ°Å³ª ³ª¹«ÀÌ°Å³ª.
-                    
+
                     landTreeData[i].currentHP = LandTreeControls[i].currentHP;
                     landTreeData[i].level = LandTreeControls[i].level;
                 }
@@ -501,7 +502,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
                 if (landTreeData[i].landType == LandType.Empty)
                 {
-                    Debug.Log("empty day changed");
                     LandTreeControls[i].dayChanged = landTreeData[i].dayChanged;
                     LandTreeControls[i].monthChanged = landTreeData[i].monthChanged;
                 }     // emptyÀÏ °æ¿ìÀÇ Çàµ¿.
@@ -519,7 +519,6 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                     LandTreeControls[i].dayChanged = landTreeData[i].dayChanged;
                     LandTreeControls[i].monthChanged = landTreeData[i].monthChanged;
                 }
-
             }
         }
     }
@@ -583,18 +582,40 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     }
 
 
-    string currentSceneName;
-    private void WhenSceneChanged()
+    string tCurrentSceneName;
+    public string currentSceneName
     {
-        if (currentSceneName != SceneManager.GetActiveScene().name)
+        get { return tCurrentSceneName; }
+        set
         {
-            if (SceneManager.GetActiveScene().name == "Farm")
-            {
-                LoadLandInFarmData();
+            // tCurrentSceneName = °ú°Å¾À.
+            // value = ¹Ì·¡¾À.
+            if (tCurrentSceneName == "Farm" && value == "Farm") // ÇöÀçµµ ³óÀåÀÌ°í ÀÌµ¿µµ ³óÀåÀÌ¸é.
+            {   //ÇÒ°Í¾øÀ½
+
             }
-            currentSceneName = SceneManager.GetActiveScene().name;
+            else if (tCurrentSceneName == "Farm" && value != "Farm") // ÇöÀç´Â ³óÀåÀÎµ¥ ÀÌµ¿ÀÌ ³óÀåÀÌ ¾Æ´Ï¶ó¸é.
+            {
+                WhenSceneChanged.Invoke(); // eventÇÔ¼ö. landcontrol¿¡°Ô data¾÷µ¥ÀÌÆ® ÇÏ¶ó°í Àü¼ÛÇÑÈÄ.
+                SaveLandInFarmData(); // dataµéÀ» saveÇÑ´Ù.
+
+                SceneManager.LoadScene(value); // ÀÌÈÄ sceneÀ» º¯°æÇÑ´Ù.
+            }
+            else if (tCurrentSceneName != "Farm" && value == "Farm")
+            {
+                SceneManager.LoadScene(value); // ¾ÀÀ» º¯°æÇÑÈÄ.
+                //FarmSceneLoader°¡ ¾À ·Îµå°¡ ¿Ï·áµÇ¸é , ·Îµå¸¦ È£ÃâÇÑ´Ù.
+            }
+
+            Debug.Log("Past Scene : " + tCurrentSceneName);
+            Debug.Log("Going Scene : " + value);
+            tCurrentSceneName = value;
+            Debug.Log("After Scene Update : " + tCurrentSceneName);
         }
     }
+    
+    public delegate void SceneChanged();
+    public event SceneChanged WhenSceneChanged;
 }
 
 public class LandData

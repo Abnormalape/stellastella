@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -5,8 +6,35 @@ public class PlayerController : MonoBehaviour
 {
     public int maxStamina = 200;
     public int maxHp = 200;
-    public int currentStamina = 200;
-    public int currentHp = 200;
+
+    private int tCurrentStamina;
+    public int currentStamina
+    {
+        get { return tCurrentStamina; }
+        set
+        {
+            if (value >= maxStamina)
+            {
+                tCurrentStamina = maxStamina;
+            }
+            else { tCurrentStamina = value; }
+        }
+    }
+
+    private int tCurrentHp;
+    public int currentHp
+    {
+        get { return tCurrentHp; }
+        set
+        {
+            if (value >= maxHp)
+            {
+                tCurrentHp = maxHp;
+            }
+            else { tCurrentHp = value; }
+        }
+    }
+
     public int currentGold = 500;
     public nowLocation nowLocation;
 
@@ -14,8 +42,6 @@ public class PlayerController : MonoBehaviour
 
     public bool exhaust;
     public bool dead;
-
-    public int farmLevel = 1;
 
     PlayerInventroy pInven;
 
@@ -43,9 +69,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
-
-
     public bool firstBag { get; private set; } = true;
     public bool secondBag { get; private set; } = true;
 
@@ -55,45 +78,6 @@ public class PlayerController : MonoBehaviour
         CurrentMax(currentHp, maxHp);
         CurrentMax(currentStamina, maxStamina);
         InvenToryButton();
-
-
-
-        //if (idle)
-        //{
-        //    Debug.Log("idle");
-        //}
-        //if (moving)
-        //{
-        //    Debug.Log("moving");
-        //}
-        //if (conversation)
-        //{
-        //    Debug.Log("conversation");
-        //}
-        //if (charge)
-        //{
-        //    Debug.Log("charge");
-        //}
-        //if (fishCharge)
-        //{
-        //    Debug.Log("fishCharge");
-        //}
-        //if (minigame)
-        //{
-        //    Debug.Log("minigame");
-        //}
-        //if (waitingForBait)
-        //{
-        //    Debug.Log("waitingForBait");
-        //}
-        //if (inventory)
-        //{
-        //    Debug.Log("inventory");
-        //}
-        //if (motion)
-        //{
-        //    Debug.Log("motion");
-        //}
     }
 
     void CurrentMax(int current, int max)
@@ -174,8 +158,184 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void DoingTrade()
-    {
 
+    //======================================================//
+    private int tMineLevel;
+    public int mineLevel
+    { get { return tMineLevel; }
+        set
+        {
+            tMineLevel = value;
+        }
+    }
+    private int tMineEXP;
+    public int mineEXP
+    {
+        get { return tMineEXP; }
+        set
+        {
+            if (mineLevel < 10)
+            {   //경험치는 9레벨 까지만 얻을수 있다.
+                if (value >= NeedEXP(mineLevel)) // 경험치 값이 레벨에 맞는 필요 경험치량 보다 크다면
+                {
+                    tMineEXP = value = NeedEXP(mineLevel);
+                    mineLevel++;
+                }
+                else
+                {
+                    tMineEXP = value;
+                }
+            }
+            else { return; }
+        }
+    }
+    //======================================================//
+    private int tGatherLevel;
+    public int gatherLevel
+    { get { return tGatherLevel; }
+        set
+        {
+            tGatherLevel = value;
+        }
+    }
+    private int tGatherEXP;
+    public int gatherEXP
+    {
+        get { return tGatherEXP; }
+        set
+        {
+            if (gatherLevel < 10)
+            {   //경험치는 9레벨 까지만 얻을수 있다.
+                if (value >= NeedEXP(gatherLevel)) // 경험치 값이 레벨에 맞는 필요 경험치량 보다 크다면
+                {
+                    tGatherEXP = value = NeedEXP(gatherLevel);
+                    gatherLevel++;
+                }
+                else
+                {
+                    tGatherEXP = value;
+                }
+            }
+            else { return; }
+        }
+    }
+    //======================================================//
+    private int tFishLevel;
+    public int fishLevel
+    { get { return tFishLevel; }
+        set 
+        {
+            tFishLevel = value;
+        }
+    }
+    private int tFishEXP;
+    public int fishEXP
+    {
+        get { return tFishEXP; }
+        set
+        {
+            if (fishLevel < 10)
+            {   //경험치는 9레벨 까지만 얻을수 있다.
+                if (value >= NeedEXP(fishLevel)) // 경험치 값이 레벨에 맞는 필요 경험치량 보다 크다면
+                {
+                    tFishEXP = value = NeedEXP(fishLevel);
+                    fishLevel++;
+                }
+                else
+                {
+                    tFishEXP = value;
+                }
+            }
+            else { return; }
+        }
+    }
+    //======================================================//
+    private int tCombatLevel;
+    public int combatLevel
+    { get { return tCombatLevel; }
+        set
+        {
+            tCombatLevel = value;
+        }
+    }
+    private int tCombatEXP;
+    public int combatEXP
+    {
+        get { return tCombatEXP; }
+        set
+        {
+            if (combatLevel < 10)
+            {   //경험치는 9레벨 까지만 얻을수 있다.
+                if (value >= NeedEXP(combatLevel)) // 경험치 값이 레벨에 맞는 필요 경험치량 보다 크다면
+                {
+                    tCombatEXP = value = NeedEXP(combatLevel);
+                    combatLevel++;
+                }
+                else
+                {
+                    tCombatEXP = value;
+                }
+            }
+            else { return; }
+        }
+    }
+    //======================================================//
+    private int tFarmLevel;
+    public int farmLevel
+    { get { return tFarmLevel; }
+        set
+        {
+            tFarmLevel = value;
+        }
+    }
+    private int tFarmEXP;
+    public int farmEXP
+    {
+        get { return tFarmEXP; }
+        set
+        {
+            if (farmLevel < 10)
+            {   //경험치는 9레벨 까지만 얻을수 있다.
+                if (value >= NeedEXP(farmLevel)) // 경험치 값이 레벨에 맞는 필요 경험치량 보다 크다면
+                {
+                    tFarmEXP = value = NeedEXP(farmLevel);
+                    farmLevel++;
+                }
+                else
+                {
+                    tFarmEXP = value;
+                }
+            }
+            else { return; }
+        }
+    }
+    //======================================================//
+    private int NeedEXP(int level)
+    {
+        switch (level)
+        {
+            case 1:
+                return 100;
+            case 2:
+                return 200;
+            case 3:
+                return 300;
+            case 4:
+                return 400;
+            case 5:
+                return 500;
+            case 6:
+                return 600;
+            case 7:
+                return 700;
+            case 8:
+                return 800;
+            case 9:
+                return 900;
+            case 10:
+                return 1000;
+        }
+
+        return 0; // 오류구간
     }
 }

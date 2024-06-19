@@ -19,6 +19,8 @@ class TradeManage : MonoBehaviour
         tradeWindowPlayer = transform.Find("TradeWindowPlayer").gameObject;
         inventoryBar = transform.Find("InventoryBarUI").gameObject;
 
+
+
         tradeWindowShop.SetActive(false);
         tradeWindowPlayer.SetActive(false);
     }

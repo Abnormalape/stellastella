@@ -59,8 +59,7 @@ class TradeWindow : MonoBehaviour
     private void Update()
     {
         ChangeCurrentRow();
-        GenerateSellingUI();
-        
+        GenerateSellingUI();   
     }
 
     

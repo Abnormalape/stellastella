@@ -25,14 +25,11 @@ public class StoneLand : MonoBehaviour // Á¶°Ç¿¡ µû¶ó ±¤¼® ÀÚ½Ä ¿ÀºêÁ§Æ®¸¦ »ý¼ºÇ
         currentDate = gameManager.currentDay;
         currentMonth= gameManager.currentMonth;
 
-        landControl = GetComponent<LandControl>();    
-    }
-
-    private void Start()
-    {
+        landControl = GetComponent<LandControl>();
         landControl.OnAValueUpdated += HandleAValueUpdated;
         landControl.OnBValueUpdated += HandleBValueUpdated;
     }
+
 
     void HandleAValueUpdated(bool newValue)
     {

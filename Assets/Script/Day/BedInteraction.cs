@@ -21,16 +21,14 @@ class BedInteraction :MonoBehaviour
 
     private void Awake()
     {
-        chatBoxPrefab = Resources.Load("Prefabs/ChatBox/ChatBoxCanvas") as GameObject;
         chatManager = GameObject.Find("ChatManager").GetComponent<ChatManager>();
     }
 
     void AskSleep(Collider2D collision)
     {
-        collision.transform.GetComponent<PlayerController>().Conversation(true);
-        GameObject chatboxPrefabinstance = Instantiate(chatBoxPrefab);
-        chatboxPrefabinstance.transform.SetParent(collision.transform);
+        GameObject chatboxPrefabinstance = Instantiate(Resources.Load("Prefabs/ChatBox/ChatBoxCanvas") as GameObject, collision.transform);
 
+        collision.transform.GetComponent<PlayerController>().Conversation(true);
 
         chatboxPrefabinstance.GetComponentInChildren<Text>().text = "정말로 잠을 잘까요?";
 

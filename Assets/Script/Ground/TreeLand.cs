@@ -60,19 +60,14 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
         {
             prefabpath = $"Prefabs/FieldTree/{myTreePrefab.name}";
         }
-    }
-    private void Start()
-    {
+
         if (GetComponent<LandControl>() != null)
         {
             landControl.OnAValueUpdated += HandleAValueUpdated;
             landControl.OnBValueUpdated += HandleBValueUpdated;
         }
     }
-
-
-
-
+    
     LandControl landControl;
     bool monthChanged;
     bool dayChanged;
@@ -97,6 +92,7 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
 
     void HandleBValueUpdated(bool newValue)
     {
+        Debug.Log("TreeLand Date Changed");
         dayChanged = newValue; //일이 바뀌었을때.
 
         if (AtFarm)
@@ -117,7 +113,7 @@ public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
     {
         if (dayChanged)
         {
-
+            Debug.Log("OutTreeDateChanged");
             //날짜 동기화는 항상.
             currentDate = gameManager.currentDay;
             dayChanged = false;

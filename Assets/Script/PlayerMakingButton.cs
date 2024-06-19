@@ -7,5 +7,6 @@ class PlayerMakingButton : MonoBehaviour
     {
         SceneManager.LoadScene("InsideHouse");
         GameObject.Find("Player").transform.position = new Vector3(10f, 13f, 0f);
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().currentSceneName = "InsideHouse";
     }
 }

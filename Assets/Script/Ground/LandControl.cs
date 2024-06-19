@@ -10,7 +10,6 @@ public enum LandType
 
 class LandControl : MonoBehaviour
 {
-
     public Vector3 savePosition;
     public string prefabPath;
     public string prefabPath_Crop;
@@ -28,6 +27,8 @@ class LandControl : MonoBehaviour
     public delegate void BValueUpdated(bool newValue);
     public event BValueUpdated OnBValueUpdated;
 
+    GameManager gameManager;
+
     private bool a;
     private bool b;
     public bool monthChanged
@@ -36,8 +37,14 @@ class LandControl : MonoBehaviour
         set
         {
             a = value; // value는 this.bool 의 값과 같다.
-            OnAValueUpdated.Invoke(a); // A 값이 변경될 때 이벤트 호출
+            OnAValueUpdated?.Invoke(a); // A 값이 변경될 때 이벤트 호출
         }
+    }
+
+    private void Awake()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        gameManager.WhenSceneChanged += LandDataUpdate;
     }
 
     public bool dayChanged
@@ -46,30 +53,28 @@ class LandControl : MonoBehaviour
         set
         {
             b = value;
-            //OnBValueUpdated?.Invoke(b); // B 값이 변경될 때 이벤트 호출
-            OnBValueUpdated.Invoke(b); // B 값이 변경될 때 이벤트 호출
+            OnBValueUpdated?.Invoke(b); // B 값이 변경될 때 이벤트 호출
         }
     }
-    //=====================================
+    //=====================================//
 
     private void Update()
     {
-        //씬이 바뀌기 전에만 실행하면 됨.
-        LandDataUpdate();
+        
     }
 
+    
 
     private void LandDataUpdate()
     {
         string tempstring = prefabPath;
         string tempstring_Crop = prefabPath_Crop;
 
-        if(GetComponent<TreeLand>() != null)
+        if (GetComponent<TreeLand>() != null)
         {
             if (!GetComponent<TreeLand>().AtFarm)
             {
                 prefabPath = GetComponent<TreeLand>().prefabPath;
-                Debug.Log(tag + " : " + prefabPath);
             }
         }
 
@@ -138,6 +143,7 @@ class LandControl : MonoBehaviour
         else if (GetComponentInChildren<FarmLandControl>() != null)
         {   //농사를 한 케이스.
             landType = LandType.Farm;
+
             if (GetComponent<FarmLand>().prefabPath != "")
             {
                 prefabPath = GetComponent<FarmLand>().prefabPath; // 이 프리팹은 물주기와 씨앗심기를 담당한다.
@@ -163,5 +169,10 @@ class LandControl : MonoBehaviour
         {
             savePosition = transform.position;
         }
+    }
+
+    private void OnDestroy()
+    {
+        gameManager.WhenSceneChanged -= LandDataUpdate;
     }
 }

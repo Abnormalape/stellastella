@@ -11,7 +11,7 @@ class ItemDB
     public int season;
     public string name = "";
     public string type = "";
-    
+    public bool eatable = false;
 
     // 씨앗류 아이템은 자라는데 걸리는 시간, 성장단계 등을 추가로 DB로 가져야 한다
 
@@ -183,6 +183,7 @@ class ItemDB
                 buyPrice = 0;
                 grade = 1;
                 type = "Fruit";
+                eatable = true;
                 return;
             case 102:
                 name = "SpringCrop2";
@@ -190,6 +191,7 @@ class ItemDB
                 buyPrice = 0;
                 grade = 1;
                 type = "Fruit";
+                eatable = true;
                 return;
             case 103:
                 name = "SummerCrop1";
@@ -197,6 +199,7 @@ class ItemDB
                 buyPrice = 0;
                 grade = 1;
                 type = "Fruit";
+                eatable = true;
                 return;
             case 104:
                 name = "SummerCrop2";
@@ -204,6 +207,7 @@ class ItemDB
                 buyPrice = 0;
                 grade = 1;
                 type = "Fruit";
+                eatable = true;
                 return;
             case 105:
                 name = "FallCrop1";
@@ -211,6 +215,7 @@ class ItemDB
                 buyPrice = 0;
                 grade = 1;
                 type = "Fruit";
+                eatable = true;
                 return;
             case 106://가을작물2 열매
                 name = "FallCrop2";
@@ -218,6 +223,7 @@ class ItemDB
                 buyPrice = 0;
                 grade = 1;
                 type = "Fruit";
+                eatable = true;
                 return;
 
             case 201: //참나무 씨앗
@@ -253,6 +259,7 @@ class ItemDB
                 hpRestore = 10;
                 staminaRestor = 10;
                 type = "Fish";
+                eatable = true;
                 return;
             case 402:
                 name = "SpringHardFish";
@@ -261,6 +268,7 @@ class ItemDB
                 hpRestore = 100;
                 staminaRestor = 100;
                 type = "Fish";
+                eatable = true;
                 return;
             case 403:
                 name = "SummerEasyFish";
@@ -269,6 +277,7 @@ class ItemDB
                 hpRestore = 10;
                 staminaRestor = 10;
                 type = "Fish";
+                eatable = true;
                 return;
             case 404:
                 name = "SummerHardFish";
@@ -277,6 +286,7 @@ class ItemDB
                 hpRestore = 100;
                 staminaRestor = 100;
                 type = "Fish";
+                eatable = true;
                 return;
             case 405:
                 name = "FallEasyFish";
@@ -285,6 +295,7 @@ class ItemDB
                 hpRestore = 10;
                 staminaRestor = 10;
                 type = "Fish";
+                eatable = true;
                 return;
             case 406:
                 name = "FallHardFish";
@@ -293,6 +304,7 @@ class ItemDB
                 hpRestore = 100;
                 staminaRestor = 100;
                 type = "Fish";
+                eatable = true;
                 return;
             case 407:
                 name = "WinterEasyFish";
@@ -301,6 +313,7 @@ class ItemDB
                 hpRestore = 10;
                 staminaRestor = 10;
                 type = "Fish";
+                eatable = true;
                 return;
             case 408:
                 name = "WinterHardFish";
@@ -309,6 +322,7 @@ class ItemDB
                 hpRestore = 100;
                 staminaRestor = 100;
                 type = "Fish";
+                eatable = true;
                 return;
             case 409:
                 name = "DayFish";
@@ -317,6 +331,7 @@ class ItemDB
                 hpRestore = 50;
                 staminaRestor = 50;
                 type = "Fish";
+                eatable = true;
                 return;
             case 410:
                 name = "NightFish";
@@ -325,6 +340,7 @@ class ItemDB
                 hpRestore = 50;
                 staminaRestor = 50;
                 type = "Fish";
+                eatable = true;
                 return;
         }
 	}

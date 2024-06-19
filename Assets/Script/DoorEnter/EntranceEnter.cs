@@ -10,10 +10,12 @@ class Entrance : MonoBehaviour
     string currentSceneName;
 
     [SerializeField] nowLocation ToPlace; // 이동하는 장소의 이름.
+    GameManager gameManager;
 
     private void Awake()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     Collider2D collisionn;
@@ -25,21 +27,14 @@ class Entrance : MonoBehaviour
         }
 
         if(GoingScene == "" && collisionn != null && collision.tag == "Player")
-        {
+        {   //씬이 변하지 않는.
             collision.GetComponent<PlayerController>().Conversation(true);
             collision.GetComponentInChildren<Fading>().fadeIn = true;
 
             Invoke("TeleportPlayer", 0.5f);
         }
         else if (collision.tag == "Player" && collisionn != null)
-        {   //플레이어와 접촉했다면.
-            //입구가 가진 씬의 좌표로 플레이어를 전송한다.
-
-            if (currentSceneName == "Farm")
-            {
-                GameObject.Find("GameManager").GetComponent<GameManager>().SaveLandInFarmData();
-            }
-
+        {   //씬이 변하는.
             collision.GetComponent<PlayerController>().Conversation(true);
             collision.GetComponentInChildren<Fading>().fadeIn = true;
 
@@ -48,17 +43,17 @@ class Entrance : MonoBehaviour
     }
 
     void TransformPlayer()
-    {
-        
+    {   //Scene이 변하는 entrance.
         collisionn.transform.position = GoingTo;
         collisionn.transform.GetComponent<PlayerController>().nowLocation = ToPlace;
-        
-        SceneManager.LoadScene(GoingScene);
+
+        gameManager.currentSceneName = GoingScene;
+
         collisionn = null;
     }
     
     void TeleportPlayer()
-    {
+    {   //Scene이 변하지 않는 entrance.
         collisionn.transform.position = GoingTo;
         collisionn.transform.GetComponent<PlayerController>().nowLocation = ToPlace;
         collisionn = null;
