@@ -10,17 +10,21 @@ class SellBoxObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        OpenSellBoxUI(collision);
     }
 
     //우클릭시 플레이어 인벤토리가 하단에 오픈.
-    private void OpenSellBoxUI()
+    private void OpenSellBoxUI(Collider2D collision)
     {
-
-        //UI는 플레이어 인벤토리와 연동된 36칸의 슬롯이 있다.
+        if (collision.tag == "RightClick" && collision.transform.parent.tag == "Player")
+        {
+            GameObject playerObject = collision.transform.parent.gameObject;
+            SellBoxManager sellBoxManager = GameObject.FindWithTag("SellBoxManager").GetComponent<SellBoxManager>();
+            sellBoxManager.OpenSellBox(playerObject);
+        }
     }
 
-    
+
     private void SlotLeftClick()
     {
         //UI에서 슬롯을 우클릭 하면, 아이템이 통째로 SellBox에 들어감.

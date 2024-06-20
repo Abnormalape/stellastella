@@ -4,8 +4,9 @@ using UnityEngine;
 public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 {
     Inventory[] pInventory = new Inventory[36]; // 36칸의 인벤토리
-    public int[] pInventoryItemID = new int[36];
-    public int[] pInventoryItemCount = new int[36];
+    public int[] pInventoryItemID { get; private set; } = new int[36];
+    public int[] pInventoryItemCount { get; private set; } = new int[36];
+    public int[] pInventoryItemGrade { get; private set; } = new int[36];
     ItemDB currentItemDB; // 아이템 정보 호출용
     [SerializeField] public int currentInventory; // 현재인벤
     [SerializeField] public int currentInventoryItem; // 현재인벤의 아이템ID
@@ -14,7 +15,19 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     PlayerLeftClick PLClick;
     PlayerController pCon;
 
-    public int changeCount = 0;
+
+    
+    public int changeCount 
+    {
+        set { pInventory[currentInventory].itemCount += value; }
+    }
+    
+    public void ChangeCount(int inventoryNumber, int value)
+    {
+        pInventory[inventoryNumber].itemCount += value;
+        pInventoryItemCount[inventoryNumber] = pInventory[inventoryNumber].itemCount;
+    }
+
 
     void MakePlayerInventory() // 시작할때 주는 도구 = 1회성
     {
@@ -59,7 +72,6 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         ChangeInventory(); // 이것을 바탕으로 플레이어와 오브젝트가 상호작용
         InventoryItemData();
         UpdateCounts();
-        HandItemMinus();
         OuterData();
     }
     void ChangeInventory() // 인벤토리를 바꾸고 아이템을 선택.
@@ -105,14 +117,6 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         }
     }
 
-    void HandItemMinus()
-    {
-        if (changeCount != 0) // 갯수변화가 0이 아니라면
-        {
-            pInventory[currentInventory].itemCount += changeCount;
-            changeCount = 0;
-        }
-    }
 
     void OuterData()
     {
@@ -149,8 +153,6 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 
     public void AddFieldItem(Collider2D collision)
     {   //필드의 아이템을 먹는 메소드
-        
-
 
         if (collision.gameObject.tag == "FieldItem") // 충돌체가 아이템 이라면
         {
@@ -216,6 +218,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
             }
 
             pInventoryItemID[i] = pInventory[i].itemID;
+            pInventoryItemGrade[i] = pInventory[i].grade;
         }
     }
 

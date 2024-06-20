@@ -20,6 +20,7 @@ TagManager:
   - OakTreeLand
   - MapleTreeLand
   - PineTreeLand
+  - SellBoxManager
   layers:
   - Default
   - TransparentFX
