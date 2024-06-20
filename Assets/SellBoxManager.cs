@@ -27,9 +27,9 @@ class SellBoxManager : MonoBehaviour
     int LastPutCount
     {
         get { return tLastPutCount; }
-        set 
-        { 
-            if(value == 0)
+        set
+        {
+            if (value == 0)
             {
                 OffLastSellSlot();
                 return;
@@ -38,6 +38,7 @@ class SellBoxManager : MonoBehaviour
             UpdateLastSellSlot();
         }
     }
+    string LastPutName;
     int LastPutGrade = 0;
     //=======LastPut========//
 
@@ -98,7 +99,6 @@ class SellBoxManager : MonoBehaviour
 
     private void UIData(int i, ItemDB itemDB, string gradename, PlayerInventroy pInven)
     {
-
         if (pInven.pInventoryItemCount[i] > 0)
         {
             //pInven의 UI.
@@ -112,7 +112,7 @@ class SellBoxManager : MonoBehaviour
             {
                 sellBoxUISlot[i].transform.GetChild(1).GetComponent<Image>().sprite = null;
             }
-            
+
             sellBoxUISlot[i].GetComponentInChildren<Text>().text = pInven.pInventoryItemCount[i].ToString();  //slot의 텍스트(아이템 수).
 
             //pInven의 Data.
@@ -136,9 +136,9 @@ class SellBoxManager : MonoBehaviour
 
     private void UpdateLastSellSlot()
     {
-        LastSellSlot.transform.GetChild(0).GetComponent<Image>().sprite = null;
-        LastSellSlot.transform.GetChild(1).GetComponent<Image>().sprite = null;
-        LastSellSlot.GetComponentInChildren<Text>().text = "";
+        LastSellSlot.transform.GetChild(0).GetComponent<Image>().sprite = spriteManager.GetSprite(LastPutName);
+        LastSellSlot.transform.GetChild(1).GetComponent<Image>().sprite = spriteManager.GetSprite(gradeToString(LastPutGrade));
+        LastSellSlot.GetComponentInChildren<Text>().text = LastPutCount.ToString();
     }
 
     string gradeToString(int grade)
@@ -165,7 +165,6 @@ class SellBoxManager : MonoBehaviour
             Debug.Log("슬롯이 비어있습니다.");
             return;
         }
-        Debug.Log("아이템을 납품 상자에 넣었습니다.");
 
         //else if : lastinput과 add된 아이템의ID, Grade를 비교해서 같다면
         if (LastPutID == SlotItemID[SlotNumber] && LastPutGrade == SlotItemGrade[SlotNumber])
@@ -177,12 +176,13 @@ class SellBoxManager : MonoBehaviour
             //마지막에 넣은 항목에 count만큼 더한값을 대치.
             ListItemCount[lastListNum] = LastPutCount;
             //slot의 count감소를 pinven에 전달.
-            pInven.ChangeCount(SlotNumber, -1);
+            pInven.ChangeCount(SlotNumber, SlotItemCount[SlotNumber]);
             //UI data 업데이트.
             UIData(SlotNumber, new ItemDB(SlotItemID[SlotNumber]), gradeToString(SlotItemGrade[SlotNumber]), pInven);
         }
         else //if : lastinput과 add된 아이템의ID, Grade를 비교해서 같지 않다면 아래 실행
         {
+            Debug.Log("Different Item All");
             //List에 데이터 추가.
             ListItemID.Add(SlotItemID[SlotNumber]);
             ListItemCount.Add(SlotItemCount[SlotNumber]);
@@ -192,8 +192,11 @@ class SellBoxManager : MonoBehaviour
             pInven.ChangeCount(SlotNumber, -SlotItemCount[SlotNumber]); //inventory에 count를 0으로. = 데이터 삭제.
             UIData(SlotNumber, new ItemDB(SlotItemID[SlotNumber]), gradeToString(SlotItemGrade[SlotNumber]), pInven); //이후 업데이트.
 
+            //spriteManager.GetSprite(itemDB.name)
+
             //Last Input에 아이템 등록.
             LastPutID = SlotItemID[SlotNumber];
+            LastPutName = new ItemDB(SlotItemID[SlotNumber]).name;
             LastPutCount = SlotItemCount[SlotNumber];
             LastPutGrade = SlotItemGrade[SlotNumber];
 
@@ -208,12 +211,10 @@ class SellBoxManager : MonoBehaviour
             Debug.Log("슬롯이 비어있습니다.");
             return;
         }
-        Debug.Log("아이템을 납품 상자에 넣었습니다.");
-
         //else if : lastinput과 add된 아이템의ID, Grade를 비교해서 같다면
         if (LastPutID == SlotItemID[SlotNumber] && LastPutGrade == SlotItemGrade[SlotNumber])
         {
-            Debug.Log("Same Item Sigle");
+            Debug.Log("Same Item Single");
             //lastinput에 1만큼 add.
             LastPutCount += 1;
             //마지막에 넣은 항목에 count만큼 더한값을 대치.
@@ -225,10 +226,13 @@ class SellBoxManager : MonoBehaviour
         }
         else //if : lastinput과 add된 아이템의ID, Grade를 비교해서 같지 않다면 아래 실행
         {
+            Debug.Log("Different Item Single");
             //List에 데이터 추가.
             ListItemID.Add(SlotItemID[SlotNumber]);
             ListItemCount.Add(1);
             ListItemGrade.Add(SlotItemGrade[SlotNumber]);
+
+            Debug.Log(ListItemID[ListItemID.Count - 1]);
 
             //Slot의 Count 감소 및 UI와 데이터 업데이트.
             pInven.ChangeCount(SlotNumber, -1); //inventory에 count를 0으로. = 데이터 삭제;
@@ -236,6 +240,7 @@ class SellBoxManager : MonoBehaviour
 
             //Last Input에 아이템 등록.
             LastPutID = SlotItemID[SlotNumber];
+            LastPutName = new ItemDB(SlotItemID[SlotNumber]).name;
             LastPutGrade = SlotItemGrade[SlotNumber];
             LastPutCount = 1;
 
