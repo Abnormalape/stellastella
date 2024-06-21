@@ -1,5 +1,98 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &705278729816916865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8290750794462814780}
+  - component: {fileID: 2128247520297036195}
+  - component: {fileID: 517519868886201551}
+  - component: {fileID: 8653978394204377582}
+  m_Layer: 5
+  m_Name: CurrentSeason
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8290750794462814780
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705278729816916865}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 274295591525873263}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -6.1698, y: 110.5099}
+  m_SizeDelta: {x: 142.4604, y: 94.9873}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2128247520297036195
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705278729816916865}
+  m_CullTransparentMesh: 1
+--- !u!114 &517519868886201551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705278729816916865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 1798538661, guid: 60ea0d129edee4f4ca58d1cc33e38bca, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8653978394204377582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705278729816916865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b44d28eb3300de42ae5ae86acb03e63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SeasonSprite:
+  - {fileID: 1798538661, guid: 60ea0d129edee4f4ca58d1cc33e38bca, type: 3}
+  - {fileID: 466126520, guid: 60ea0d129edee4f4ca58d1cc33e38bca, type: 3}
+  - {fileID: 722670015, guid: 60ea0d129edee4f4ca58d1cc33e38bca, type: 3}
+  - {fileID: -294810901, guid: 60ea0d129edee4f4ca58d1cc33e38bca, type: 3}
 --- !u!1 &1064351115110356749
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,6 +127,7 @@ RectTransform:
   - {fileID: 6919721624878955652}
   - {fileID: 6611536329730775549}
   - {fileID: 2552127097821245022}
+  - {fileID: 8290750794462814780}
   m_Father: {fileID: 6887964916916402277}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -428,14 +522,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentYear: 0
-  currentSeason: 0
   currentMonth: 0
   currentDay: 0
   currentHour: 0
   currentMinute: 0
   ampm: 
   dayOff: 1
-  weather: 0
   dayTimePassed: 0
 --- !u!114 &1545965606741569354
 MonoBehaviour:

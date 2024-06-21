@@ -32,22 +32,22 @@ class ItemDB
 				sellPrice = 5;
 				buyPrice = 10;
 				name = "Wood";
-				type = "재료";
+				type = "Material";
 				return;
 			case 2:
 				sellPrice = 20;
 				buyPrice = 40;
 				name = "HardWood";
-				type = "재료";
+				type = "Material";
 				return;
 			case 3:
 				sellPrice = 1;
 				name = "Sap";
-				type = "재료";
+				type = "Material";
 				return;
 			case 4:
 				name = "Axe";
-				type = "도구";
+				type = "Tool";
 				grade = 1;
 				toolType = 1;
                 staminaRestor = 1;
@@ -55,21 +55,21 @@ class ItemDB
 				return;
             case 5:
                 name = "Hoe";
-                type = "도구";
+                type = "Tool";
                 grade = 5;
                 toolType = 2;
                 staminaRestor = 1;
                 return;
             case 6:
                 name = "WateringCan";
-                type = "도구";
+                type = "Tool";
                 grade = 5;
                 toolType = 3;
                 staminaRestor = 1;
                 return;
             case 7:
                 name = "PickAxe";
-                type = "도구";
+                type = "Tool";
                 grade = 1;
                 toolType = 4;
                 staminaRestor = 1;
@@ -77,13 +77,13 @@ class ItemDB
                 return;
             case 8:
                 name = "Sickle";
-                type = "도구";
+                type = "Tool";
                 grade = 1;
                 toolType = 5;
                 return;
             case 9:
                 name = "SteelAxe";
-                type = "도구";
+                type = "Tool";
                 grade = 3;
                 toolType = 1;
                 staminaRestor = 1;
@@ -91,7 +91,7 @@ class ItemDB
                 return;
             case 10:
                 name = "SteelPickAxe";
-                type = "도구";
+                type = "Tool";
                 grade = 3;
                 toolType = 4;
                 staminaRestor = 1;
@@ -101,19 +101,19 @@ class ItemDB
                 sellPrice = 5;
                 buyPrice = 10;
                 name = "Stone"; // 돌
-                type = "재료";
+                type = "Material";
                 return;
             case 12:
                 sellPrice = 10;
                 buyPrice = 20;
                 name = "Coal"; // 석탄
-                type = "재료";
+                type = "Material";
                 return;
             case 13:
                 sellPrice = 10;
                 buyPrice = 20;
                 name = "CopperOre"; // 구리
-                type = "재료";
+                type = "Material";
                 return;
             case 14:
                 sellPrice = 10;
@@ -161,7 +161,7 @@ class ItemDB
                 sellPrice = 100;
                 buyPrice = 200;
                 name = "FishingRod"; // 낚싯대
-                type = "도구";
+                type = "Tool";
                 grade = 1; // 1레벨 낚싯대
                 toolType = 9; // 9번 툴 낚싯대
                 staminaRestor = 10; //스테소모
@@ -172,7 +172,7 @@ class ItemDB
                 sellPrice = 10;
                 buyPrice = 0;
                 name = "GreenSlimeDrop"; // 초록슬라임 드랍
-                type = "재료";
+                type = "Material";
                 return;
 
 
@@ -249,7 +249,7 @@ class ItemDB
                 name = "Weed";
                 sellPrice = 10;
                 buyPrice = 0;
-                type = "재료";
+                type = "Material";
                 return;
 
             case 401:

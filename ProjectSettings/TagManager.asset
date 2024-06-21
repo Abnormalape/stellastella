@@ -21,6 +21,7 @@ TagManager:
   - MapleTreeLand
   - PineTreeLand
   - SellBoxManager
+  - Fade
   layers:
   - Default
   - TransparentFX

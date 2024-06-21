@@ -31,7 +31,7 @@ class FishingMiniGame : MonoBehaviour // FishGrade미완성
         if (FF == true)
         {   //fishingbar 한테서 perfect인지 확인해서 grade를 한단계 높인다.
             Debug.Log("낚시성공!");
-            GetComponentInParent<PlayerInventroy>().AddDirectItem(fishDB.fishID, fishGrade); //아이템 추가
+            GetComponentInParent<PlayerInventroy>().AddDirectItem(fishDB.fishID, fishGrade, 1); //아이템 추가
         }
         else
         {

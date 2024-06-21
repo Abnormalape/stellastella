@@ -32,8 +32,6 @@ class Fading : MonoBehaviour
         passedTime += Time.deltaTime;
         if (fadeOut == false)
         {
-
-
             GetComponentInChildren<Image>().color = new Color(0, 0, 0, passedTime * 3f);
             if (passedTime > 0.5f)
             {

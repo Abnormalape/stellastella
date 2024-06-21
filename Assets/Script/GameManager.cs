@@ -48,10 +48,12 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
     float timePassed;
     public float dayTimePassed = 0; //하루 20시간(06~02), 10초=10분 60초=1시간, 
 
+    FadeManager fadeManager;
     SeasonUiSprite seasonUiSprite;
     private void Awake()
     {
         seasonUiSprite = GetComponentInChildren<SeasonUiSprite>();
+        fadeManager = FindFirstObjectByType<FadeManager>();
 
         currentYear = 1;
         currentSeason = 0; // 봄
@@ -105,10 +107,19 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
         else { ampm = "PM"; }
     }
 
-    public void DayOff()
-    {
-        dayOff = true;
+    public void DayOff(GameObject player)
+    {   //날자 종료 메서드.
+        //0.5초 후에 씬 변경, 전까지 fade.
+        fadeManager.fadingObject = player;
+        fadeManager.fadeIn = true;
+        Invoke("EndDay",0.5f);
     }
+    private void EndDay()
+    {
+        SceneManager.LoadScene("DayFinish");
+    }
+    
+
     void EndOfTheDay() //dayoff가 true일때 정산씬을 호출, 나머지 기능은 정산씬에서 실행
     {
         dayTimePassed = 0;

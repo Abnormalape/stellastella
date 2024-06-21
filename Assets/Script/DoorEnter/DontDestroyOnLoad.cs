@@ -6,6 +6,7 @@ class DontDestroyOnLoad : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
         DontDestroyOnLoad(this.gameObject);
 
         if (instance == null)
@@ -14,5 +15,4 @@ class DontDestroyOnLoad : MonoBehaviour
             return;
         }
     }
-
 }

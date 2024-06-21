@@ -13,9 +13,9 @@ public class ChatManager : MonoBehaviour
 
     public void BedYes(GameObject player, GameObject chatbox)
     {
-        gameManager.DayOff();
-        player.GetComponent<PlayerController>().Conversation(false);
+        //player.GetComponent<PlayerController>().Conversation(false);
         Destroy(chatbox);
+        gameManager.DayOff(player);
         //player.
     }
 

@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InsideHouse.unity
     guid: 2f2718b857cf80a4c8fe7eb4809aa6d5
+  - enabled: 1
+    path: Assets/Scenes/DayFinish.unity
+    guid: 79f3eb897d28bfc4a81c890273f22ebc
   m_configObjects: {}

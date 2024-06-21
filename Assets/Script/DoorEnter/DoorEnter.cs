@@ -12,10 +12,13 @@ class DoorEnter : MonoBehaviour
 
     [SerializeField] nowLocation ToPlace; // 이동하는 장소의 이름.
 
+    FadeManager fadeManager;
     private void Awake()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
+        fadeManager = FindFirstObjectByType<FadeManager>();
     }
 
     
@@ -31,7 +34,9 @@ class DoorEnter : MonoBehaviour
             Invoke("Transporting", 0.5f);
 
             collision.GetComponentInParent<PlayerController>().Conversation(true);
-            collision.transform.parent.GetComponentInChildren<Fading>().fadeIn = true;
+
+            fadeManager.fadeIn = true;
+            fadeManager.fadingObject = collision.transform.parent.gameObject;
         }
     }
 

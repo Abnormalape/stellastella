@@ -162,7 +162,8 @@ public class PlayerController : MonoBehaviour
     //======================================================//
     private int tMineLevel;
     public int mineLevel
-    { get { return tMineLevel; }
+    {
+        get { return tMineLevel; }
         set
         {
             tMineLevel = value;
@@ -192,7 +193,8 @@ public class PlayerController : MonoBehaviour
     //======================================================//
     private int tGatherLevel;
     public int gatherLevel
-    { get { return tGatherLevel; }
+    {
+        get { return tGatherLevel; }
         set
         {
             tGatherLevel = value;
@@ -222,8 +224,9 @@ public class PlayerController : MonoBehaviour
     //======================================================//
     private int tFishLevel;
     public int fishLevel
-    { get { return tFishLevel; }
-        set 
+    {
+        get { return tFishLevel; }
+        set
         {
             tFishLevel = value;
         }
@@ -252,7 +255,8 @@ public class PlayerController : MonoBehaviour
     //======================================================//
     private int tCombatLevel;
     public int combatLevel
-    { get { return tCombatLevel; }
+    {
+        get { return tCombatLevel; }
         set
         {
             tCombatLevel = value;
@@ -282,7 +286,8 @@ public class PlayerController : MonoBehaviour
     //======================================================//
     private int tFarmLevel;
     public int farmLevel
-    { get { return tFarmLevel; }
+    {
+        get { return tFarmLevel; }
         set
         {
             tFarmLevel = value;

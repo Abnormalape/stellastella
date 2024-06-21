@@ -2,14 +2,13 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 class SellBoxManager : MonoBehaviour
 {
     //=======DataManage========//
-    List<int> ListItemID; //ID
-    List<int> ListItemCount; //Count
-    List<int> ListItemGrade; //Grade
+    public List<int> ListItemID; //ID
+    public List<int> ListItemCount; //Count
+    public List<int> ListItemGrade; //Grade
     int lastListNum = 0;
     //=======DataManage========//
 
@@ -23,7 +22,7 @@ class SellBoxManager : MonoBehaviour
     //=======LastPut========//
     GameObject LastSellSlot;
     int LastPutID = 0;
-    private int tLastPutCount;
+    private int tLastPutCount = 0;
     int LastPutCount
     {
         get { return tLastPutCount; }
@@ -38,11 +37,51 @@ class SellBoxManager : MonoBehaviour
             UpdateLastSellSlot();
         }
     }
-    string LastPutName;
+    string LastPutName = "";
     int LastPutGrade = 0;
     //=======LastPut========//
 
 
+    [SerializeField] bool asdf;
+
+    private void CheckList(bool value)
+    {
+        if (!value)
+        {
+            return;
+        }
+        else if (value)
+        {
+            int i = ListItemID.Count;
+
+            for (int j = 0; j < i; j++)
+            {
+                Debug.Log($"{j} ID : {ListItemID[j]} / Count : {ListItemCount[j]}");
+            }
+            asdf = false;
+        }
+    }
+
+    void Update()
+    {
+        CheckList(asdf);
+
+         if(playerObject != null)
+        {
+            CloseSellBox();
+        }
+    }
+
+    void CloseSellBox()
+    {
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            sellBoxCanvas.gameObject.SetActive(false);
+            playerObject.GetComponent<PlayerController>().Conversation(false);
+
+            playerObject = null;
+        }
+    }
 
     SpriteManager spriteManager;
     GameObject sellBoxCanvas;
@@ -53,6 +92,7 @@ class SellBoxManager : MonoBehaviour
         sellBoxCanvas = transform.GetChild(0).gameObject;
 
         LastSellSlot = sellBoxCanvas.GetComponentInChildren<SellBoxLastSellSlot>().gameObject;
+        LastSellSlot.SetActive(false);
 
         sellBoxCanvas.SetActive(false);
     }
@@ -65,8 +105,11 @@ class SellBoxManager : MonoBehaviour
     }
 
     PlayerInventroy pInven;
+    GameObject playerObject;
+
     public void OpenSellBox(GameObject playerObject)
     {   //OpenSellBox를 sellboxobject가 여는데, 그녀석이 playerobejct를 건네준다.
+        this.playerObject = playerObject;
         pInven = playerObject.GetComponent<PlayerInventroy>();
         playerObject.GetComponent<PlayerController>().Conversation(true);
         sellBoxCanvas.SetActive(true);
@@ -88,9 +131,7 @@ class SellBoxManager : MonoBehaviour
             }
             sellBoxUISlot[i] = transform.GetChild(0).GetComponentsInChildren<SellBoxSlot>()[i].gameObject;
 
-            ItemDB itemDB;
-            itemDB = new ItemDB(pInven.pInventoryItemID[i]);
-
+            ItemDB itemDB = new ItemDB(pInven.pInventoryItemID[i]);
             string gradename = gradeToString(pInven.pInventoryItemGrade[i]);
 
             UIData(i, itemDB, gradename, pInven);
@@ -136,12 +177,20 @@ class SellBoxManager : MonoBehaviour
 
     private void UpdateLastSellSlot()
     {
-        LastSellSlot.transform.GetChild(0).GetComponent<Image>().sprite = spriteManager.GetSprite(LastPutName);
-        LastSellSlot.transform.GetChild(1).GetComponent<Image>().sprite = spriteManager.GetSprite(gradeToString(LastPutGrade));
-        LastSellSlot.GetComponentInChildren<Text>().text = LastPutCount.ToString();
+        if (LastPutCount > 0)
+        {
+            LastSellSlot.SetActive(true);
+            LastSellSlot.transform.GetChild(0).GetComponent<Image>().sprite = spriteManager.GetSprite(LastPutName);
+            LastSellSlot.transform.GetChild(1).GetComponent<Image>().sprite = spriteManager.GetSprite(gradeToString(LastPutGrade));
+            LastSellSlot.GetComponentInChildren<Text>().text = LastPutCount.ToString();
+        }
+        else
+        {
+            LastSellSlot.SetActive(false);
+        }
     }
 
-    string gradeToString(int grade)
+    private string gradeToString(int grade)
     {
         if (grade == 1)
         {
@@ -175,24 +224,21 @@ class SellBoxManager : MonoBehaviour
             LastPutCount += SlotItemCount[SlotNumber];
             //마지막에 넣은 항목에 count만큼 더한값을 대치.
             ListItemCount[lastListNum] = LastPutCount;
+
             //slot의 count감소를 pinven에 전달.
-            pInven.ChangeCount(SlotNumber, SlotItemCount[SlotNumber]);
+            pInven.ChangeCount(SlotNumber, -SlotItemCount[SlotNumber]);
+
             //UI data 업데이트.
             UIData(SlotNumber, new ItemDB(SlotItemID[SlotNumber]), gradeToString(SlotItemGrade[SlotNumber]), pInven);
         }
         else //if : lastinput과 add된 아이템의ID, Grade를 비교해서 같지 않다면 아래 실행
         {
             Debug.Log("Different Item All");
+
             //List에 데이터 추가.
             ListItemID.Add(SlotItemID[SlotNumber]);
             ListItemCount.Add(SlotItemCount[SlotNumber]);
             ListItemGrade.Add(SlotItemGrade[SlotNumber]);
-
-            //Slot의 모든 데이터 삭제 및 UI와 데이터 업데이트.
-            pInven.ChangeCount(SlotNumber, -SlotItemCount[SlotNumber]); //inventory에 count를 0으로. = 데이터 삭제.
-            UIData(SlotNumber, new ItemDB(SlotItemID[SlotNumber]), gradeToString(SlotItemGrade[SlotNumber]), pInven); //이후 업데이트.
-
-            //spriteManager.GetSprite(itemDB.name)
 
             //Last Input에 아이템 등록.
             LastPutID = SlotItemID[SlotNumber];
@@ -201,6 +247,10 @@ class SellBoxManager : MonoBehaviour
             LastPutGrade = SlotItemGrade[SlotNumber];
 
             lastListNum = ListItemID.Count - 1;
+
+            //Slot의 모든 데이터 삭제 및 UI와 데이터 업데이트.
+            pInven.ChangeCount(SlotNumber, -SlotItemCount[SlotNumber]); //inventory에 count를 0으로. = 데이터 삭제.
+            UIData(SlotNumber, new ItemDB(SlotItemID[SlotNumber]), gradeToString(SlotItemGrade[SlotNumber]), pInven); //이후 업데이트.
         }
     }
 
@@ -232,12 +282,6 @@ class SellBoxManager : MonoBehaviour
             ListItemCount.Add(1);
             ListItemGrade.Add(SlotItemGrade[SlotNumber]);
 
-            Debug.Log(ListItemID[ListItemID.Count - 1]);
-
-            //Slot의 Count 감소 및 UI와 데이터 업데이트.
-            pInven.ChangeCount(SlotNumber, -1); //inventory에 count를 0으로. = 데이터 삭제;
-            UIData(SlotNumber, new ItemDB(SlotItemID[SlotNumber]), gradeToString(SlotItemGrade[SlotNumber]), pInven); //이후 업데이트;
-
             //Last Input에 아이템 등록.
             LastPutID = SlotItemID[SlotNumber];
             LastPutName = new ItemDB(SlotItemID[SlotNumber]).name;
@@ -245,16 +289,38 @@ class SellBoxManager : MonoBehaviour
             LastPutCount = 1;
 
             lastListNum = ListItemID.Count - 1;
+
+            //Slot의 Count 감소 및 UI와 데이터 업데이트.
+            pInven.ChangeCount(SlotNumber, -1);
+            UIData(SlotNumber, new ItemDB(SlotItemID[SlotNumber]), gradeToString(SlotItemGrade[SlotNumber]), pInven); //이후 업데이트;
         }
     }
 
     public void RestoreLastSell()
     {
-        Debug.Log("Restore");
+        pInven.AddDirectItem(LastPutID, LastPutGrade, LastPutCount);
+        LastPutCount = 0;
+
+        ListItemCount[lastListNum] = 0;
+        ListItemID[lastListNum] = 0;
+        ListItemGrade[lastListNum] = 0;
+
+        int a = pInven.AddSlotNumber;
+
+        Debug.Log(pInven.pInventoryItemCount[a]);
+
+
+        ItemDB itemDB = new ItemDB(pInven.pInventoryItemID[a]);
+        string gradename = gradeToString(pInven.pInventoryItemGrade[a]);
+
+        UIData(a, itemDB, gradename, pInven);
     }
 
     public void OffLastSellSlot()
     {
+        LastPutGrade = 0;
+        LastPutID = 0;
+        LastPutName = "";
         LastSellSlot.SetActive(false);
     }
 }

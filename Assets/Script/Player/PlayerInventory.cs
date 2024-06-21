@@ -26,6 +26,14 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     {
         pInventory[inventoryNumber].itemCount += value;
         pInventoryItemCount[inventoryNumber] = pInventory[inventoryNumber].itemCount;
+
+        if (pInventoryItemCount[inventoryNumber] == 0) 
+        {
+            pInventoryItemID[inventoryNumber] = 0;
+            pInventoryItemGrade[inventoryNumber] = 0;
+            pInventory[inventoryNumber].itemID = 0;
+            pInventory[inventoryNumber].grade = 0;
+        }
     }
 
 
@@ -182,14 +190,17 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         }
     }
 
-    public void AddDirectItem(int itemID, int grade)
+    public int AddSlotNumber { get; private set; }
+    public void AddDirectItem(int itemID, int grade, int count)
     {   //바로 인벤토리에 들어오는 메소드. 인벤토리가 꽉 찼을시, 교환창을 연다.
         for (int i = 0; i < inventSlots ; i++)
         {
             if (itemID == pInventory[i].itemID && 
                 grade == pInventory[i].grade)
             {
-                pInventory[i].itemCount += 1;
+                pInventory[i].itemCount += count;
+                pInventoryItemCount[i] = pInventory[i].itemCount;
+                AddSlotNumber = i;
                 return; // 메서드 종료
             }
         }
@@ -199,8 +210,15 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
             if (pInventory[i].itemID == 0)
             {
                 pInventory[i].itemID = itemID;
+                pInventoryItemID[i] = itemID;
+
                 pInventory[i].grade = grade;
-                pInventory[i].itemCount += 1;
+                pInventoryItemGrade[i] = grade;
+
+                pInventory[i].itemCount = count;
+                pInventoryItemCount[i] = count;
+
+                AddSlotNumber = i;
                 return; // 메서드 종료   
             }
         }
