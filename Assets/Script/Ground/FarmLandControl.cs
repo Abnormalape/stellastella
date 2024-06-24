@@ -112,10 +112,10 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
                 }
             }
         }
-        if (collision.tag == "LeftClick")
+        else if (collision.tag == "LeftClick")
         {
             itemDB = new ItemDB(collision.gameObject.GetComponentInParent<PlayerInventroy>().currentInventoryItem);
-            if (itemDB.type == "도구" && itemDB.toolType == 3) //손에 도구가 있다, 도구가 물뿌리개다.
+            if (itemDB.type == "Tool" && itemDB.toolType == 3) //손에 도구가 있다, 도구가 물뿌리개다.
             {
                 this.watered = true;
             }

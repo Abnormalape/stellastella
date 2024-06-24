@@ -191,7 +191,7 @@ class FishDB
 
                 fishID = 409;
 
-                fishDifficulty = 10;
+                fishDifficulty = 20;
                 fishPercentage = 50;
                 season[0] = true;
                 season[1] = true;
@@ -214,7 +214,7 @@ class FishDB
 
                 fishID = 410;
 
-                fishDifficulty = 10;
+                fishDifficulty = 20;
                 fishPercentage = 50;
                 season[0] = true;
                 season[1] = true;

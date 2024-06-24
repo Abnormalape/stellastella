@@ -77,9 +77,6 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
         // 현재시간 출력
         UpdateTime();
 
-        // 일자 종료시, 일자 종료메서드 실행
-        if (dayOff) { EndOfTheDay(); }
-
         // 골드관리, 다른오브젝트가 직접적으로 gold를 쓰지 않고 goldearn을 통해 관리: 근데 이거 의미 있나?
         if (goldEarn != 0) { gold += goldEarn; goldEarn = 0; } // 이벤트화 요소
 
@@ -120,13 +117,19 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
     }
     
 
-    void EndOfTheDay() //dayoff가 true일때 정산씬을 호출, 나머지 기능은 정산씬에서 실행
+    public void EndOfTheDay() //dayoff가 true일때 정산씬을 호출, 나머지 기능은 정산씬에서 실행
     {
         dayTimePassed = 0;
         currentHour = 6;
         currentMinute = 0;
         ampm = "AM";
         currentDay++;
+
+        PlayerController pCon = FindFirstObjectByType<PlayerController>();
+
+        pCon.currentHp = pCon.maxHp;
+        pCon.currentStamina = pCon.maxStamina;
+
 
 
         bool monthChanged = false;

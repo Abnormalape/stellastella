@@ -66,7 +66,7 @@ class SellBoxManager : MonoBehaviour
     {
         CheckList(asdf);
 
-         if(playerObject != null)
+        if (playerObject != null)
         {
             CloseSellBox();
         }
@@ -87,6 +87,11 @@ class SellBoxManager : MonoBehaviour
     GameObject sellBoxCanvas;
     private void Awake()
     {
+        AwakeReset();
+    }
+
+    void AwakeReset()
+    {
         ResetList();
         spriteManager = FindAnyObjectByType<SpriteManager>();
         sellBoxCanvas = transform.GetChild(0).gameObject;
@@ -96,7 +101,6 @@ class SellBoxManager : MonoBehaviour
 
         sellBoxCanvas.SetActive(false);
     }
-
     void ResetList()
     {
         ListItemID = new List<int>();
@@ -243,8 +247,8 @@ class SellBoxManager : MonoBehaviour
             //Last Input에 아이템 등록.
             LastPutID = SlotItemID[SlotNumber];
             LastPutName = new ItemDB(SlotItemID[SlotNumber]).name;
-            LastPutCount = SlotItemCount[SlotNumber];
             LastPutGrade = SlotItemGrade[SlotNumber];
+            LastPutCount = SlotItemCount[SlotNumber];
 
             lastListNum = ListItemID.Count - 1;
 
@@ -322,5 +326,22 @@ class SellBoxManager : MonoBehaviour
         LastPutID = 0;
         LastPutName = "";
         LastSellSlot.SetActive(false);
+    }
+
+    public void ResetAll()
+    {
+        ListItemID = new List<int>(); //ID
+        ListItemCount = new List<int>(); //Count
+        ListItemGrade = new List<int>(); //Grade
+        lastListNum = 0;
+
+        SlotItemID = new int[36];
+        SlotItemCount = new int[36];
+        SlotItemGrade = new int[36];
+
+        LastPutID = 0;
+        tLastPutCount = 0;
+        LastPutName = "";
+        LastPutGrade = 0;
     }
 }
