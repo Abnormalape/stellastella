@@ -4,6 +4,7 @@ class MyPlayerCursor : MonoBehaviour
 {
     public int itemID;
     public int itemCounts;
+    public int itemGrade;
     public bool itemOnHand = false;
     Camera mainCamera;
 

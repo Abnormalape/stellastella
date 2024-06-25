@@ -1,8 +1,8 @@
-using System.Linq;
-using TreeEditor;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Unity.Burst.Intrinsics.X86;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´ëºÎºÐÀÇ ¿ÀºêÁ§Æ®°¡ ¾ê¸¦ ÂüÁ¶ÇÑ´Ù
                                             // Ãß°¡·Î 1È¸¸¸ È¹µæ °¡´ÉÇÑ º°¹æ¿ï, ÇØ°ñ¿­¼è, °¡¹æµîÀÇ ÀÚ·áµµ ¾ê°¡ ¹Þ´Â´Ù.
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
     // µ· °ü¸®
     int gold;
-    int goldEarn;
+    public int goldEarn;
 
     // ¸ÅÀÏ »óÅÂ °ü¸®
     bool wetherTotemUse; // ³¯¾¾ ÅäÅÛ
@@ -109,13 +109,13 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         //0.5ÃÊ ÈÄ¿¡ ¾À º¯°æ, Àü±îÁö fade.
         fadeManager.fadingObject = player;
         fadeManager.fadeIn = true;
-        Invoke("EndDay",0.5f);
+        Invoke("EndDay", 0.5f);
     }
     private void EndDay()
     {
         SceneManager.LoadScene("DayFinish");
     }
-    
+
 
     public void EndOfTheDay() //dayoff°¡ trueÀÏ¶§ Á¤»ê¾ÀÀ» È£Ãâ, ³ª¸ÓÁö ±â´ÉÀº Á¤»ê¾À¿¡¼­ ½ÇÇà
     {
@@ -179,7 +179,14 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                 landWeedData[i].monthChanged = monthChanged;
             }
         }
-
+        if (gatherLandsData != null)
+        {
+            for (int i = 0; i < gatherLandsData.Length; i++)
+            {
+                gatherLandsData[i].dayChanged = true;
+                gatherLandsData[i].monthChanged = monthChanged;
+            }
+        }
 
         // ÇÏ·ç°¡ Á¾·áµÇ¾úÀ»¶§ : Ä§´ë¿¡¼­ ÀáÀ» ÀÚµµ dayOff°¡ true°¡ µÈ´Ù.
         // ÃâÇÏ»óÀÚ¿¡ µé¾î°£ ¹°Ç°µéÀÇ sell price¸¦ ÇÕ»êÇØ È­¸é¿¡ Ç¥½ÃÇÑ´Ù
@@ -366,6 +373,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
         SaveLandTreeData();
         SaveLandWeedDate();
+        SaveLandGatheringData();
     } // ¾ÀÀÌ Farm¿¡¼­ º¯°æ µÉ ¶§
 
     public void LoadLandInFarmData()
@@ -451,6 +459,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         }
         LoadLandTreeData();
         LoadLandWeedData();
+        LoadLandGatheringData();
     } // ¾ÀÀÌ FarmÀ¸·Î º¯°æ µÉ ¶§
 
     public void SaveLandTreeData() // for only TreeLand.
@@ -596,6 +605,199 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     }
 
 
+
+    LandControl[] gatherContorls;
+    LandData[] gatherLandsData;
+    private void InitializeGatheringLand()
+    {   //Ã¤Áý¹°Àº °íÀ¯ÇÏ´Ù.
+        GatheringLand[] gatherLands = FindObjectsOfType<GatheringLand>();
+
+        Debug.Log(gatherLands.Length);
+
+        gatherContorls = new LandControl[gatherLands.Length];
+        for (int i = 0; i < gatherLands.Length; i++)
+        {
+            gatherContorls[i] = gatherLands[i].GetComponent<LandControl>();
+        }
+    }
+    public void SaveLandGatheringData() // for only GatheringLand.
+    {
+        InitializeGatheringLand();
+        if (gatherContorls.Length == 0)
+        {
+            return;
+        }
+        else if (gatherContorls.Length > 0)
+        {
+            gatherLandsData = new LandData[gatherContorls.Length];
+
+            for (int i = 0; i < gatherLandsData.Length; i++)
+            {
+                gatherLandsData[i] = new LandData();
+                gatherLandsData[i].landType = gatherContorls[i].landType;
+                gatherLandsData[i].dayChanged = false;
+                gatherLandsData[i].monthChanged = false;
+                gatherLandsData[i].savePosition = gatherContorls[i].savePosition;
+                gatherLandsData[i].region = gatherContorls[i].region;
+
+                if (gatherContorls[i].landType == LandType.Gather)
+                {
+                    gatherLandsData[i].prefabPath = gatherContorls[i].prefabPath;
+                    gatherLandsData[i].currentHP = gatherContorls[i].currentHP;
+                    gatherLandsData[i].gatherID = gatherContorls[i].gatherID;
+                }
+            }
+        }
+    }
+
+    [SerializeField] int some = 5;
+    [SerializeField] int some2 = 5;
+    [SerializeField] int some3 = 5;
+    public void LoadLandGatheringData() // for only GatheringLand.
+    {
+        InitializeGatheringLand();
+        if (gatherContorls.Length == 0)
+        {
+            return;
+        }
+        else if (gatherContorls.Length > 0)
+        {
+            List<int> beachRegion = new List<int>();
+            List<int> forestRegion = new List<int>();
+            List<int> mountainRegion = new List<int>();
+
+            for (int i = 0; i < gatherLandsData.Length; i++)
+            {
+                gatherContorls[i].landType = gatherLandsData[i].landType;
+                gatherContorls[i].transform.position = gatherLandsData[i].savePosition;
+                gatherContorls[i].gameObject.GetComponent<GatheringLand>().region = gatherLandsData[i].region;
+                if (gatherLandsData[i].region == Region.Beach) { beachRegion.Add(i); }
+                else if (gatherLandsData[i].region == Region.Forest) { forestRegion.Add(i); }
+                else if (gatherLandsData[i].region == Region.Mountain) { mountainRegion.Add(i); }
+
+                gatherContorls[i].monthChanged = gatherLandsData[i].monthChanged;
+
+                if (gatherLandsData[i].landType == LandType.Gather)
+                {
+                    GameObject PrefabObject = Resources.Load(gatherLandsData[i].prefabPath) as GameObject;
+                    GameObject gatherInstance = Instantiate(PrefabObject,
+                        gatherContorls[i].transform.position,
+                        Quaternion.identity,
+                        gatherContorls[i].transform);
+                    gatherInstance.GetComponent<GatheringObject>().itemID = gatherLandsData[i].gatherID;
+                    gatherInstance.GetComponent<GatheringObject>().currentHP = gatherLandsData[i].currentHP;
+                }
+            }
+
+            int beachCounts = 0;
+            int forestCounts = 0;
+            int mountainCounts = 0;
+            if (gatherLandsData[0].dayChanged)   //°¢ ¸®Àü¿¡¼­ ÀÚ½ÄÀÌ ÀÖ´Â ¿ÀºêÁ§Æ® ¼ö¸¦ Ãß·Á¼­, ÀÏÁ¤¼ö ÀÌÇÏ¶ó¸é, ÇØ´ç ¸®Àü¿¡ ÀÚ½Ä ¿ÀºêÁ§Æ® »ý¼º.
+            {
+                Debug.Log("Day Changed at Gather");
+                //=====beach======//
+                List<int> emptyBeachRegion = new List<int>();
+                for (int i = 0; i < beachRegion.Count; i++) // beach¸®ÀüÀÎ ·£µåÄÁÆ®·ÑÀ» Âß µ¹¾Æ¼­.
+                {
+                    if (gatherLandsData[beachRegion[i]].landType == LandType.Gather) // ÀÚ½ÄÀÌ ÀÖ´Ù¸é Ä«¿îÆ®¸¦ Áõ°¡½ÃÅ°°í.
+                    {
+                        beachCounts++;
+                    }
+                    else // ¾Æ´Ï¶ó¸é ÇØ´ç ÄÁÆ®·ÑÀÇ ¹øÈ£¸¦ ÀúÀå.
+                    {
+                        emptyBeachRegion.Add(beachRegion[i]);
+                    }
+                }
+                if (beachCounts < some) // »ý¼ºµÈ Ã¤Áý¹°ÀÇ ¼ö°¡ ±âÁØÄ¡(some)º¸´Ù ÀÛÀ» °æ¿ì. someÀº °¢ regionÀÇ ¼öº¸´Ù ÀÛ¾Æ¾ßÇÑ´Ù.
+                {   //·£´ýÇÑ À§Ä¡¿¡ ·£´ýÇÑ °¹¼ö¸¦ »ý¼º.
+
+                    int f = 4;
+                    if (beachCounts + f > some)
+                    {
+                        f = some - beachCounts;
+                    }
+                    int i = Random.Range(0, f); // »ý¼º°¹¼ö(0~3).
+
+                    int[] j = new int[i]; // »ý¼ºÇÒ landcontrol ¹øÈ£ = j[].
+
+                    for (int k = 0; k < i; k++)
+                    {
+                        j[k] = emptyBeachRegion[k];
+                        gatherContorls[j[k]].gameObject.GetComponent<GatheringLand>().SummonGathering();
+                    }
+                }
+                //=====beach======//
+                //=====forest======//
+                List<int> emptyForestRegion = new List<int>();
+                for (int i = 0; i < forestRegion.Count; i++)
+                {
+                    if (gatherLandsData[forestRegion[i]].landType == LandType.Gather) // ÀÚ½ÄÀÌ ÀÖ´Ù¸é Ä«¿îÆ®¸¦ Áõ°¡½ÃÅ°°í.
+                    {
+                        forestCounts++;
+                    }
+                    else // ¾Æ´Ï¶ó¸é ÇØ´ç ÄÁÆ®·ÑÀÇ ¹øÈ£¸¦ ÀúÀå.
+                    {
+                        emptyForestRegion.Add(forestRegion[i]);
+                    }
+                }
+                if (forestCounts < some2) // »ý¼ºµÈ Ã¤Áý¹°ÀÇ ¼ö°¡ ±âÁØÄ¡(some)º¸´Ù ÀÛÀ» °æ¿ì.
+                {   //·£´ýÇÑ À§Ä¡¿¡ ·£´ýÇÑ °¹¼ö¸¦ »ý¼º.
+
+                    int f = 4;
+                    if (forestCounts + f > some2)
+                    {
+                        f = some2 - forestCounts;
+                    }
+                    int i = Random.Range(0, f); // »ý¼º°¹¼ö(0~3).
+
+                    int[] j = new int[i]; // »ý¼ºÇÒ landcontrol ¹øÈ£ = j[].
+
+                    for (int k = 0; k < i; k++)
+                    {
+                        j[k] = emptyForestRegion[Random.Range(0, emptyForestRegion.Count)];
+                        gatherContorls[j[k]].gameObject.GetComponent<GatheringLand>().SummonGathering();
+                    }
+                }
+                //=====forest======//
+                //=====mountain======//
+                List<int> emptyMountainRegion = new List<int>();
+                for (int i = 0; i < mountainRegion.Count; i++)
+                {
+                    if (gatherLandsData[mountainRegion[i]].landType == LandType.Gather) // ÀÚ½ÄÀÌ ÀÖ´Ù¸é Ä«¿îÆ®¸¦ Áõ°¡½ÃÅ°°í.
+                    {
+                        mountainCounts++;
+                    }
+                    else // ¾Æ´Ï¶ó¸é ÇØ´ç ÄÁÆ®·ÑÀÇ ¹øÈ£¸¦ ÀúÀå.
+                    {
+                        emptyMountainRegion.Add(mountainRegion[i]);
+                    }
+                }
+                if (mountainCounts < some3) // »ý¼ºµÈ Ã¤Áý¹°ÀÇ ¼ö°¡ ±âÁØÄ¡(some)º¸´Ù ÀÛÀ» °æ¿ì.
+                {   //·£´ýÇÑ À§Ä¡¿¡ ·£´ýÇÑ °¹¼ö¸¦ »ý¼º.
+
+                    int f = 4;
+                    if (mountainCounts + f > some3)
+                    {
+                        f = some3 - mountainCounts;
+                    }
+                    int i = Random.Range(0, f); // »ý¼º°¹¼ö(0~3).
+
+                    int[] j = new int[i]; // »ý¼ºÇÒ landcontrol ¹øÈ£ = j[].
+
+                    for (int k = 0; k < i; k++)
+                    {
+                        j[k] = emptyMountainRegion[k];
+                        gatherContorls[j[k]].gameObject.GetComponent<GatheringLand>().SummonGathering();
+                    }
+                }
+                //=====mountain======//
+            }
+        }
+    }
+
+
+
+
     string tCurrentSceneName;
     public string currentSceneName
     {
@@ -627,7 +829,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
             Debug.Log("After Scene Update : " + tCurrentSceneName);
         }
     }
-    
+
     public delegate void SceneChanged();
     public event SceneChanged WhenSceneChanged;
 }
@@ -638,9 +840,11 @@ public class LandData
     public string prefabPath;
     public string prefabPath_Crop;
     public LandType landType;
+    public Region region;
     public int currentHP;
     public int level;
     public int days;
+    public int gatherID;
     public bool digged;
     public bool watered;
     public bool seeded;

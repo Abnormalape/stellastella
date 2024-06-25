@@ -446,7 +446,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_16
+      name: SpringGathering1
       rect:
         serializedVersion: 2
         x: 256
@@ -488,7 +488,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_18
+      name: SpringGathering2
       rect:
         serializedVersion: 2
         x: 288
@@ -530,7 +530,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_20
+      name: SpringGathering3
       rect:
         serializedVersion: 2
         x: 320
@@ -572,7 +572,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_22
+      name: SpringGathering4
       rect:
         serializedVersion: 2
         x: 352
@@ -3995,7 +3995,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_185
+      name: SpringCrop2
       rect:
         serializedVersion: 2
         x: 320
@@ -5381,7 +5381,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_251
+      name: SummerCrop1
       rect:
         serializedVersion: 2
         x: 224
@@ -5675,7 +5675,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_265
+      name: SummerCrop2
       rect:
         serializedVersion: 2
         x: 64
@@ -5717,7 +5717,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_267
+      name: FallCrop2
       rect:
         serializedVersion: 2
         x: 96
@@ -5843,7 +5843,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_273
+      name: FallCrop1
       rect:
         serializedVersion: 2
         x: 192
@@ -8342,7 +8342,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_392
+      name: SummerGathering1
       rect:
         serializedVersion: 2
         x: 192
@@ -8384,7 +8384,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_394
+      name: SummerGathering2
       rect:
         serializedVersion: 2
         x: 224
@@ -8468,7 +8468,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_398
+      name: SummerGathering3
       rect:
         serializedVersion: 2
         x: 288
@@ -8552,7 +8552,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_402
+      name: FallGathering1
       rect:
         serializedVersion: 2
         x: 352
@@ -8594,7 +8594,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_404
+      name: FallGathering2
       rect:
         serializedVersion: 2
         x: 0
@@ -8636,7 +8636,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_406
+      name: FallGathering3
       rect:
         serializedVersion: 2
         x: 32
@@ -8720,7 +8720,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_410
+      name: WinterGathering1
       rect:
         serializedVersion: 2
         x: 96
@@ -8804,7 +8804,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_414
+      name: WinterGathering2
       rect:
         serializedVersion: 2
         x: 160
@@ -19548,9 +19548,14 @@ TextureImporter:
       Coal: -668928508
       CopperOre: -1077965645
       DayFish: 1125854912
+      FallCrop1: 7275803
       FallCrop1Seed: -288055284
+      FallCrop2: 1812455041
       FallCrop2Seed: 1239549155
       FallEasyFish: 1318055136
+      FallGathering1: -582047295
+      FallGathering2: -490259725
+      FallGathering3: 1857566815
       FallHardFish: 318216032
       HardWood: 2023112526
       MapleTreeSeed: -426285626
@@ -19560,16 +19565,28 @@ TextureImporter:
       Sap: -1503830036
       SpringCrop1: -1993135857
       SpringCrop1Seed: -1679213298
+      SpringCrop2: 340280941
       SpringCrop2Seed: 1549726443
       SpringEasyFish: -914548318
+      SpringGathering1: -168732156
+      SpringGathering2: -2052677453
+      SpringGathering3: -422488322
+      SpringGathering4: 259292864
       SpringHardFish: -823648340
       Stone: 881205708
+      SummerCrop1: 2036772506
       SummerCrop1Seed: 1600997807
+      SummerCrop2: 437110310
       SummerCrop2Seed: -1202373920
       SummerEasyFish: -1086362721
+      SummerGathering1: -969865219
+      SummerGathering2: 1318494142
+      SummerGathering3: 792086718
       SummerHardFish: -2139142780
       Weed: -1847615005
       WinterEasyFish: -339251992
+      WinterGathering1: -180152899
+      WinterGathering2: -446518321
       WinterHardFish: 1613000786
       Wood: 1613563724
       springobjects_0: 2138993626
@@ -19630,7 +19647,6 @@ TextureImporter:
       springobjects_157: -1771725472
       springobjects_158: -450925292
       springobjects_159: -655060284
-      springobjects_16: -168732156
       springobjects_160: -1189114780
       springobjects_161: 1262189772
       springobjects_162: 427326567
@@ -19652,13 +19668,11 @@ TextureImporter:
       springobjects_177: -595016178
       springobjects_178: 967965100
       springobjects_179: 1699968634
-      springobjects_18: -2052677453
       springobjects_180: 1281960988
       springobjects_181: -1693099388
       springobjects_182: -422856858
       springobjects_183: 90923298
       springobjects_184: 1107279954
-      springobjects_185: 340280941
       springobjects_186: 1962031435
       springobjects_187: 1481484633
       springobjects_188: -777751287
@@ -19675,7 +19689,6 @@ TextureImporter:
       springobjects_198: -489989543
       springobjects_199: 103502442
       springobjects_2: 986387435
-      springobjects_20: -422488322
       springobjects_200: 1569041235
       springobjects_201: 1637624305
       springobjects_202: -411628761
@@ -19697,7 +19710,6 @@ TextureImporter:
       springobjects_217: 1006426853
       springobjects_218: 713010636
       springobjects_219: -482738877
-      springobjects_22: 259292864
       springobjects_220: -530841807
       springobjects_221: 1251314826
       springobjects_222: 350374154
@@ -19731,7 +19743,6 @@ TextureImporter:
       springobjects_249: 1515431871
       springobjects_25: -270500410
       springobjects_250: -942995266
-      springobjects_251: 2036772506
       springobjects_252: -626564998
       springobjects_253: 358501300
       springobjects_254: -2041782739
@@ -19746,16 +19757,13 @@ TextureImporter:
       springobjects_262: 28762588
       springobjects_263: -1954066833
       springobjects_264: -1384217422
-      springobjects_265: 437110310
       springobjects_266: 1345131228
-      springobjects_267: 1812455041
       springobjects_268: 1834140605
       springobjects_269: 37812269
       springobjects_27: 626805074
       springobjects_270: 268673357
       springobjects_271: -1580209366
       springobjects_272: 983413005
-      springobjects_273: 7275803
       springobjects_274: -757590386
       springobjects_275: -269681741
       springobjects_276: 947857824
@@ -19880,32 +19888,24 @@ TextureImporter:
       springobjects_39: 1946890371
       springobjects_390: 223970843
       springobjects_391: 547722882
-      springobjects_392: -969865219
       springobjects_393: 1039775135
-      springobjects_394: 1318494142
       springobjects_395: 127463866
       springobjects_396: -824902910
       springobjects_397: 2041102780
-      springobjects_398: 792086718
       springobjects_399: -2052450970
       springobjects_4: -1864704612
       springobjects_40: 1785150325
       springobjects_400: 788665972
       springobjects_401: -259194273
-      springobjects_402: -582047295
       springobjects_403: -253112639
-      springobjects_404: -490259725
       springobjects_405: 382221037
-      springobjects_406: 1857566815
       springobjects_407: 1744401636
       springobjects_408: 1554613122
       springobjects_409: 171850289
       springobjects_41: 304370584
-      springobjects_410: -180152899
       springobjects_411: 1299093403
       springobjects_412: -1819227288
       springobjects_413: 1166053807
-      springobjects_414: -446518321
       springobjects_415: 2087411240
       springobjects_416: 1514753809
       springobjects_417: 641538572

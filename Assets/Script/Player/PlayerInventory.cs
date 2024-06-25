@@ -74,6 +74,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     public int outerImportedSlotNumber;
     public int outerImportedID;
     public int outerImportedCount;
+    public int outerImportedGrade;
     void Update()
     {
         InvenSlotNumbers();
@@ -132,7 +133,12 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
         {
             pInventory[outerImportedSlotNumber].itemID = outerImportedID;
             pInventory[outerImportedSlotNumber].itemCount = outerImportedCount;
+            pInventory[outerImportedSlotNumber].grade = outerImportedGrade;
             outerDataImported = false;
+            outerImportedID = 0;
+            outerImportedCount = 0;
+            outerImportedGrade = 0;
+            outerImportedSlotNumber = -1; // 오류 발생용.
         }
     }
 

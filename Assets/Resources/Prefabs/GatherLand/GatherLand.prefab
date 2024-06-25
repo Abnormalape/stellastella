@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4691907512427170656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 667865700690504175}
+  - component: {fileID: -8683210448341799429}
+  - component: {fileID: -1309603994241532080}
+  m_Layer: 0
+  m_Name: GatherLand
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &667865700690504175
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691907512427170656}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.61020184, y: -2.5, z: -0.0024523363}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8683210448341799429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691907512427170656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df68ce773a7e8ed4597da696c0a934e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  savePosition: {x: 0, y: 0, z: 0}
+  prefabPath: 
+  prefabPath_Crop: 
+  landType: 0
+  region: 0
+  currentHP: 0
+  level: 0
+  days: 0
+  gatherID: 0
+  digged: 0
+  watered: 0
+  seeded: 0
+  onceharvested: 0
+--- !u!114 &-1309603994241532080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691907512427170656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3af1bd181289d344cb1f8b3f26a2a091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  region: 0
+  SpringGathering: 9700000098000000990000009a000000
+  SummerGathering: 9b0000009c0000009d000000
+  FallGathering: 9e0000009f000000a0000000
+  WinterGathering: a1000000a2000000
+  gatherID: 0
+  gatheringPrefab: {fileID: 3960482425451129825, guid: 0ac2c40fa18359542b1b97f145cd82a4, type: 3}
+  currentDate: 0
+  currentMonth: 0
+  prefabPath: 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum LandType
 {
-    Empty, Weed, Tree, Stick, Stone, Farm
+    Empty, Weed, Tree, Stick, Stone, Farm, Gather,
 }
 
 
@@ -14,14 +14,16 @@ class LandControl : MonoBehaviour
     public string prefabPath;
     public string prefabPath_Crop;
     public LandType landType;
+    public Region region;
     public int currentHP;
     public int level;
     public int days;
+    public int gatherID;
     public bool digged;
     public bool watered;
     public bool seeded;
     public bool onceharvested;
-    //=====================================
+    //=====================================//
     public delegate void AValueUpdated(bool newValue);
     public event AValueUpdated OnAValueUpdated;
     public delegate void BValueUpdated(bool newValue);
@@ -75,12 +77,18 @@ class LandControl : MonoBehaviour
             if (!GetComponent<TreeLand>().AtFarm)
             {
                 prefabPath = GetComponent<TreeLand>().prefabPath;
+                
             }
         }
 
         if (transform.childCount == 0)
         {   //Empty.
             landType = LandType.Empty;
+        }
+
+        if(GetComponent<GatheringLand>() != null)
+        {
+            region = GetComponent<GatheringLand>().region;
         }
         //==========================================//
         else if (GetComponentInChildren<WeedLandWeed>() != null)
@@ -124,6 +132,13 @@ class LandControl : MonoBehaviour
                 prefabPath = tempstring;
                 currentHP = 1;
             }
+        }
+        else if (GetComponentInChildren<GatheringObject>() != null)
+        {
+            landType = LandType.Gather;
+            prefabPath = GetComponent<GatheringLand>().prefabPath;
+            gatherID = GetComponent<GatheringLand>().gatherID;
+            currentHP = 1;
         }
         //==========================================//
         else if (GetComponentInChildren<FieldTreeLand>() != null)

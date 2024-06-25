@@ -12,21 +12,28 @@ class TradeWindowShopInteract : MonoBehaviour
     [SerializeField] int invNum; // 현재 게임오브젝트의 번호 0~3;
 
     GameObject mouseCursor;
-    PlayerController pCon;
+    public PlayerController pCon;
     PlayerInventroy playerInventroy;
     TradeWindow tradeWindow;
     ItemDB ItemDB;
 
     private void Awake()
     {
-        pCon = transform.parent.parent.GetComponent<PlayerController>();
-        mouseCursor = transform.parent.parent.transform.Find("Cursor").gameObject;
-        playerInventroy = transform.parent.parent.GetComponent<PlayerInventroy>();
-        tradeWindow = transform.parent.GetComponent<TradeWindow>();
+        mouseCursor = FindFirstObjectByType<MyPlayerCursor>().gameObject;
+        tradeWindow = GetComponentInParent<TradeWindow>();
     }
 
     private void Update()
     {
+        if(pCon == null)
+        {
+            pCon = GetComponentInParent<TradeWindow>().pCon;
+        }
+        if(playerInventroy == null)
+        {
+            playerInventroy = GetComponentInParent<TradeWindow>().pInven;
+        }
+
         ItemDB = new ItemDB(tradeWindow.sellList[invNum]);
     }
     public void BuyItem()

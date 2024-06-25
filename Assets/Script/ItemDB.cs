@@ -226,6 +226,104 @@ class ItemDB
                 eatable = true;
                 return;
 
+            case 151://봄채집 1
+                name = "SpringGathering1";
+                sellPrice = 10;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 152://봄채집 2
+                name = "SpringGathering2";
+                sellPrice = 11;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 153://봄채집 3
+                name = "SpringGathering3";
+                sellPrice = 12;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 154://봄채집 4
+                name = "SpringGathering4";
+                sellPrice = 13;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 155://여름 채집 1
+                name = "SummerGathering1";
+                sellPrice = 20;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 156://여름 채집 2
+                name = "SummerGathering2";
+                sellPrice = 22;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 157://여름 채집 3
+                name = "SummerGathering3";
+                sellPrice = 23;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 158://가을 채집 1
+                name = "FallGathering1";
+                sellPrice = 31;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 159://가을 채집 2
+                name = "FallGathering2";
+                sellPrice = 32;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 160://가을 채집 3
+                name = "FallGathering3";
+                sellPrice = 33;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 161://겨울 채집 1
+                name = "WinterGathering1";
+                sellPrice = 41;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+            case 162://겨울 채집 2
+                name = "WinterGathering2";
+                sellPrice = 42;
+                buyPrice = 0;
+                grade = 1;
+                type = "Fruit";
+                eatable = true;
+                return;
+
+
             case 201: //참나무 씨앗
                 name = "OakTreeSeed";
                 sellPrice = 10;

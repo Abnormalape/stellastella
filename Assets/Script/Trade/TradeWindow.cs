@@ -32,8 +32,8 @@ class TradeWindow : MonoBehaviour
     int[] nowSelling; // 현재 파는 품목.
     int[] nowSellingCount; // 품목의 갯수.
 
-    PlayerController pCon;
-
+    public PlayerController pCon;
+    public PlayerInventroy pInven;
     GameManager gameManager;
 
     private void Awake()
@@ -58,6 +58,10 @@ class TradeWindow : MonoBehaviour
     }
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E)|| Input.GetKeyDown(KeyCode.Escape))
+        {
+            EndTrade();
+        }
         ChangeCurrentRow();
         GenerateSellingUI();   
     }
@@ -141,6 +145,10 @@ class TradeWindow : MonoBehaviour
         {
             currentRow = nowSelling.Length - 4;
         }
+    }
+    void EndTrade()
+    {
+        Destroy(this.gameObject);
     }
 }
 

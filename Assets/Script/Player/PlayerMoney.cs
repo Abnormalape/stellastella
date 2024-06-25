@@ -14,7 +14,7 @@ class PlayerMoney : MonoBehaviour
 
     private void Update()
     {
-        currentgold = pCon.currentGold;
+        currentgold = pCon.tempGold;
         moneytext.text = currentgold.ToString();
     }
 }

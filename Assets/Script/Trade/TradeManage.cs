@@ -9,19 +9,18 @@ class TradeManage : MonoBehaviour
     ItemDB itemDB;
 
     GameObject inventoryBar;
-    GameObject tradeWindowShop;
     GameObject tradeWindowPlayer;
     private void Awake()
     {
         pCon = GetComponent<PlayerController>();
         pInven = GetComponent<PlayerInventroy>();
-        tradeWindowShop = transform.Find("TradeWindowShop").gameObject;
+        
         tradeWindowPlayer = transform.Find("TradeWindowPlayer").gameObject;
         inventoryBar = transform.Find("InventoryBarUI").gameObject;
 
 
 
-        tradeWindowShop.SetActive(false);
+        
         tradeWindowPlayer.SetActive(false);
     }
 
@@ -49,16 +48,17 @@ class TradeManage : MonoBehaviour
 
             if (tradeUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
             itemDB = new ItemDB(pInven.pInventoryItemID[i]);
-            tradeUISlot[i].GetComponentInChildren<Text>().text = $"{itemDB.name}";
+            tradeUISlot[i].GetComponentInChildren<Text>().text = $"{pInven.pInventoryItemCount[i]}";
             tradeUISlot[i].GetComponentInChildren<TradeWindowPlayerInteract>().inventoryitemID = pInven.pInventoryItemID[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 아이디가 삽입된다.
             tradeUISlot[i].GetComponentInChildren<TradeWindowPlayerInteract>().inventoryitemcount = pInven.pInventoryItemCount[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 갯수가 삽입된다.
+            tradeUISlot[i].GetComponentInChildren<TradeWindowPlayerInteract>().inventoryitemgrade = pInven.pInventoryItemGrade[i];
             tradeUISlot[i].GetComponentInChildren<TradeWindowPlayerInteract>().thisInvenToryNumber = i;
         }
     }
 
     public void ActivateTrade()
     {
-        tradeWindowShop.SetActive(true);
+        
         tradeWindowPlayer.SetActive(true);
 
         inventoryBar.SetActive(false);
@@ -66,7 +66,7 @@ class TradeManage : MonoBehaviour
     }
     public void DeActivateTrade()
     {
-        tradeWindowShop.SetActive(false);
+        
         tradeWindowPlayer.SetActive(false);
 
         inventoryBar.SetActive(true);

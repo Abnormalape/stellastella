@@ -13422,98 +13422,6 @@ Transform:
   - {fileID: 795736067}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1818366912
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1818366914}
-  - component: {fileID: 1818366913}
-  - component: {fileID: 1818366915}
-  m_Layer: 0
-  m_Name: GroceryCounter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!61 &1818366913
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1818366912}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!4 &1818366914
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1818366912}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 59.5, y: 21.5, z: 0.20599663}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1818366915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1818366912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dde7872c3ce0e5d43815ec5515a0cf34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myOwner: {fileID: 0}
-  CasherOn: 1
 --- !u!1 &1862429421
 GameObject:
   m_ObjectHideFlags: 0
@@ -13766,6 +13674,67 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nowcamera: 0
+--- !u!1001 &8552380500386396964
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 337042558008568513, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 59.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 337042558008568513, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 21.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 337042558008568513, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.20599663
+      objectReference: {fileID: 0}
+    - target: {fileID: 337042558008568513, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 337042558008568513, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 337042558008568513, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 337042558008568513, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 337042558008568513, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 337042558008568513, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 337042558008568513, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793638255205377410, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: myTradeWindow
+      value: 
+      objectReference: {fileID: 8675230836852331064, guid: da437bc1fd244aa4e86ef1c1301094d9, type: 3}
+    - target: {fileID: 4936966760091663078, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
+      propertyPath: m_Name
+      value: GroceryCounter
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0252f74183276b94e8fcc15d4bc90a17, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -13773,7 +13742,7 @@ SceneRoots:
   - {fileID: 1056516127}
   - {fileID: 892836072}
   - {fileID: 1918893435}
-  - {fileID: 1818366914}
+  - {fileID: 8552380500386396964}
   - {fileID: 1530012770}
   - {fileID: 441466345}
   - {fileID: 1588131006}

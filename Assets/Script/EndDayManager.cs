@@ -113,7 +113,7 @@ class EndDayManager : MonoBehaviour
     Text animalText;
     Text totalText;
 
-    int totalSellPrice = 0;
+    public int totalSellPrice { get; private set; } = 0;
     int fishSellPrice = 0; string lastfish;
     int fruitSellPrice = 0; string lastfruit;
     int etcSellPrice = 0; string lastetc;

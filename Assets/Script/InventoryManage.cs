@@ -34,9 +34,10 @@ class InventoryManage : MonoBehaviour
             if (inventoryUISlot[i] == null) { return; }; // 반환되는 슬롯이 없으면 실행 종료
 
             itemDB = new ItemDB(pInven.pInventoryItemID[i]);
-            inventoryUISlot[i].GetComponentInChildren<Text>().text = $"{itemDB.name}";
+
             inventoryUISlot[i].GetComponentInChildren<InventorySlot>().inventoryitemID = pInven.pInventoryItemID[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 아이디가 삽입된다.
             inventoryUISlot[i].GetComponentInChildren<InventorySlot>().inventoryitemcount = pInven.pInventoryItemCount[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 갯수가 삽입된다.
+            inventoryUISlot[i].GetComponentInChildren<InventorySlot>().inventoryitemgrade = pInven.pInventoryItemGrade[i]; //ui슬롯 0번에는 pinventory0번째 아이템의 갯수가 삽입된다.
             inventoryUISlot[i].GetComponentInChildren<InventorySlot>().thisInvenToryNumber = i;
         }
     }
@@ -61,9 +62,6 @@ class InventoryManage : MonoBehaviour
                 inventoryUISlot[i].GetComponentInChildren<Text>().text = $"{pInven.pInventoryItemCount[i]}";
             }
 
-            
-
-
             if (SpriteManager.Instance.GetSprite(itemDB.name) != null)
             {
                 inventoryUISlot[i].transform.GetChild(0).GetComponent<Image>().sprite =
@@ -76,6 +74,20 @@ class InventoryManage : MonoBehaviour
                 inventoryUISlot[i].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
             }
 
+
+            if (pInven.pInventoryItemGrade[i] != 0)
+            {
+                inventoryUISlot[i].transform.Find("Grade").GetComponent<Image>().sprite =
+                    SpriteManager.Instance.GetSprite(gradeToString(pInven.pInventoryItemGrade[i]));
+                inventoryUISlot[i].transform.Find("Grade").GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            }
+            else
+            {
+                inventoryUISlot[i].transform.Find("Grade").GetComponent<Image>().sprite =
+                    SpriteManager.Instance.GetSprite(gradeToString(pInven.pInventoryItemGrade[i]));
+                inventoryUISlot[i].transform.Find("Grade").GetComponent<Image>().color = new Color(0, 0, 0, 0);
+            }
+
             if (pInven.currentInventory == i)
             {
                 currentInventory = i;
@@ -84,5 +96,23 @@ class InventoryManage : MonoBehaviour
         GameObject.Find("CurrentOffInventoryUI").transform.position = inventoryUISlot[currentInventory].transform.position;
 
     }
+
+    private string gradeToString(int grade)
+    {
+        if (grade == 1)
+        {
+            return "SilverGrade";
+        }
+        else if (grade == 2)
+        {
+            return "GoldGrade";
+        }
+        else if (grade == 3)
+        {
+            return "IridiumGrade";
+        }
+        else { return "NoneGrade"; }
+    }
+
 }
 

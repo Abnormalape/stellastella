@@ -340,7 +340,7 @@ class SellBoxManager : MonoBehaviour
         SlotItemGrade = new int[36];
 
         LastPutID = 0;
-        tLastPutCount = 0;
+        LastPutCount = 0;
         LastPutName = "";
         LastPutGrade = 0;
     }

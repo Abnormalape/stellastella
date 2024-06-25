@@ -35,7 +35,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public int currentGold = 500;
+
+    private int tCurrentGold;
+    public int tempGold;
+    private int goldIntervals;
+    public int currentGold
+    {
+        get { return tCurrentGold; }
+        set
+        {
+            goldIntervals = Mathf.Abs(value - tCurrentGold);
+            tCurrentGold = value;
+        }
+    }
     public nowLocation nowLocation;
 
     public UnityEvent asdf;
@@ -48,19 +60,21 @@ public class PlayerController : MonoBehaviour
     //날짜가 지나면 금액정산, 레벨정산을 개인별로 실시한다.
     //따라서 게임매니저는 하루가 종료되었다는 신호만 플레이어 에게 보낸다.
 
-    GameObject tradeWindowShop;
+
 
     private void Awake()
     {
         currentHp = maxHp;
         currentStamina = maxStamina;
+        tCurrentGold = 500;
+        tempGold = currentGold;
         pInven = GetComponent<PlayerInventroy>();
         inventoryBarUI = transform.Find("InventoryBarUI").gameObject;
         inventoryUI = transform.Find("InventoryUI").gameObject;
-        tradeWindowShop = transform.Find("TradeWindowShop").gameObject;
+
         inventoryUI.SetActive(false);
         inventoryBarUI.SetActive(true);
-        tradeWindowShop.SetActive(false);
+
         nowLocation = nowLocation.FarmHouse;
     }
 
@@ -78,6 +92,7 @@ public class PlayerController : MonoBehaviour
         CurrentMax(currentHp, maxHp);
         CurrentMax(currentStamina, maxStamina);
         InvenToryButton();
+        GoldChanging();
     }
 
     void CurrentMax(int current, int max)
@@ -86,7 +101,32 @@ public class PlayerController : MonoBehaviour
         { current = max; }
     }
 
+    void GoldChanging()
+    {
+        int plusGold;
+        if (tempGold < currentGold)
+        {
+            if ((int)(goldIntervals / 120f) < 1)
+            {
+                plusGold = 1;
+            }
+            else { plusGold = (int)(goldIntervals / 120f); }
 
+            tempGold += plusGold;
+            if (tempGold > currentGold) { tempGold = currentGold; }
+        }
+        else if (tempGold > currentGold)
+        {
+            if ((int)(goldIntervals / 120f) < 1)
+            {
+                plusGold = 1;
+            }
+            else { plusGold = (int)(goldIntervals / 120f); }
+
+            tempGold -= plusGold;
+            if (tempGold < currentGold) { tempGold = currentGold; }
+        }
+    }
 
     void Exhaust()
     {
@@ -221,6 +261,9 @@ public class PlayerController : MonoBehaviour
             else { return; }
         }
     }
+
+    public int gatherGold { get; private set; } = 800; // 0레벨일때.
+    public int gatherSilver { get; private set; } = 500; // 0레벨일때.
     //======================================================//
     private int tFishLevel;
     public int fishLevel
