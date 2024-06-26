@@ -14,8 +14,6 @@ class BedInteraction :MonoBehaviour
         }
     }
 
-
-
     GameObject chatBoxPrefab;
     ChatManager chatManager;
 
@@ -33,11 +31,12 @@ class BedInteraction :MonoBehaviour
         chatboxPrefabinstance.GetComponentInChildren<Text>().text = "정말로 잠을 잘까요?";
 
         chatboxPrefabinstance.GetComponent<ChatBox>().chatType = ChatType.BedChoice;
+
         chatboxPrefabinstance.GetComponent<ChatBox>().ActivateButton(0);
         chatboxPrefabinstance.GetComponent<ChatBox>().ButtonText(0, "예");
         chatboxPrefabinstance.GetComponent<ChatBox>().ChoiceButtons[0].onClick.AddListener(() => chatManager.BedYes(collision.gameObject, chatboxPrefabinstance));
-
         chatboxPrefabinstance.GetComponent<ChatBox>().Choices[0].transform.localPosition = new Vector3(0,60,0);
+
         chatboxPrefabinstance.GetComponent<ChatBox>().ActivateButton(1);
         chatboxPrefabinstance.GetComponent<ChatBox>().ButtonText(1, "아니오");
         chatboxPrefabinstance.GetComponent<ChatBox>().Choices[1].transform.localPosition = new Vector3(0,-90,0);

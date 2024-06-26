@@ -8,9 +8,9 @@ public enum Region
 }
 public class GatheringLand : MonoBehaviour
 {
-    
+
     [SerializeField] GameManager gameManager;
-    
+
     [SerializeField] public Region region; // 지역 내에서는 한정된 gathering이 생성된다.
     [SerializeField] int[] SpringGathering;
     [SerializeField] int[] SummerGathering;
@@ -61,18 +61,19 @@ public class GatheringLand : MonoBehaviour
     {
         dayChanged = newValue;
     }
-    
+
 
     GameObject summonedGathering;
     public string prefabPath = "Prefabs/GatherLand/GatheringObject";
-    
+
     private void MakeGathering()
     {
-        if(monthChanged)
+        if (monthChanged)
         {
             RemoveChildObject();
             RemakeGatheringPrefabs();
             monthChanged = false;
+            Debug.Log("gather month changed");
         }
     }
 
@@ -114,6 +115,10 @@ public class GatheringLand : MonoBehaviour
         //곡괭이 등과 같은 도구로 죄클릭시 파괴된다.
         //자식 오브젝트의 script 이름은 GatheringObject이다.
         //소환하고 프리팹경로를 저장한다.
+        if (nowGathering == null)
+        {
+            RemakeGatheringPrefabs();
+        }
 
         int i = Random.Range(0, nowGathering.Length);
 

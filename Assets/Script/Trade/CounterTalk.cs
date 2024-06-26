@@ -17,7 +17,8 @@ class CounterTalk : MonoBehaviour//카운터에 말을 걸었을 때, 상점 주
             tradeManage.ActivateTrade(); // activatetrade 메서드에 요소를 추가하여 원하는 거래창을 띄울 수 있다.
                                          //tradeManage.ActivateTrade(sellDB, portrait, 등등).; 
 
-            GameObject summonedWindow = Instantiate(myTradeWindow);
+            GameObject summonedWindow = Instantiate(myTradeWindow, Vector3.zero, Quaternion.identity, this.transform);
+            summonedWindow.GetComponent<TradeWindow>().portrait = myOwner;
             summonedWindow.GetComponent<TradeWindow>().pCon = playerObject.GetComponent<PlayerController>();
             summonedWindow.GetComponent<TradeWindow>().pInven = playerObject.GetComponent<PlayerInventroy>();
             // nowTradingWindow. 카운터에서 판매 물품을 거래창에 전달.

@@ -684,6 +684,8 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
                         gatherContorls[i].transform.position,
                         Quaternion.identity,
                         gatherContorls[i].transform);
+                    gatherContorls[i].gatherID = gatherLandsData[i].gatherID;
+                    gatherContorls[i].GetComponent<GatheringLand>().gatherID = gatherLandsData[i].gatherID;
                     gatherInstance.GetComponent<GatheringObject>().itemID = gatherLandsData[i].gatherID;
                     gatherInstance.GetComponent<GatheringObject>().currentHP = gatherLandsData[i].currentHP;
                 }

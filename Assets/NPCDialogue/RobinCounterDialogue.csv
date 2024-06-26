@@ -1,0 +1,8 @@
+﻿Level,Weather,Season,Time,Place,Date,Year,WeekNum,MainID,SubID,Dialogue,ChoiceYN,Choices,GoTo,End
+-1,-1,-1,-1,-1,-1,-1,-1,1,,어서와! 뭘 하러 왔어?,TRUE,,,
+,,,,,,,,,,,,물건을 구매한다,,TRUE
+,,,,,,,,,,,,건물을 짓는다,,TRUE
+-1,2,-1,-1,-1,-1,-1,-1,2,,비가 참 많이오네!,FALSE,,1,
+,,,,,,,,,1,무엇을 할래?,TRUE,,,
+,,,,,,,,,,,,물건을 구매한다,,TRUE
+,,,,,,,,,,,,건물을 짓는다,,TRUE

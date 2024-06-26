@@ -16,7 +16,7 @@ enum SellingType
     NoneChange,
 }
 class TradeWindow : MonoBehaviour
-    // 얘도 애초에 생성되는 오브젝트이기 때문에, awake에 둬도 된다.
+// 얘도 애초에 생성되는 오브젝트이기 때문에, awake에 둬도 된다.
 {   // 아이템DB에서 아이템ID를 받아와, 이미지, 이름, 가격을 띄워주는 윈도우 생성.
     // 상점창에 띄울 아이템 리스트는 계절별로 따로 받아온다.
     // 자식오브젝트로 몇가지 정보가 담긴 묶음을 소환한다.
@@ -24,7 +24,7 @@ class TradeWindow : MonoBehaviour
 
 
     [SerializeField] SellingType sellingType; // 판매 타입을 엔진에서 설정.
-    public Sprite portrait;
+    public Sprite portrait { set { transform.GetChild(5).transform.GetChild(0).GetComponent<Image>().sprite = value; } }
 
     [SerializeField] int[] SellDB; // 일단 엔진에서 입력하긴 하는데, 제대로 데이터 관리해서 넣어야함.
     [SerializeField] int[] SellCount; // 각 목록의 갯수
@@ -40,6 +40,7 @@ class TradeWindow : MonoBehaviour
     {
         pCon = GetComponentInParent<PlayerController>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        
         GenerateSellingList();
         ChildGameObject();
     }
@@ -51,35 +52,35 @@ class TradeWindow : MonoBehaviour
     GameObject[] sellListUI = new GameObject[4];
     void ChildGameObject()
     {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
-            sellListUI[i] = transform.GetChild(i+1).gameObject;
+            sellListUI[i] = transform.GetChild(i + 1).gameObject;
         }
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)|| Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Escape))
         {
             EndTrade();
         }
         ChangeCurrentRow();
-        GenerateSellingUI();   
+        GenerateSellingUI();
     }
 
-    
+
 
     void GenerateSellingList()
     {   //해당 상점이 판매하는 모든 아이템의 정보중 조건에 맞는 물품만 골라내는 메서드.
 
-        if(sellingType == SellingType.Weekly)
+        if (sellingType == SellingType.Weekly)
         {
             // SellDB의 전체 품목중 SellTime이 GameManager의 currentdate % 7과 같은 품목을 저장.
         }
-        else if (sellingType == SellingType.Seasonal) 
+        else if (sellingType == SellingType.Seasonal)
         {
             // SellDB의 전체 품목중 SellTime이 GameManager의 currentMonth 와 같은 품목을 저장 및 sellCount도 저장.
         }
-        else if (sellingType== SellingType.NoneChange) 
+        else if (sellingType == SellingType.NoneChange)
         {
             nowSelling = SellDB; // 현재 판매 품목.
             nowSellingCount = SellCount;
@@ -92,12 +93,26 @@ class TradeWindow : MonoBehaviour
 
     ItemDB[] nowSellingUIDB = new ItemDB[4]; // 화면에 올라온 아이템의 정보.
     public int currentRow { get; private set; } = 0; // 현재 스크롤 상태.
+
+    public int SellLength = 4;
     void GenerateSellingUI()
     {   //업데이트에 들어갈 메서드.
-        for (int i = 0; i < 4; i++)
+        
+        if (nowSelling.Length < 4)
+        {
+            SellLength = nowSelling.Length;
+            sellList = new int[SellLength];
+            sellListCount = new int[SellLength];
+            nowSellingUIDB = new ItemDB[SellLength];
+        }
+
+        Debug.Log(nowSellingUIDB.Length);
+
+        for (int i = 0; i < SellLength; i++)
         {
             //텍스트 컴포넌트는 3개 getChild()로 오브젝트 받아서 실행 알맞은 오브젝트의 text에 삽입.
             nowSellingUIDB[i] = new ItemDB(nowSelling[currentRow + i]);
+
 
             sellList[i] = nowSelling[currentRow + i];
 
@@ -127,6 +142,12 @@ class TradeWindow : MonoBehaviour
     void ChangeCurrentRow()
     {   //스크롤에 따라 현재 줄이 바뀐다.
         float wheelscroll = Input.GetAxis("Mouse ScrollWheel");
+
+        if(nowSelling.Length < 4)
+        {
+            currentRow = 0;
+            return;
+        }
 
         if (wheelscroll > 0)
         {

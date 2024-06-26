@@ -10,6 +10,7 @@ public enum nowLocation
     Forest,
     FarmHouse,
     GroceryStore,
+    RobinHouse,
 }
 
 class PlayerCamera : MonoBehaviour
@@ -61,6 +62,10 @@ class PlayerCamera : MonoBehaviour
             case 6://잡화점.
                 cameraLimit_0 = new Vector2(63, 13);
                 cameraLimit_1 = new Vector2(65, 22);
+                return;
+            case 7:
+                cameraLimit_0 = new Vector2(100.5f , 17);
+                cameraLimit_1 = new Vector2(100.5f , 19);
                 return;
         }
     }

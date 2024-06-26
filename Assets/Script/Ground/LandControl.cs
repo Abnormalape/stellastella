@@ -62,10 +62,10 @@ class LandControl : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
-    
+
 
     private void LandDataUpdate()
     {
@@ -77,18 +77,20 @@ class LandControl : MonoBehaviour
             if (!GetComponent<TreeLand>().AtFarm)
             {
                 prefabPath = GetComponent<TreeLand>().prefabPath;
-                
             }
+        }
+
+        
+
+        if (GetComponent<GatheringLand>() != null)
+        {
+            region = GetComponent<GatheringLand>().region;
+            prefabPath = "Prefabs/GatherLand/GatheringObject";
         }
 
         if (transform.childCount == 0)
         {   //Empty.
             landType = LandType.Empty;
-        }
-
-        if(GetComponent<GatheringLand>() != null)
-        {
-            region = GetComponent<GatheringLand>().region;
         }
         //==========================================//
         else if (GetComponentInChildren<WeedLandWeed>() != null)
@@ -136,7 +138,6 @@ class LandControl : MonoBehaviour
         else if (GetComponentInChildren<GatheringObject>() != null)
         {
             landType = LandType.Gather;
-            prefabPath = GetComponent<GatheringLand>().prefabPath;
             gatherID = GetComponent<GatheringLand>().gatherID;
             currentHP = 1;
         }

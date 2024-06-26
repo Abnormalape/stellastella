@@ -10,8 +10,9 @@ class PlayerRightClick : MonoBehaviour
     ItemDB currentData;
     GameObject HitBox;
 
-    float buttonTime;
+    public bool readyToGather = true;
 
+    float buttonTime;
     private void Awake()
     {
         pCon = this.gameObject.GetComponent<PlayerController>();
@@ -25,6 +26,11 @@ class PlayerRightClick : MonoBehaviour
 
     private void Update()
     {
+        if (!pCon.motion && !readyToGather)
+        {
+            readyToGather = true;
+        }
+
         currentData = new ItemDB(pInven.currentInventoryItem);
         if (pCon.idle || pCon.moving) // 움직이거나, 대기상태에서만 우클릭이 가능하다.
         {

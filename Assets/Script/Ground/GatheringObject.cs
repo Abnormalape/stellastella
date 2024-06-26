@@ -43,12 +43,12 @@ class GatheringObject : MonoBehaviour
 
     private void MakeItem(Collider2D collision)
     {
-        if (collision.tag == "RightClick" && collision.GetComponentInParent<PlayerController>() != null)
+        if (collision.tag == "RightClick" && collision.GetComponentInParent<PlayerRightClick>().readyToGather)
         {
+            collision.GetComponentInParent<PlayerRightClick>().readyToGather = false;
             PlayerController pCon = collision.GetComponentInParent<PlayerController>();
             PlayerInventroy pInven = collision.GetComponentInParent<PlayerInventroy>();
             pCon.Motion(true);
-
 
             //1. pCon.gatherLevel에 따라 normal silver gold iriduim 의 값이 변경.
             //2. random값이 각 숫자보다 큰지 확인하고 등급결정.

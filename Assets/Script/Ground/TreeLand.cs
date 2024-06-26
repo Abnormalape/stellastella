@@ -1,6 +1,4 @@
-using UnityEditor;
 using UnityEngine;
-using static TreeLand;
 using Random = UnityEngine.Random;
 public class TreeLand : MonoBehaviour // 나무생성을 담당한다.
 {

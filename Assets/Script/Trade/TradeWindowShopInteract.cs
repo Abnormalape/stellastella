@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 class TradeWindowShopInteract : MonoBehaviour
@@ -34,7 +33,17 @@ class TradeWindowShopInteract : MonoBehaviour
             playerInventroy = GetComponentInParent<TradeWindow>().pInven;
         }
 
-        ItemDB = new ItemDB(tradeWindow.sellList[invNum]);
+        Debug.Log(tradeWindow.sellList.Length);
+        Debug.Log(invNum);
+
+        if (tradeWindow.sellList.Length <= invNum)
+        {
+            DestroyImmediate(this.gameObject);
+        }
+        else
+        {
+            ItemDB = new ItemDB(tradeWindow.sellList[invNum]);
+        }
     }
     public void BuyItem()
     {   //버튼이 클릭 되었을때 실행할 메서드.
