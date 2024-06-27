@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class ChatManager : MonoBehaviour
+public class ConversationChoiceManager : MonoBehaviour
 {
-    public ChatManager() { }
+    public ConversationChoiceManager() { }
 
     GameManager gameManager;
     private void Awake()
@@ -41,4 +41,6 @@ public class ChatManager : MonoBehaviour
         pcon.Conversation(false);
         Destroy(chatbox);
     }
+
+
 }

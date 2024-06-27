@@ -17821,7 +17821,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myOwner: {fileID: -320092316, guid: 3bbe159bd39a207429fd87a00eb473b6, type: 3}
   myTradeWindow: {fileID: 8675230836852331064, guid: 264948cd28ef6ce4bad851b0709c16d7, type: 3}
-  CasherOn: 0
+  CasherOn: 1
 --- !u!61 &1620044111
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17879,7 +17879,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afa37c40d3560f4418b1ed4f5cf5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Portrait: {fileID: 0}
+  MessageBox: {fileID: 1799261393818084544, guid: 9f4e05c8e6d66354ca270bf4f1367aa6, type: 3}
+  Portrait: {fileID: -320092316, guid: 3bbe159bd39a207429fd87a00eb473b6, type: 3}
   myDialogue: {fileID: 4900000, guid: d488e5275e0c842469fd7830739515e9, type: 3}
 --- !u!1 &1805065836
 GameObject:

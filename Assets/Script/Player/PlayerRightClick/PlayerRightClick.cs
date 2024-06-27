@@ -97,10 +97,10 @@ class PlayerRightClick : MonoBehaviour
         }
     }
 
-    ChatManager chatManager;
+    ConversationChoiceManager chatManager;
     private void AskEat()
     {
-        chatManager = GameObject.Find("ChatManager").GetComponent<ChatManager>();
+        chatManager = GameObject.Find("ChatManager").GetComponent<ConversationChoiceManager>();
         GameObject chatboxPrefabinstance = Instantiate(Resources.Load("Prefabs/ChatBox/ChatBoxCanvas") as GameObject, this.transform);
         GetComponent<PlayerController>().Conversation(true);
         chatboxPrefabinstance.GetComponentInChildren<Text>().text = "정말로 먹을까요?";

@@ -15,11 +15,11 @@ class BedInteraction :MonoBehaviour
     }
 
     GameObject chatBoxPrefab;
-    ChatManager chatManager;
+    ConversationChoiceManager chatManager;
 
     private void Awake()
     {
-        chatManager = GameObject.Find("ChatManager").GetComponent<ChatManager>();
+        chatManager = GameObject.Find("ChatManager").GetComponent<ConversationChoiceManager>();
     }
 
     void AskSleep(Collider2D collision)
