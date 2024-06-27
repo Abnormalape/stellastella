@@ -125,7 +125,7 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
                 //선택지의 갯수 만큼 배경의 높이를 조정한다.
                 MessageInstance.transform.Find("ChatBoxBackGround").GetComponent<RectTransform>().sizeDelta
                     = new Vector3(2800, 700 + 50 + (choiceIndex.Length - 4) * 150, 0); //큰 배경.
-                MessageInstance.transform.Find("ChatBoxTextBackGround").GetComponent<RectTransform>().sizeDelta 
+                MessageInstance.transform.Find("ChatBoxTextBackGround").GetComponent<RectTransform>().sizeDelta
                     = new Vector3(2700, 600 + 50 + (choiceIndex.Length - 4) * 150, 0); //작은배경
 
                 int height = -480 + ((choiceIndex.Length - 4) * 150 + 50);
@@ -137,7 +137,7 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
                     SelectionButtons[i].transform.localPosition = new Vector3(0, height - (150 * i), 0);
                     SelectionButtons[i].GetComponentInChildren<Text>().text = data[choiceIndex[i]]["Choices"];
 
-                    
+
 
                 }
             }
@@ -148,11 +148,11 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
                 for (int i = 0; i < choiceIndex.Length; i++)
                 {
                     SelectionButtons[i].SetActive(true); // 버튼을 활성화하고.
-                    SelectionButtons[i].GetComponent<RectTransform>().sizeDelta = new Vector3(2650, 125 ,0);
+                    SelectionButtons[i].GetComponent<RectTransform>().sizeDelta = new Vector3(2650, 125, 0);
                     SelectionButtons[i].transform.localPosition = new Vector3(0, -480 - (150 * i), 0);
                     SelectionButtons[i].GetComponentInChildren<Text>().text = data[choiceIndex[i]]["Choices"];
                 }
-                MessageInstance.transform.Find("ChatBoxBackGround").GetComponent<RectTransform>().sizeDelta 
+                MessageInstance.transform.Find("ChatBoxBackGround").GetComponent<RectTransform>().sizeDelta
                     = new Vector3(2800, 700, 0); //큰 배경.
                 //MessageInstance.transform.Find("ChatBoxTextBackGround").GetComponent<RectTransform>().sizeDelta 
                 //    = new Vector3(2800, 700, 0); //작은배경
@@ -162,11 +162,17 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
             {
                 if (data[choiceIndex[i]]["ChoiceEvent"] == "GoTo")
                 {   //event가 goto인 경우 해당인덱스의 goto값중 하나를 받아 해당 값에 일치하는 메세지 박스를 출력한다.
-                    
+
+                    //아... 파괴하고 다시 만드는 과정에서 인덱스가 초기화 되어서 문제가 생기는구나.
+
+                    SelectionButtons[i].GetComponent<Button>().onClick.AddListener
+                        (delegate { MakeSelectedIndexAtChoice(choiceIndex[i]); });
+                    //특정 인덱스에 대해서 MessageBoxSizeLocation를 실행한다.
                 }
                 else
                 {   //이외의 경우 해당 인덱스의 event와 같은 이름의 함수를 찾는다.
-
+                    //Todo:
+                    //SelectionButtons[i].GetComponent<Button>().onClick.AddListener(void);
                 }
             }
         }
@@ -182,6 +188,12 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
     }
 
     int SelectedIndex;
+    private void MakeSelectedIndexAtChoice(int buttonsIndex)
+    {
+        SelectedIndex = buttonsIndex;
+        InsideNextMessageSetting();
+    }
+
     private void FirstMessageSetting() // 조건에 맞는 Index를 선택한다.
     {
         //Set Text Start.
@@ -197,7 +209,7 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
                 continue;
             }
 
-            if (entry["Level"] == "1") //호감도와 상관 없거나 Todo: 필요 호감도가 현재 호감도보다 낮다면
+            if (entry["Level"] == "-1") //호감도와 상관 없거나 Todo: 필요 호감도가 현재 호감도보다 낮다면
             {
                 trueCount++;
             }
@@ -324,7 +336,12 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
         {
             yield return null;
         }
-        string[] GoSubIDstr = data[SelectedIndex]["GoTo"].Split(',');
+        InsideNextMessageSetting();
+    }
+
+    private void InsideNextMessageSetting()
+    {
+        string[] GoSubIDstr = data[SelectedIndex]["GoTo"].Split(','); //selectedIndex의 goto값을 쪼개고 하나를 고르는 준비.
         int[] GoSubID = new int[GoSubIDstr.Length];
 
 
@@ -355,8 +372,9 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
         }
         SelectedIndex = GotoIndex;
 
+
         //선택지가 없는 문장인데 종료문장이 아니라면 무조건! 다음 문장이 있어야한다.
-        if (SelectedIndex < 0) { Debug.LogError("다음 문장이 없습니다."); Debug.Log(SelectedIndex); yield break; }
+        if (SelectedIndex < 0) { Debug.LogError("다음 문장이 없습니다."); Debug.Log(SelectedIndex); return; }
         Debug.Log(data[SelectedIndex]["Dialogue"]);
 
         CloseAndOpenMessageBox();
@@ -394,7 +412,7 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
     }
 
     private void CloseAndOpenMessageBox(bool conbool = false) // 기본적으로 false가 들어가나 true가 필요할 때가 있다.
-    {   
+    {
         CloseMessageBox();
         OpenMessageBox();
         MessageBoxSizeLocation(conbool); // 받아온 데이터로 그림을 그리고.
