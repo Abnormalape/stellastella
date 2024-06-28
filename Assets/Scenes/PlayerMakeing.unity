@@ -4778,6 +4778,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ac6cf106f542b42a9cd8e8d99dd900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Caller: {fileID: 0}
+  CallersPlayer: {fileID: 0}
 --- !u!4 &779692639
 Transform:
   m_ObjectHideFlags: 0

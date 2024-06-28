@@ -19,8 +19,6 @@ public class SpriteManager : Singleton<SpriteManager>
         {
             sprites_1 = Resources.LoadAll<Sprite>(texturePath_1);
         }
-
-
     }
 
     public Sprite GetSprite(string name)

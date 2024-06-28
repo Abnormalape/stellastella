@@ -386,4 +386,10 @@ public class PlayerController : MonoBehaviour
 
         return 0; // 오류구간
     }
+
+    //======================================================//
+    public bool PlayerFarmOption { get; set; } = false;
+    public bool Option2 { get; set; } = false;
+    public bool Option3 { get; set; } = false;
+    public bool Option4 { get; set; } = false;
 }

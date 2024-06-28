@@ -12,13 +12,12 @@ class OpeningTradeWindow : MonoBehaviour//카운터에 말을 걸었을 때, 상
         if (CasherOn && collision.tag == "RightClick" && collision.transform.parent.tag == "Player" 
             && GetComponent<PrintMessageBox>() == null) //메세지 박스가 없는 단순 상점일 경우만.
         {
-            OpenTradeWindow(collision);
+            OpenTradeWindow(collision.transform.parent.gameObject);
         }
     }
 
-    public void OpenTradeWindow(Collider2D collision)
+    public void OpenTradeWindow(GameObject playerObject)
     {
-        GameObject playerObject = collision.transform.parent.gameObject;
         TradeManage tradeManage = playerObject.GetComponent<TradeManage>();
 
         tradeManage.ActivateTrade(); // activatetrade 메서드에 요소를 추가하여 원하는 거래창을 띄울 수 있다.

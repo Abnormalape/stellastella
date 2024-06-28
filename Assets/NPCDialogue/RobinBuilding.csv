@@ -1,0 +1,7 @@
+BuildingID,BuildingName,GoldNeed,MaterialNeed1,MaterialNeedCount1,MaterialNeed2,MaterialNeedCount2,MaterialNeed3,MaterialNeedCount3,MaterialNeed4,MaterialNeedCount4,PlayerFarmOption,Option2,Option3,Option4
+1,Barn,3000,Stone,50,Wood,100,,,,,,,,
+2,BigBarn,6000,Stone,75,Wood,150,,,,,HasBarn,,,
+3,DeluxBarn,9000,Stone,100,HardWood,50,,,,,HasBigBarn,,,
+4,ChickenHouse,2000,Stone,40,Wood,80,,,,,,,,
+5,BigChickenHouse,4000,Stone,60,Wood,120,,,,,HasChickenHouse,,,
+6,DeluxChickenHouse,6000,Stone,80,HardWood,40,,,,,HasDeluxChickenHouse,,,

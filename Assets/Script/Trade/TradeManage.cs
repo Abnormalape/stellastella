@@ -17,10 +17,6 @@ class TradeManage : MonoBehaviour
         
         tradeWindowPlayer = transform.Find("TradeWindowPlayer").gameObject;
         inventoryBar = transform.Find("InventoryBarUI").gameObject;
-
-
-
-        
         tradeWindowPlayer.SetActive(false);
     }
 
@@ -35,8 +31,6 @@ class TradeManage : MonoBehaviour
                 DeActivateTrade();
             }
         }
-
-        
     }
 
     public void OpenPlayerTradeWindow()
@@ -57,18 +51,14 @@ class TradeManage : MonoBehaviour
     }
 
     public void ActivateTrade()
-    {
-        
+    {   
         tradeWindowPlayer.SetActive(true);
-
         inventoryBar.SetActive(false);
         GetComponent<PlayerController>().Trade(true);
     }
     public void DeActivateTrade()
     {
-        
         tradeWindowPlayer.SetActive(false);
-
         inventoryBar.SetActive(true);
         GetComponent<PlayerController>().Trade(false);   
     }

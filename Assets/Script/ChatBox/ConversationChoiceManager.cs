@@ -43,4 +43,19 @@ public class ConversationChoiceManager : MonoBehaviour
     }
 
 
+    public GameObject Caller;
+    public GameObject CallersPlayer;
+    public void BuyItem() // 선택지에서 물건구매를 선택했을 때. 로빈, 마니.
+    {
+        Caller.GetComponent<OpeningTradeWindow>().OpenTradeWindow(CallersPlayer);
+        Caller = null;
+        CallersPlayer = null;
+    }
+
+    public void ConstructBuilding() // 선택지에서 건물 건설을 선택했을 때. 로빈, 마법사.
+    {
+        Caller.GetComponent<OpeningBuildingWindow>().OpenBuildWindow(CallersPlayer);
+        Caller = null;
+        CallersPlayer = null;
+    }
 }
