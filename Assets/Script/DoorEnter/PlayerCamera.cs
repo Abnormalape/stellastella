@@ -17,22 +17,41 @@ class PlayerCamera : MonoBehaviour
 {
 
 
-    GameObject followObject;
+    public GameObject followObject;
     Vector2 cameraLimit_0;
     Vector2 cameraLimit_1;
     [SerializeField] nowLocation nowcamera;
+    PlayerController pCon;
+    GameManager gameManager;
 
     private void Awake()
     {
-        followObject = GameObject.FindGameObjectWithTag("Player");
-        nowcamera = followObject.GetComponent<PlayerController>().nowLocation;
+        if(followObject == null)
+        {
+            followObject = GameObject.FindGameObjectWithTag("Player");
+        }
+        pCon = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        nowcamera = pCon.nowLocation;
+        gameManager = FindFirstObjectByType<GameManager>();
     }
+
+    private void OnEnable()
+    {
+        if (gameManager.needSubCam)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
     private void Update()
     {
-        nowcamera = followObject.GetComponent<PlayerController>().nowLocation;
+        nowcamera = pCon.nowLocation;
         CameraLimit((int)nowcamera);
-        this.transform.position =
-        new Vector3(CameraPositionX(followObject.transform.position.x), CameraPositionY(followObject.transform.position.y), -100f);
+        if (followObject != null)
+        {
+            this.transform.position =
+            new Vector3(CameraPositionX(followObject.transform.position.x), CameraPositionY(followObject.transform.position.y), -100f);
+        }
     }
 
     void CameraLimit(int i)

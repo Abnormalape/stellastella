@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using UnityEditor.Profiling;
+using UnityEditor.XR;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BuildingWindow : MonoBehaviour
@@ -14,11 +18,24 @@ public class BuildingWindow : MonoBehaviour
     public PlayerController pCon { get { return tPCon; } set { tPCon = value; pInven = pCon.GetComponent<PlayerInventroy>(); WhenDataIported(); } }
     public PlayerInventroy pInven;
     private SpriteManager spriteManager;
+    Camera cam;
+
+    GameManager gameManager;
+
+    BuildingManager buildingManager;
 
     private void WhenDataIported()
     {
+        if (buildingManager == null)
+        {
+            buildingManager = FindFirstObjectByType<BuildingManager>();
+        }
+        buildingList = buildingManager.BuildingList;
+
         buildingData = new ParseCsvFile().ParseCsv(buildingList.text);
         spriteManager = FindFirstObjectByType<SpriteManager>();
+        gameManager = FindFirstObjectByType<GameManager>();
+        cam = Camera.main;
         CanBuildList();
         AddMethodToButton();
         WidowComponentSetting();
@@ -54,7 +71,7 @@ public class BuildingWindow : MonoBehaviour
             }
         }
 
-        for (int i = 0;i < canBuildIndex.Count; i++)
+        for (int i = 0; i < canBuildIndex.Count; i++)
         {
             Debug.Log(buildingData[canBuildIndex[i]]["BuildingName"]); //선택된 건물들의 이름을 출력
         }
@@ -62,7 +79,7 @@ public class BuildingWindow : MonoBehaviour
 
     private bool FindBoolByStringAtClass(PlayerController playerController, string headerName)
     {
-        PropertyInfo targetBool = typeof(PlayerController).GetProperty(headerName, BindingFlags.Public|BindingFlags.Instance);
+        PropertyInfo targetBool = typeof(PlayerController).GetProperty(headerName, BindingFlags.Public | BindingFlags.Instance);
 
         if (targetBool != null && targetBool.PropertyType == typeof(bool))
         {
@@ -94,6 +111,7 @@ public class BuildingWindow : MonoBehaviour
     private GameObject MaterialNeed3;
     private GameObject MaterialNeed4;
     private GameObject BuildingImage;
+    private GameObject Gold;
 
     private void WidowComponentSetting()
     {
@@ -102,65 +120,159 @@ public class BuildingWindow : MonoBehaviour
         MaterialNeed3 = transform.Find("MaterialNeed3").gameObject;
         MaterialNeed4 = transform.Find("MaterialNeed4").gameObject;
         BuildingImage = transform.Find("BuildingImage").gameObject;
+        Gold = transform.Find("Gold").gameObject;
         MaterialNeed1.SetActive(false);
         MaterialNeed2.SetActive(false);
         MaterialNeed3.SetActive(false);
         MaterialNeed4.SetActive(false);
         BuildingImage.SetActive(false);
+        Gold.SetActive(false);
     }
+
+    bool cannotBuild;
     private void ShowPage() //Todo: currentpage에 맞게 페이지를 출력
     {   //페이지를 출력.
+        cannotBuild = false;
         if (currentPage == canBuildIndex.Count - 1)
-        {nextButton.SetActive(false);}
+        { nextButton.SetActive(false); }
         else { nextButton.SetActive(true); }
         if (currentPage == 0)
-        {prevButton.SetActive(false);}
+        { prevButton.SetActive(false); }
         else { prevButton.SetActive(true); }
 
         //각 재료의 이미지와 갯수를 적기. Todo: 각 재료를 현재 인벤토리에서 찾아서 그 갯수가 요구치 보다 적다면 갯수의 숫자를 붉게.
         if (buildingData[canBuildIndex[currentPage]]["MaterialNeed1"] != "")
         {
             MaterialNeed1.SetActive(true);
-            MaterialNeed1.GetComponent<Image>().sprite 
+            MaterialNeed1.GetComponent<Image>().sprite
                 = spriteManager.GetSprite(buildingData[canBuildIndex[currentPage]]["MaterialNeed1"]);
             MaterialNeed1.GetComponentInChildren<Text>().text
                 = buildingData[canBuildIndex[currentPage]]["MaterialNeedCount1"];
+            if( isItemOnInvenAndCount( // true라면 붉게
+                buildingData[canBuildIndex[currentPage]]["MaterialNeed1"],
+                Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["MaterialNeedCount1"])))
+            {
+                MaterialNeed1.GetComponentInChildren<Text>().color = Color.red;
+            }
+            else
+            {
+                MaterialNeed1.GetComponentInChildren<Text>().color = Color.black;
+            }
+            cannotBuild = true;
         }
         if (buildingData[canBuildIndex[currentPage]]["MaterialNeed2"] != "")
         {
             MaterialNeed2.SetActive(true);
-            MaterialNeed2.GetComponent<Image>().sprite 
+            MaterialNeed2.GetComponent<Image>().sprite
                 = spriteManager.GetSprite(buildingData[canBuildIndex[currentPage]]["MaterialNeed2"]);
             MaterialNeed2.GetComponentInChildren<Text>().text
                 = buildingData[canBuildIndex[currentPage]]["MaterialNeedCount2"];
+            if (isItemOnInvenAndCount( // true라면 붉게
+                buildingData[canBuildIndex[currentPage]]["MaterialNeed2"],
+                Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["MaterialNeedCount2"])))
+            {
+                MaterialNeed2.GetComponentInChildren<Text>().color = Color.red;
+            }
+            else
+            {
+                MaterialNeed1.GetComponentInChildren<Text>().color = Color.black;
+            }
+            cannotBuild = true;
         }
         if (buildingData[canBuildIndex[currentPage]]["MaterialNeed3"] != "")
         {
             MaterialNeed3.SetActive(true);
-            MaterialNeed3.GetComponent<Image>().sprite 
+            MaterialNeed3.GetComponent<Image>().sprite
                 = spriteManager.GetSprite(buildingData[canBuildIndex[currentPage]]["MaterialNeed3"]);
             MaterialNeed3.GetComponentInChildren<Text>().text
                 = buildingData[canBuildIndex[currentPage]]["MaterialNeedCount3"];
+            if (isItemOnInvenAndCount( // true라면 붉게
+                buildingData[canBuildIndex[currentPage]]["MaterialNeed3"],
+                Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["MaterialNeedCount3"])))
+            {
+                MaterialNeed3.GetComponentInChildren<Text>().color = Color.red;
+            }
+            else
+            {
+                MaterialNeed1.GetComponentInChildren<Text>().color = Color.black;
+            }
+            cannotBuild = true;
         }
         if (buildingData[canBuildIndex[currentPage]]["MaterialNeed4"] != "")
         {
             MaterialNeed4.SetActive(true);
-            MaterialNeed4.GetComponent<Image>().sprite 
+            MaterialNeed4.GetComponent<Image>().sprite
                 = spriteManager.GetSprite(buildingData[canBuildIndex[currentPage]]["MaterialNeed4"]);
             MaterialNeed4.GetComponentInChildren<Text>().text
                 = buildingData[canBuildIndex[currentPage]]["MaterialNeedCount4"];
+            if (isItemOnInvenAndCount( // true라면 붉게
+                buildingData[canBuildIndex[currentPage]]["MaterialNeed4"],
+                Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["MaterialNeedCount4"])))
+            {
+                MaterialNeed4.GetComponentInChildren<Text>().color = Color.red;
+            }
+            else
+            {
+                MaterialNeed1.GetComponentInChildren<Text>().color = Color.black;
+            }
+            cannotBuild = true;
         }
-        
+
         //건축물 이미지와 설명과 건축물 이름.
-        BuildingImage.GetComponent<Image>().sprite 
+        BuildingImage.SetActive(true);
+        BuildingImage.GetComponent<Image>().sprite
             = spriteManager.GetSprite(buildingData[canBuildIndex[currentPage]]["BuildingName"]);
         BuildingImage.GetComponentInChildren<Text>().text
             = buildingData[canBuildIndex[currentPage]]["BuildingExplain"];
 
-        //Todo: Gold.
-
-        Debug.Log(buildingData[canBuildIndex[currentPage]]["BuildingName"]);
+        //Gold.
+        Gold.SetActive(true);
+        Gold.GetComponentInChildren<Text>().text = buildingData[canBuildIndex[currentPage]]["GoldNeed"];
+        if (isNeedGoldOverCurrent(Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["GoldNeed"])))
+        {
+            Gold.GetComponentInChildren<Text>().color = Color.red;
+            cannotBuild = true;
+        }
+        else
+        {
+            MaterialNeed1.GetComponentInChildren<Text>().color = Color.black;
+        }
     }
+
+    private bool isItemOnInvenAndCount(string needItemName, int needItemCount)
+    {
+        int inventoryCount = 0;
+
+        Debug.Log(needItemName);
+        
+
+        for (int i = 0; i < 36; ++i)
+        {
+            if (needItemName == new ItemDB(pInven.pInventoryItemID[i]).name)
+            {
+                inventoryCount += pInven.pInventoryItemCount[i];   
+            }
+            Debug.Log(new ItemDB(pInven.pInventoryItemID[i]).name);
+        }
+
+        if(inventoryCount < needItemCount)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    private bool isNeedGoldOverCurrent(int needGold) 
+    {
+        int currentGold = pCon.currentGold;
+
+        if (needGold > currentGold)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     private void NextPage()
     {
@@ -185,15 +297,18 @@ public class BuildingWindow : MonoBehaviour
     }
     private void BuildButton()
     {
-        Debug.Log("BuildButton");
+        //if(cannotBuild) // 재료 부족이거나, 골드 부족이라면. //Todo:
+        //{
+        //    Debug.Log("골드 및 재료 부족");
+        //    return;
+        //}
+
+        pCon.nowLocation = nowLocation.Farm;
+        pCon.GetComponentInChildren<MyPlayerCursor>().instBuildingName = buildingData[canBuildIndex[currentPage]]["BuildingName"];
+        pCon.GetComponentInChildren<MyPlayerCursor>().showBuildingGrid(true, Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["Length"]), Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["Height"]));
+        gameManager.needSubCam = true;
+        gameManager.SubCamLocation = "Farm";
     }
-
-    //플레이어의 인벤토리와 현재 보여주고 있는 건축물의 요구 자원을 비교해서 요구량에 비해 모자란 자원의 글자를 붉은색으로 설정.
-
-
-
-    //버튼을 누르면 다른 건축물을 출력 보여줌.
-
     //esc나 취소 버튼 누르면 페이드와 함께 거래창 종료.
 
     //건설 버튼 누르면 페이드와 함께 농장 씬으로 변경.

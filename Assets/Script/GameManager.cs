@@ -49,10 +49,12 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
 
     FadeManager fadeManager;
     SeasonUiSprite seasonUiSprite;
+    
     private void Awake()
     {
         seasonUiSprite = GetComponentInChildren<SeasonUiSprite>();
         fadeManager = FindFirstObjectByType<FadeManager>();
+        
 
         currentYear = 1;
         currentSeason = 0; // 봄
@@ -833,7 +835,14 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
 
     public delegate void SceneChanged();
     public event SceneChanged WhenSceneChanged;
+    public bool needSubCam;
+    public string SubCamLocation { set { currentSceneName = value ;
+            Camera.main.GetComponent<PlayerCamera>().followObject = GameObject.FindGameObjectWithTag("SubCam");
+        } }
+
 }
+
+
 
 public class LandData
 {

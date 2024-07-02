@@ -9,11 +9,9 @@ public class OpeningBuildingWindow : MonoBehaviour//카운터에 말을 걸었�
 
     [SerializeField] GameObject myBuildWindow; // 건물 거래창.
     [SerializeField] TextAsset mySellList; // 건축물 리스트.
-    
 
     private void Awake()
     {
-        string BuildingText = mySellList.text;
     }
 
     PlayerController pCon;
@@ -31,14 +29,13 @@ public class OpeningBuildingWindow : MonoBehaviour//카운터에 말을 걸었�
 
     public void OpenBuildWindow(GameObject playerObject)
     {
+
         //pCon은 필요하다. (농장 내 건물 파악)  
         pCon = playerObject.GetComponent<PlayerController>();
         pCon.Conversation(true);
         
         //건물 건설창을 띄운다.
         GameObject summonedWindow = Instantiate(myBuildWindow, Vector3.zero, Quaternion.identity, this.transform);
-        //데이터를 넘겨준다.
-        summonedWindow.GetComponent<BuildingWindow>().buildingList = mySellList;
         //데이터를 넘겼다고 한다.
         summonedWindow.GetComponent<BuildingWindow>().pCon = pCon;
     }

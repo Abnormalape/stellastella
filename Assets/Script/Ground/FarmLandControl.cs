@@ -22,8 +22,7 @@ public class FarmLandControl : MonoBehaviour // 경작지 프리팹에 들어가
     bool atFarm = true;
     
     SpriteRenderer spriteRenderer;
-    [SerializeField]
-    Sprite[] wateredGround = new Sprite[16];
+    [SerializeField] Sprite[] wateredGround = new Sprite[16];
     Collider2D[] nearWatered;
 
 

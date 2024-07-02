@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum LandType
 {
-    Empty, Weed, Tree, Stick, Stone, Farm, Gather,
+    Empty, Weed, Tree, Stick, Stone, Farm, Gather, Build
 }
 
 
@@ -23,6 +23,11 @@ class LandControl : MonoBehaviour
     public bool watered;
     public bool seeded;
     public bool onceharvested;
+    //=====================================//
+    // for building.
+    public bool buildingName;
+
+
     //=====================================//
     public delegate void AValueUpdated(bool newValue);
     public event AValueUpdated OnAValueUpdated;
@@ -181,6 +186,21 @@ class LandControl : MonoBehaviour
             }
             currentHP = 1; //이건 쓸 일이 있나?
         }
+        //================================//a 건물이 있는판정 과 실제로 건물이 있는 위치.
+        //a 건물의 정보를 저장 및 로드 해야한다.
+        else if (GetComponentInChildren<BuildLandObject>() != null)
+        {
+            landType = LandType.Build;
+            prefabPath = GetComponent<BuildLand>().prefabPath;
+
+            if (GetComponent<BuildLand>().buildCore == true)
+            {
+                //GetComponentInChildren<BuildLandObject>(). ; Todo:
+            }
+            
+        }
+
+
         if (savePosition != transform.position)
         {
             savePosition = transform.position;
