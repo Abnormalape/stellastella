@@ -14,7 +14,7 @@ class InventorySlot : MonoBehaviour
 
     private void Awake()
     {
-        mouseCursor = transform.parent.parent.parent.transform.Find("Cursor").gameObject;
+        mouseCursor = FindFirstObjectByType<MyPlayerCursor>().gameObject;
         playerInventroy = transform.parent.parent.parent.GetComponent<PlayerInventroy>();
     }
 

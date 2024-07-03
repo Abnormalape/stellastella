@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 class DoorEnter : MonoBehaviour
 {
-    [SerializeField] Vector3 GoingTo;
-    [SerializeField] string GoingScene;
+    [SerializeField] public Vector3 GoingTo;
+    [SerializeField] public string GoingScene;
     string currentSceneName;
     GameManager gameManager;
+    CameraManager cameraManager;
 
     [SerializeField] nowLocation ToPlace; // 이동하는 장소의 이름.
 
@@ -17,7 +18,7 @@ class DoorEnter : MonoBehaviour
     {
         currentSceneName = SceneManager.GetActiveScene().name;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-
+        cameraManager = FindFirstObjectByType<CameraManager>();
         fadeManager = FindFirstObjectByType<FadeManager>();
     }
 
@@ -44,7 +45,7 @@ class DoorEnter : MonoBehaviour
     {
         gameManager.currentSceneName = GoingScene;
         collisionn.transform.parent.transform.position = GoingTo;
-        collisionn.transform.parent.GetComponent<PlayerController>().nowLocation = ToPlace;
+        cameraManager.nowcamera = ToPlace;
         collisionn = null;
     }
 }

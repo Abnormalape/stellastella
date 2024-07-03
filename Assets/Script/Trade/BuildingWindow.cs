@@ -21,7 +21,7 @@ public class BuildingWindow : MonoBehaviour
     Camera cam;
 
     GameManager gameManager;
-
+    CameraManager cameraManager;
     BuildingManager buildingManager;
 
     private void WhenDataIported()
@@ -35,6 +35,7 @@ public class BuildingWindow : MonoBehaviour
         buildingData = new ParseCsvFile().ParseCsv(buildingList.text);
         spriteManager = FindFirstObjectByType<SpriteManager>();
         gameManager = FindFirstObjectByType<GameManager>();
+        cameraManager = FindFirstObjectByType<CameraManager>();
         cam = Camera.main;
         CanBuildList();
         AddMethodToButton();
@@ -130,7 +131,7 @@ public class BuildingWindow : MonoBehaviour
     }
 
     bool cannotBuild;
-    private void ShowPage() //Todo: currentpage에 맞게 페이지를 출력
+    private void ShowPage()
     {   //페이지를 출력.
         cannotBuild = false;
         if (currentPage == canBuildIndex.Count - 1)
@@ -140,7 +141,7 @@ public class BuildingWindow : MonoBehaviour
         { prevButton.SetActive(false); }
         else { prevButton.SetActive(true); }
 
-        //각 재료의 이미지와 갯수를 적기. Todo: 각 재료를 현재 인벤토리에서 찾아서 그 갯수가 요구치 보다 적다면 갯수의 숫자를 붉게.
+        //각 재료의 이미지와 갯수를 적기.
         if (buildingData[canBuildIndex[currentPage]]["MaterialNeed1"] != "")
         {
             MaterialNeed1.SetActive(true);
@@ -243,7 +244,7 @@ public class BuildingWindow : MonoBehaviour
     {
         int inventoryCount = 0;
 
-        Debug.Log(needItemName);
+        
         
 
         for (int i = 0; i < 36; ++i)
@@ -252,7 +253,7 @@ public class BuildingWindow : MonoBehaviour
             {
                 inventoryCount += pInven.pInventoryItemCount[i];   
             }
-            Debug.Log(new ItemDB(pInven.pInventoryItemID[i]).name);
+            
         }
 
         if(inventoryCount < needItemCount)
@@ -303,10 +304,16 @@ public class BuildingWindow : MonoBehaviour
         //    return;
         //}
 
-        pCon.nowLocation = nowLocation.Farm;
-        pCon.GetComponentInChildren<MyPlayerCursor>().instBuildingName = buildingData[canBuildIndex[currentPage]]["BuildingName"];
-        pCon.GetComponentInChildren<MyPlayerCursor>().showBuildingGrid(true, Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["Length"]), Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["Height"]));
+        cameraManager.nowcamera = nowLocation.Farm;
+        FindFirstObjectByType<MyPlayerCursor>().instBuildingName = buildingData[canBuildIndex[currentPage]]["BuildingName"];
+        FindFirstObjectByType<MyPlayerCursor>().showBuildingGrid(true, Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["Length"]), Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["Height"]));
+        FindFirstObjectByType<MyPlayerCursor>().player = pCon.gameObject;
+
+
         gameManager.needSubCam = true;
+
+        pCon.gameObject.SetActive(false);
+
         gameManager.SubCamLocation = "Farm";
     }
     //esc나 취소 버튼 누르면 페이드와 함께 거래창 종료.

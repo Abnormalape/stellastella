@@ -25,9 +25,9 @@ class LandControl : MonoBehaviour
     public bool onceharvested;
     //=====================================//
     // for building.
-    public bool buildingName;
-
-
+    public string buildingName;
+    public bool buildCore;
+    public int buildingIndex;
     //=====================================//
     public delegate void AValueUpdated(bool newValue);
     public event AValueUpdated OnAValueUpdated;
@@ -191,20 +191,22 @@ class LandControl : MonoBehaviour
         else if (GetComponentInChildren<BuildLandObject>() != null)
         {
             landType = LandType.Build;
-            prefabPath = GetComponent<BuildLand>().prefabPath;
+
+            if(prefabPath == "" || prefabPath == null)
+            {
+                prefabPath = GetComponent<BuildLand>().prefabPath;
+            }
 
             if (GetComponent<BuildLand>().buildCore == true)
             {
+                buildCore = true;
+                buildingName = GetComponentInChildren<BuildLandObject>().buildingName;
+                buildingIndex = GetComponentInChildren<BuildLandObject>().buildingIndex;
                 //GetComponentInChildren<BuildLandObject>(). ; Todo:
             }
-            
         }
 
-
-        if (savePosition != transform.position)
-        {
-            savePosition = transform.position;
-        }
+        savePosition = transform.position;
     }
 
     private void OnDestroy()

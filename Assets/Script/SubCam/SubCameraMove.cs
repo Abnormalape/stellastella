@@ -24,7 +24,7 @@ class SubCameraMove : MonoBehaviour
 
         if (manager.needSubCam)
         {
-            Camera.main.GetComponent<PlayerCamera>().followObject = this.gameObject;
+            Camera.main.GetComponent<PlayCamera>().followObject = this.gameObject;
         }
         else
         {

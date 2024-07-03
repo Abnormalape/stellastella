@@ -48,7 +48,6 @@ public class PlayerController : MonoBehaviour
             tCurrentGold = value;
         }
     }
-    public nowLocation nowLocation;
 
     public UnityEvent asdf;
 
@@ -74,8 +73,6 @@ public class PlayerController : MonoBehaviour
 
         inventoryUI.SetActive(false);
         inventoryBarUI.SetActive(true);
-
-        nowLocation = nowLocation.FarmHouse;
     }
 
     void Start()

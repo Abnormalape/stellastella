@@ -73,7 +73,6 @@ public class GatheringLand : MonoBehaviour
             RemoveChildObject();
             RemakeGatheringPrefabs();
             monthChanged = false;
-            Debug.Log("gather month changed");
         }
     }
 

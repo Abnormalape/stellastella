@@ -65,7 +65,6 @@ class BuildCursorElement : MonoBehaviour
                     transform.parent.GetComponent<BuildCursorControl>().buildingCoreObject 
                         = hit[i].gameObject.GetComponent<BuildLand>().gameObject;
                 }
-
                 return;
             }
         }

@@ -5,19 +5,20 @@ using UnityEngine.SceneManagement;
 
 class Entrance : MonoBehaviour
 {
-    [SerializeField] Vector3 GoingTo;
-    [SerializeField] string GoingScene;
+    [SerializeField] public Vector3 GoingTo;
+    [SerializeField] public string GoingScene;
     string currentSceneName;
 
     [SerializeField] nowLocation ToPlace; // 이동하는 장소의 이름.
     GameManager gameManager;
     FadeManager fadeManager;
+    CameraManager cameraManager;
 
     private void Awake()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-
+        cameraManager = FindFirstObjectByType<CameraManager>();
         fadeManager = FindFirstObjectByType<FadeManager>();
     }
 
@@ -50,7 +51,7 @@ class Entrance : MonoBehaviour
     void TransformPlayer()
     {   //Scene이 변하는 entrance.
         collisionn.transform.position = GoingTo;
-        collisionn.transform.GetComponent<PlayerController>().nowLocation = ToPlace;
+        cameraManager.nowcamera = ToPlace;
         gameManager.currentSceneName = GoingScene;
         collisionn = null;
     }
@@ -58,7 +59,7 @@ class Entrance : MonoBehaviour
     void TeleportPlayer()
     {   //Scene이 변하지 않는 entrance.
         collisionn.transform.position = GoingTo;
-        collisionn.transform.GetComponent<PlayerController>().nowLocation = ToPlace;
+        cameraManager.nowcamera = ToPlace;
         collisionn = null;
     }
 }

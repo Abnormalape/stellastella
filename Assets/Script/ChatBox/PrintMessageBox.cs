@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -44,8 +43,6 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
     {
         if (collision.transform.tag == "RightClick" && collision.transform.parent.tag == "Player" && ChatStarted == false)
         {
-            Debug.Log("ChatStarted");
-
             ChatStarted = true;
             pCon = collision.GetComponentInParent<PlayerController>();
             pCon.Conversation(true);
@@ -139,7 +136,7 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
 
                 }
                 else
-                {   //이외의 경우 해당 인덱스의 event와 같은 이름의 함수를 찾는다. Todo:
+                {   
                     string tMethodName = data[choiceIndex[i]]["ChoiceEvent"];
                     int instind = choiceIndex[i];
                     GameObject tCaller = this.gameObject;
@@ -287,26 +284,6 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
         pCon.Conversation(false);
         ChatStarted = false;
         Destroy(MessageInstance);
-        ////메세지 로드가 완료되지 않았다면.
-        //if (messageLoad == false)
-        //{
-        //    //메세리 로드를 완료하고.
-        //    Debug.Log("Messaged Text Loaded");
-        //    messageLoad = true;
-        //    //좌클릭 입력대기.
-        //    while (!Input.GetMouseButton(0))
-        //    {
-        //        yield return null;
-        //    }
-        //    Debug.Log("EndConversation");
-        //    Destroy(MessageInstance);
-        //}
-        ////메세지 로드가 완료되었다면.
-        //else if (messageLoad == true)
-        //{
-        //    Debug.Log("EndConversation");
-        //    Destroy(MessageInstance);
-        //}
     }
     private IEnumerator NextMessageSetting()
     {

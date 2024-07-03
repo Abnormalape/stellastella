@@ -5,7 +5,7 @@ class SellBoxObject : MonoBehaviour
     SellBoxManager sellBoxManager;
     private void Awake()
     {
-        // Todo: sellBoxManager = GameObject.FindGameObjectWithTag("SellBoxManager").GetComponent<SellBoxManager>();
+        //sellBoxManager = GameObject.FindGameObjectWithTag("SellBoxManager").GetComponent<SellBoxManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

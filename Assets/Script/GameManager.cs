@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´ëºÎºÐÀÇ ¿ÀºêÁ§Æ®°¡ ¾ê¸¦ ÂüÁ¶ÇÑ´Ù
@@ -49,12 +50,13 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
 
     FadeManager fadeManager;
     SeasonUiSprite seasonUiSprite;
-    
+    BuildingManager buildingManager;
+
     private void Awake()
     {
         seasonUiSprite = GetComponentInChildren<SeasonUiSprite>();
         fadeManager = FindFirstObjectByType<FadeManager>();
-        
+        buildingManager = FindFirstObjectByType<BuildingManager>();
 
         currentYear = 1;
         currentSeason = 0; // º½
@@ -369,6 +371,17 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                         landData[i].onceharvested = landControls[i].onceharvested;
                     }
                 }
+                else if (landData[i].landType == LandType.Build)
+                {
+                    landData[i].prefabPath = landControls[i].prefabPath;
+                    if (landControls[i].buildCore == true)
+                    {
+                        landData[i].buildCore = true;
+                        landData[i].buildingName = landControls[i].buildingName;
+                        landData[i].buildingIndex = landControls[i].buildingIndex;
+                        //°ÇÃà¹°ÀÇ ÀúÀå»çÇ×À» ÀúÀåÇÑ´Ù. Todo:
+                    }
+                }
             }
         }
 
@@ -439,7 +452,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                     farmLandControl.seeded = landData[i].seeded;
                     if (landData[i].seeded)
                     {
-                        Debug.Log("Load Days : " + landData[i].days);
+                        
                         landControls[i].transform.gameObject.GetComponent<LandControl>().prefabPath_Crop = landData[i].prefabPath_Crop;
                         landControls[i].days = landData[i].days;
                         GameObject grandChild = Resources.Load(landData[i].prefabPath_Crop) as GameObject;
@@ -447,13 +460,32 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                         CropControl cropControl = landControls[i].transform.GetChild(0).GetComponentInChildren<CropControl>();
                         cropControl.onceharvested = landData[i].onceharvested;
                         cropControl.days = landData[i].days;
-                        Debug.Log("Crop Load : " + cropControl.days);
+                        
                     }
 
-                    Debug.Log("Before Day Month Change");
+                    
                     landControls[i].dayChanged = landData[i].dayChanged;
                     landControls[i].monthChanged = landData[i].monthChanged;
-                    Debug.Log("After Day Month Change");
+                    
+                    continue;
+                }
+                else if (landData[i].landType == LandType.Build)
+                {
+                    if (landData[i].buildCore == true)
+                    {
+                        landControls[i].GetComponent<BuildLand>().buildCore = true;
+                        landControls[i].GetComponent<BuildLand>().buildingName = landData[i].buildingName;
+                        landControls[i].GetComponent<BuildLand>().prefabPath = landData[i].prefabPath;
+                        landControls[i].GetComponent<BuildLand>().buildingIndex = landData[i].buildingIndex;                        
+                        landControls[i].GetComponent<BuildLand>().builded = true;
+                        landControls[i].dayChanged = landData[i].dayChanged; // ³¯Â¥º¯È­ È®ÀÎ
+                        landControls[i].monthChanged = landData[i].monthChanged; // ³¯Â¥º¯È­ È®ÀÎ
+                        continue;
+                    }
+                    landControls[i].GetComponent<BuildLand>().prefabPath = landData[i].prefabPath;
+                    landControls[i].GetComponent<BuildLand>().builded = true;
+                    landControls[i].dayChanged = landData[i].dayChanged; // ³¯Â¥º¯È­ È®ÀÎ
+                    landControls[i].monthChanged = landData[i].monthChanged; // ³¯Â¥º¯È­ È®ÀÎ
                     continue;
                 }
             }
@@ -461,6 +493,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         LoadLandTreeData();
         LoadLandWeedData();
         LoadLandGatheringData();
+        buildingManager.SetBuildingDataWithBuildingIndexAtFarm();
     } // ¾ÀÀÌ FarmÀ¸·Î º¯°æ µÉ ¶§
 
     public void SaveLandTreeData() // for only TreeLand.
@@ -539,7 +572,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
                     //childObject.GetComponent<FieldTreeLand>().CurrentLevel(landTreeData[i].level);
                     childObject.GetComponent<FieldTreeLand>().hp = landTreeData[i].currentHP;
 
-                    Debug.Log("tree day changed");
+                    
                     LandTreeControls[i].dayChanged = landTreeData[i].dayChanged;
                     LandTreeControls[i].monthChanged = landTreeData[i].monthChanged;
                 }
@@ -613,7 +646,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
     {   //Ã¤Áý¹°Àº °íÀ¯ÇÏ´Ù.
         GatheringLand[] gatherLands = FindObjectsOfType<GatheringLand>();
 
-        Debug.Log(gatherLands.Length);
+        
 
         gatherContorls = new LandControl[gatherLands.Length];
         for (int i = 0; i < gatherLands.Length; i++)
@@ -697,7 +730,7 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
             int mountainCounts = 0;
             if (gatherLandsData[0].dayChanged)   //°¢ ¸®Àü¿¡¼­ ÀÚ½ÄÀÌ ÀÖ´Â ¿ÀºêÁ§Æ® ¼ö¸¦ Ãß·Á¼­, ÀÏÁ¤¼ö ÀÌÇÏ¶ó¸é, ÇØ´ç ¸®Àü¿¡ ÀÚ½Ä ¿ÀºêÁ§Æ® »ý¼º.
             {
-                Debug.Log("Day Changed at Gather");
+                
                 //=====beach======//
                 List<int> emptyBeachRegion = new List<int>();
                 for (int i = 0; i < beachRegion.Count; i++) // beach¸®ÀüÀÎ ·£µåÄÁÆ®·ÑÀ» Âß µ¹¾Æ¼­.
@@ -809,36 +842,46 @@ public class GameManager : MonoBehaviour    // °ÔÀÓÀÇ Àü¹ÝÀûÀÎ Çàµ¿À» Á¶Á¤ÇÏ°í ´
         {
             // tCurrentSceneName = °ú°Å¾À.
             // value = ¹Ì·¡¾À.
-            if (tCurrentSceneName == "Farm" && value == "Farm") // ÇöÀçµµ ³óÀåÀÌ°í ÀÌµ¿µµ ³óÀåÀÌ¸é.
+            if (tCurrentSceneName == value) // ÇöÀçµµ ³óÀåÀÌ°í ÀÌµ¿µµ ³óÀåÀÌ¸é.
             {   //ÇÒ°Í¾øÀ½
-
+                return;
             }
-            else if (tCurrentSceneName == "Farm" && value != "Farm") // ÇöÀç´Â ³óÀåÀÎµ¥ ÀÌµ¿ÀÌ ³óÀåÀÌ ¾Æ´Ï¶ó¸é.
+
+            if (tCurrentSceneName == "Farm" && value != "Farm") // ÇöÀç´Â ³óÀåÀÎµ¥ ÀÌµ¿ÀÌ ³óÀåÀÌ ¾Æ´Ï¶ó¸é.
             {
                 WhenSceneChanged.Invoke(); // eventÇÔ¼ö. landcontrol¿¡°Ô data¾÷µ¥ÀÌÆ® ÇÏ¶ó°í Àü¼ÛÇÑÈÄ.
                 SaveLandInFarmData(); // dataµéÀ» saveÇÑ´Ù.
-
-                SceneManager.LoadScene(value); // ÀÌÈÄ sceneÀ» º¯°æÇÑ´Ù.
             }
             else if (tCurrentSceneName != "Farm" && value == "Farm")
             {
-                SceneManager.LoadScene(value); // ¾ÀÀ» º¯°æÇÑÈÄ.
                 //FarmSceneLoader°¡ ¾À ·Îµå°¡ ¿Ï·áµÇ¸é , ·Îµå¸¦ È£ÃâÇÑ´Ù.
             }
 
-            Debug.Log("Past Scene : " + tCurrentSceneName);
-            Debug.Log("Going Scene : " + value);
+            if (tCurrentSceneName != "InsideHouse" && value == "InsideHouse") // Áý¾ÈÀ¸·Î µé¾î¿Ã¶§.
+            {
+                buildingManager.WhenBuildingMadeAtInsideHouse(); //¾÷µ¥ÀÌÆ® ÇÒ°Å ÀÖÀ¸¸é ÇÏ°í.
+                buildingManager.SetBuildingDataWithBuildingIndexInsideHouse(); //ÀÔ±¸°¡ ¾îµð·Î ¿¬°áµÉÁö ¼³Á¤ÇÏ±â.
+            }
+
+
+
+            SceneManager.LoadScene(value); // ¾ÀÀ» º¯°æÇÑÈÄ.
             tCurrentSceneName = value;
-            Debug.Log("After Scene Update : " + tCurrentSceneName);
+            
         }
     }
 
     public delegate void SceneChanged();
     public event SceneChanged WhenSceneChanged;
     public bool needSubCam;
-    public string SubCamLocation { set { currentSceneName = value ;
-            Camera.main.GetComponent<PlayerCamera>().followObject = GameObject.FindGameObjectWithTag("SubCam");
-        } }
+    public string SubCamLocation
+    {
+        set
+        {
+            currentSceneName = value;
+            Camera.main.GetComponent<PlayCamera>().followObject = GameObject.FindGameObjectWithTag("SubCam");
+        }
+    }
 
 }
 
@@ -859,6 +902,10 @@ public class LandData
     public bool watered;
     public bool seeded;
     public bool onceharvested;
+
+    public bool buildCore;
+    public string buildingName;
+    public int buildingIndex;
 
     public bool dayChanged = true;
     public bool monthChanged = true;

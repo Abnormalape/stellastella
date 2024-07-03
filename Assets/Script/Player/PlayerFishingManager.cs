@@ -65,7 +65,6 @@ class PlayerFishingManager : MonoBehaviour
             for(int i = 0; i < fishList.Length; i++)
             {
                 FishDB asdf = new FishDB(fishList[i]);
-                Debug.Log($"{i}번째 물고기의 이름은 : {asdf.fishName}");
             }
         }
     }

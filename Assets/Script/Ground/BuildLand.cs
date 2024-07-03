@@ -13,7 +13,7 @@ class BuildLand : MonoBehaviour
     }
 
     public string buildingName;
-
+    public int buildingIndex = -1;
     public string prefabPath = "Prefabs/BuildCanvas/BuildingPrefab"; // 건물 생성을 위한 베이스 프리팹.
     
     GameObject buildCoreChildObject;
@@ -23,21 +23,29 @@ class BuildLand : MonoBehaviour
         set
         {
             tBuilded = value;
-            if (prefabPath == null || prefabPath == "")
+            
+            if (value == true)
             {
-                prefabPath = "Prefabs/BuildCanvas/BuildingPrefab";
-            }
-            Debug.Log(prefabPath);
+                if (prefabPath == null || prefabPath == "")
+                {
+                    prefabPath = "Prefabs/BuildCanvas/BuildingPrefab";
+                }
+                
 
-            if (!buildCore)
-            {
-                Instantiate(Resources.Load(prefabPath) as GameObject, transform.localPosition = Vector3.zero, Quaternion.identity, this.transform);
-            }
-            else if (buildCore)
-            {
-                buildCoreChildObject = Instantiate(Resources.Load(prefabPath) as GameObject, transform.localPosition = Vector3.zero, Quaternion.identity, this.transform);
-                buildCoreChildObject.GetComponent<BuildLandObject>().buildingName = buildingName;
-                buildCoreChildObject.GetComponent<BuildLandObject>().buildCore = true;
+                if (!buildCore)
+                {
+                    buildCoreChildObject =
+                        Instantiate(Resources.Load(prefabPath) as GameObject, transform.position, Quaternion.identity, this.transform);
+                    buildCoreChildObject.GetComponent<BuildLandObject>().buildCore = false;
+                }
+                else if (buildCore)
+                {
+                    buildCoreChildObject =
+                        Instantiate(Resources.Load(prefabPath) as GameObject, transform.position, Quaternion.identity, this.transform);
+                    buildCoreChildObject.GetComponent<BuildLandObject>().buildingName = buildingName;
+                    buildCoreChildObject.GetComponent<BuildLandObject>().buildingIndex = buildingIndex;
+                    buildCoreChildObject.GetComponent<BuildLandObject>().buildCore = true;
+                }
             }
         }
     }

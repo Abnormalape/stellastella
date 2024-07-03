@@ -15,6 +15,8 @@ class MyPlayerCursor : MonoBehaviour
     GameObject gridImage;
 
     public string instBuildingName;
+
+    public GameObject player;
     public void showBuildingGrid(bool input, int length, int height)
     {
         buildingGrid = input;

@@ -15,7 +15,7 @@ class TradeWindowPlayerInteract : MonoBehaviour
     private void Awake()
     {
         pCon = transform.parent.parent.parent.GetComponent<PlayerController>();
-        mouseCursor = transform.parent.parent.parent.Find("Cursor").gameObject;
+        mouseCursor = FindFirstObjectByType<MyPlayerCursor>().gameObject;
         playerInventroy = transform.parent.parent.parent.GetComponent<PlayerInventroy>();
     }
 

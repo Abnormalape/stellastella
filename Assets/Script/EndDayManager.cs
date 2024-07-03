@@ -77,7 +77,7 @@ class EndDayManager : MonoBehaviour
             bool foundIDGrade = false;
             for (int j = 0; j < K; j++)
             {
-                Debug.Log(K);
+                
 
                 if (IDs[j] == aIDs[i]) // 저장하려는 ID가 목록에 있다면.
                 {
