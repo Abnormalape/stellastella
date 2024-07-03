@@ -844,28 +844,26 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
             // value = 미래씬.
             if (tCurrentSceneName == value) // 현재도 농장이고 이동도 농장이면.
             {   //할것없음
-                return;
+                
             }
-
-            if (tCurrentSceneName == "Farm" && value != "Farm") // 현재는 농장인데 이동이 농장이 아니라면.
+            else if (tCurrentSceneName == "Farm" && value != "Farm") // 현재는 농장인데 이동이 농장이 아니라면.
             {
                 WhenSceneChanged.Invoke(); // event함수. landcontrol에게 data업데이트 하라고 전송한후.
                 SaveLandInFarmData(); // data들을 save한다.
+                SceneManager.LoadScene(value); // 씬을 변경한후.
             }
             else if (tCurrentSceneName != "Farm" && value == "Farm")
             {
+                SceneManager.LoadScene(value); // 씬을 변경한후.
                 //FarmSceneLoader가 씬 로드가 완료되면 , 로드를 호출한다.
             }
 
-            if (tCurrentSceneName != "InsideHouse" && value == "InsideHouse") // 집안으로 들어올때.
-            {
-                buildingManager.WhenBuildingMadeAtInsideHouse(); //업데이트 할거 있으면 하고.
-                buildingManager.SetBuildingDataWithBuildingIndexInsideHouse(); //입구가 어디로 연결될지 설정하기.
-            }
+            //if (tCurrentSceneName != "InsideHouse" && value == "InsideHouse") // 집안으로 들어올때.
+            //{   //Todo:
+            //    buildingManager.WhenBuildingMadeAtInsideHouse(); //업데이트 할거 있으면 하고.
+            //    buildingManager.SetBuildingDataWithBuildingIndexInsideHouse(); //입구가 어디로 연결될지 설정하기.
+            //}
 
-
-
-            SceneManager.LoadScene(value); // 씬을 변경한후.
             tCurrentSceneName = value;
             
         }
