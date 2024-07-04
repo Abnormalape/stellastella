@@ -12,10 +12,15 @@ class InventorySlot : MonoBehaviour
     GameObject mouseCursor;
     PlayerInventroy playerInventroy;
 
+    Color trans;
+    Color nonTrans;
+
     private void Awake()
     {
         mouseCursor = FindFirstObjectByType<MyPlayerCursor>().gameObject;
         playerInventroy = transform.parent.parent.parent.GetComponent<PlayerInventroy>();
+        trans = new Color(1, 1, 1, 0);
+        nonTrans = new Color(1, 1, 1, 1);
     }
 
     private void Start()
@@ -31,7 +36,10 @@ class InventorySlot : MonoBehaviour
     private void SpriteTextSet()
     {
         string itemname;
-        inventoryitemDB = new ItemDB(inventoryitemID);
+
+
+
+        inventoryitemDB = new ItemDB(inventoryitemID); //
 
         if (inventoryitemID != 0)
         {
@@ -43,28 +51,28 @@ class InventorySlot : MonoBehaviour
         if (inventoryitemID == 0 || inventoryitemID == null)
         {   //Sprite & Text => Delete, transparent
             transform.GetChild(0).GetComponent<Image>().sprite = null;
-            transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            transform.GetChild(0).GetComponent<Image>().color = trans;
             transform.GetChild(1).GetComponent<Text>().text = "";
             transform.GetChild(2).GetComponent<Image>().sprite = null;
-            transform.GetChild(2).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            transform.GetChild(2).GetComponent<Image>().color = trans;
         }
         else
         {
             if (inventoryitemcount == 1)
             {
                 transform.GetChild(0).GetComponent<Image>().sprite = SpriteManager.Instance.GetSprite(itemname);
-                transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                transform.GetChild(0).GetComponent<Image>().color = nonTrans;
                 transform.GetChild(1).GetComponent<Text>().text = "";
                 transform.GetChild(2).GetComponent<Image>().sprite = SpriteManager.Instance.GetSprite(gradeToString(inventoryitemgrade));
-                transform.GetChild(2).GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                transform.GetChild(2).GetComponent<Image>().color = nonTrans;
             }
             else
             {
                 transform.GetChild(0).GetComponent<Image>().sprite = SpriteManager.Instance.GetSprite(itemname);
-                transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                transform.GetChild(0).GetComponent<Image>().color = nonTrans;
                 transform.GetChild(1).GetComponent<Text>().text = $"{inventoryitemcount}";
                 transform.GetChild(2).GetComponent<Image>().sprite = SpriteManager.Instance.GetSprite(gradeToString(inventoryitemgrade));
-                transform.GetChild(2).GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                transform.GetChild(2).GetComponent<Image>().color = nonTrans;
             }
         }
     }
@@ -109,7 +117,7 @@ class InventorySlot : MonoBehaviour
             playerInventroy.outerImportedSlotNumber = thisInvenToryNumber;
             playerInventroy.outerImportedID = mouseCursor.GetComponent<MyPlayerCursor>().itemID;
             playerInventroy.outerImportedCount = mouseCursor.GetComponent<MyPlayerCursor>().itemCounts;
-            playerInventroy.outerImportedGrade = mouseCursor.GetComponent <MyPlayerCursor>().itemGrade;
+            playerInventroy.outerImportedGrade = mouseCursor.GetComponent<MyPlayerCursor>().itemGrade;
             playerInventroy.outerDataImported = true;
 
             mouseCursor.GetComponent<MyPlayerCursor>().itemID = 0;                  //마우스의 아이템 아이디를 0으로 만든다.
@@ -120,7 +128,7 @@ class InventorySlot : MonoBehaviour
             mouseCursor.GetComponent<MyPlayerCursor>().itemOnHand = false;          //마우스에 아이템이 더 이상 없다.
 
         }
-        else if (this.inventoryitemID == mouseCursor.GetComponent<MyPlayerCursor>().itemID && 
+        else if (this.inventoryitemID == mouseCursor.GetComponent<MyPlayerCursor>().itemID &&
             this.inventoryitemgrade == mouseCursor.GetComponent<MyPlayerCursor>().itemGrade)
         {
             playerInventroy.outerImportedSlotNumber = thisInvenToryNumber;
@@ -158,7 +166,7 @@ class InventorySlot : MonoBehaviour
 
         }
     }
-    
+
     private string gradeToString(int grade)
     {
         if (grade == 1)

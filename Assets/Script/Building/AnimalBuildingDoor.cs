@@ -8,8 +8,6 @@ class AnimalBuildingDoor : MonoBehaviour
     bool isOpen = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-
         if(collision.tag == "RightClick" && collision.transform.parent.tag == "Player" && isMoving == false)
         {
             

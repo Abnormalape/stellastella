@@ -106,6 +106,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -3785,11 +3798,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: springobjects_175
+      name: Hay
       rect:
         serializedVersion: 2
         x: 160
-        y: 496
+        y: 497
         width: 16
         height: 16
       alignment: 0
@@ -19558,6 +19571,7 @@ TextureImporter:
       FallGathering3: 1857566815
       FallHardFish: 318216032
       HardWood: 2023112526
+      Hay: 1349977198
       MapleTreeSeed: -426285626
       NightFish: -853830285
       OakTreeSeed: 1385149909
@@ -19663,7 +19677,6 @@ TextureImporter:
       springobjects_172: 332924102
       springobjects_173: -2069268100
       springobjects_174: 888307530
-      springobjects_175: 1349977198
       springobjects_176: -788888194
       springobjects_177: -595016178
       springobjects_178: 967965100

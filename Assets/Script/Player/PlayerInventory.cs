@@ -15,19 +15,19 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     PlayerLeftClick PLClick;
     PlayerController pCon;
 
+    ItemDB itemDB;
 
-    
-    public int changeCount 
+    public int changeCount
     {
         set { pInventory[currentInventory].itemCount += value; }
     }
-    
+
     public void ChangeCount(int inventoryNumber, int value)
     {
         pInventory[inventoryNumber].itemCount += value;
         pInventoryItemCount[inventoryNumber] = pInventory[inventoryNumber].itemCount;
 
-        if (pInventoryItemCount[inventoryNumber] == 0) 
+        if (pInventoryItemCount[inventoryNumber] == 0)
         {
             pInventoryItemID[inventoryNumber] = 0;
             pInventoryItemGrade[inventoryNumber] = 0;
@@ -61,6 +61,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     {
         pCon = GetComponent<PlayerController>();
         PLClick = this.GetComponent<PlayerLeftClick>();
+        itemDB = new ItemDB(0);
         MakePlayerInventory(); // 기본아이템을 생성한다
     }
     void Start()
@@ -87,6 +88,7 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     {
         if (pCon.idle || pCon.moving)
         {
+            int tempInven = currentInventory;
             if (Input.GetKeyDown(KeyCode.Alpha1)) { currentInventory = 0; } // 만약 1번키를 누른다면 플레이어인벤[0]의 아이템ID가 현재 아이템이다. 그걸 1234567890-=로 반복한다.
             if (Input.GetKeyDown(KeyCode.Alpha2)) { currentInventory = 1; }
             if (Input.GetKeyDown(KeyCode.Alpha3)) { currentInventory = 2; }
@@ -170,9 +172,9 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
 
         if (collision.gameObject.tag == "FieldItem") // 충돌체가 아이템 이라면
         {
-            for (int i = 0; i < inventSlots ; i++) // 인벤토리를 훑어서
+            for (int i = 0; i < inventSlots; i++) // 인벤토리를 훑어서
             {
-                if (collision.GetComponent<FieldItem>().itemID == pInventory[i].itemID && 
+                if (collision.GetComponent<FieldItem>().itemID == pInventory[i].itemID &&
                     collision.GetComponent<FieldItem>().grade == pInventory[i].grade) // 같은 ID와 등급을 보유중인 인벤토리에
                 {
                     pInventory[i].itemCount += 1; // 카운트를 올리고
@@ -199,9 +201,9 @@ public class PlayerInventroy : MonoBehaviour // 플레이어에게 부착된다
     public int AddSlotNumber { get; private set; }
     public void AddDirectItem(int itemID, int grade, int count)
     {   //바로 인벤토리에 들어오는 메소드. 인벤토리가 꽉 찼을시, 교환창을 연다.
-        for (int i = 0; i < inventSlots ; i++)
+        for (int i = 0; i < inventSlots; i++)
         {
-            if (itemID == pInventory[i].itemID && 
+            if (itemID == pInventory[i].itemID &&
                 grade == pInventory[i].grade)
             {
                 pInventory[i].itemCount += count;

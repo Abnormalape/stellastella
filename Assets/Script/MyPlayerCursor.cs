@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 class MyPlayerCursor : MonoBehaviour
@@ -8,13 +10,21 @@ class MyPlayerCursor : MonoBehaviour
     public int itemGrade;
     public bool itemOnHand = false;
     Camera mainCamera;
-
+    //================================
     bool buildingGrid;
-
     GameObject buildGrid;
     GameObject gridImage;
-
     public string instBuildingName;
+    //================================
+    private string tAnimalName;
+    public string animalName
+    {
+        get { return tAnimalName; }
+        set { tAnimalName = value;
+            if (value != "") { StartCoroutine(HoveringAnimal()); }
+        }
+    }
+
 
     public GameObject player;
     public void showBuildingGrid(bool input, int length, int height)
@@ -87,6 +97,37 @@ class MyPlayerCursor : MonoBehaviour
         }
 
         this.transform.position = new Vector3(mainCamera.ScreenToWorldPoint(Input.mousePosition).x, mainCamera.ScreenToWorldPoint(Input.mousePosition).y, this.transform.position.z);
+    }
+
+    private IEnumerator HoveringAnimal()
+    {
+        while(animalName != "")
+        {
+            ShootRayWithAnimal();
+            yield return null;
+        }
+    }
+
+    GameObject touchedBuildLandObject;
+    private void ShootRayWithAnimal()
+    {
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Collider2D[] hit = Physics2D.OverlapPointAll(mousePosition);
+
+        for(int ix = 0;  ix < hit.Length; ix++)
+        {
+            if (hit[ix].GetComponent<BuildLandObject>())
+            {
+                if(hit[ix].GetComponent<BuildLandObject>().buildCore == true)
+                {
+                    if(touchedBuildLandObject == null)
+                    {
+                        touchedBuildLandObject = hit[ix].gameObject;
+                    }
+                    hit[ix].GetComponent<BuildLandObject>().JudgeAndColor(this);
+                }
+            }
+        }
     }
 }
 

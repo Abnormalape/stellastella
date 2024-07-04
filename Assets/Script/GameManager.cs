@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -388,7 +389,22 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
         SaveLandTreeData();
         SaveLandWeedDate();
         SaveLandGatheringData();
+
+        StartCoroutine(WaitForInsideLoad());
     } // 씬이 Farm에서 변경 될 때
+
+    IEnumerator WaitForInsideLoad()
+    {
+        while (!FindFirstObjectByType<InsideFarmLoader>())
+        {
+            yield return null;
+        }
+        while (!FindFirstObjectByType<InsideFarmLoader>().sceneLoaded)
+        {
+            yield return null;
+        }
+        buildingManager.SetBuildingDataWithBuildingIndexInsideHouse();
+    }
 
     public void LoadLandInFarmData()
     {   //LandController를 가진 object들을 로드.
@@ -855,14 +871,8 @@ public class GameManager : MonoBehaviour    // 게임의 전반적인 행동을 조정하고 �
             else if (tCurrentSceneName != "Farm" && value == "Farm")
             {
                 SceneManager.LoadScene(value); // 씬을 변경한후.
-                //FarmSceneLoader가 씬 로드가 완료되면 , 로드를 호출한다.
             }
 
-            //if (tCurrentSceneName != "InsideHouse" && value == "InsideHouse") // 집안으로 들어올때.
-            //{   //Todo:
-            //    buildingManager.WhenBuildingMadeAtInsideHouse(); //업데이트 할거 있으면 하고.
-            //    buildingManager.SetBuildingDataWithBuildingIndexInsideHouse(); //입구가 어디로 연결될지 설정하기.
-            //}
 
             tCurrentSceneName = value;
             

@@ -60,3 +60,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 1581670895
+    locked: 0
+  - name: MiddleGround
+    uniqueID: 4164169741
+    locked: 0
+  - name: Foreground
+    uniqueID: 4031023265
+    locked: 0
+  - name: ForegroundProp
+    uniqueID: 3966098855
+    locked: 0
+  - name: VFX
+    uniqueID: 369453355
+    locked: 0

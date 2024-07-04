@@ -1,7 +1,7 @@
-BuildingID,BuildingName,Length,Height,Days,DoorLocationX,DoorLocationY,PlayerDoorX,PlayerDoorY,GoldNeed,MaterialNeed1,MaterialNeedCount1,MaterialNeed2,MaterialNeedCount2,MaterialNeed3,MaterialNeedCount3,MaterialNeed4,MaterialNeedCount4,PlayerFarmOption,Option2,Option3,Option4,BuildingExplain
-1,Barn,7,4,3,4.5,1,2,1.5,3000,Stone,50,Wood,100,,,,,,,,,«Í∞£¿Ã¥Ÿ
-2,BigBarn,7,4,3,4.5,1,2,1.5,6000,Stone,75,Wood,150,,,,,HasBarn,,,,≈´«Í∞£¿Ã¥Ÿ
-3,DeluxeBarn,7,4,3,4.5,1,2,1.5,9000,Stone,100,HardWood,50,,,,,HasBigBarn,,,,¥Îø’«Í∞£¿Ã¥Ÿ
-4,Coop,6,4,3,3,1,2,1.5,2000,Stone,40,Wood,80,,,,,,,,,¥ﬂ¿Â¿Ã¥Ÿ
-5,BigCoop,6,4,3,3,1,2,1.5,4000,Stone,60,Wood,120,,,,,HasChickenHouse,,,,≈´¥ﬂ¿Â¿Ã¥Ÿ
-6,DeluxeCoop,6,4,3,3,1,2,1.5,6000,Stone,80,HardWood,40,,,,,HasDeluxChickenHouse,,,,¥Îø’¥ﬂ¿Â¿Ã¥Ÿ
+BuildingID,BuildingName,Length,Height,Days,DoorLocationX,DoorLocationY,EntranceLocationX,EntranceLocationY,PlayerDoorX,PlayerDoorY,GoldNeed,MaterialNeed1,MaterialNeedCount1,MaterialNeed2,MaterialNeedCount2,MaterialNeed3,MaterialNeedCount3,MaterialNeed4,MaterialNeedCount4,PlayerFarmOption,Option2,Option3,Option4,AcceptAnimal,BuildingExplain
+1,Barn,7,4,3,4.5,1,-20,8.2,2,1.5,3000,Stone,50,Wood,100,,,,,,,,,Cow,«Í∞£¿Ã¥Ÿ
+2,BigBarn,7,4,3,4.5,1,-20,23.2,2,1.5,6000,Stone,75,Wood,150,,,,,HasBarn,,,,"Cow,Sheep",≈´«Í∞£¿Ã¥Ÿ
+3,DeluxeBarn,7,4,3,4.5,1,-20,38.2,2,1.5,9000,Stone,100,HardWood,50,,,,,HasBigBarn,,,,"Cow,Sheep",¥Îø’«Í∞£¿Ã¥Ÿ
+4,Coop,6,4,3,3,1,-40,8.2,2,1.5,2000,Stone,40,Wood,80,,,,,,,,,Chicken,¥ﬂ¿Â¿Ã¥Ÿ
+5,BigCoop,6,4,3,3,1,-40,23.2,2,1.5,4000,Stone,60,Wood,120,,,,,HasChickenHouse,,,,"Chicken,Duck",≈´¥ﬂ¿Â¿Ã¥Ÿ
+6,DeluxeCoop,6,4,3,3,1,-40,38.2,2,1.5,6000,Stone,80,HardWood,40,,,,,HasDeluxChickenHouse,,,,"Chicken,Duck",¥Îø’¥ﬂ¿Â¿Ã¥Ÿ

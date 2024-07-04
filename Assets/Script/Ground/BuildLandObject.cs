@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 class BuildLandObject : MonoBehaviour
 {
+    public int buildingID;
     public string buildingName; // 전해받은 buildName으로 csv파일을 훑어서 자신이 건설한 건물의 정보를 확인한다.
                                 // 상세정보는 얘가 core일때만 기능한다.
 
@@ -32,16 +31,17 @@ class BuildLandObject : MonoBehaviour
                 ComponentSet();
 
                 if (buildingIndex == -1) // 최초 건설시점에는 index가 -1, 이후 빌드 매니저가 인덱스를 배정해주고 나면 해당 인덱스를 저장.
-                    //이후 저장된 인덱스가 먼저 index에 할당이 되고, 여기에 돌아올땐, -1이 아님.
-                    //Todo: 인덱스 할당을 먼저하고, 빌드코어 설정을 나중에 할것.
+                                         //이후 저장된 인덱스가 먼저 index에 할당이 되고, 여기에 돌아올땐, -1이 아님.
+                                         //Todo: 인덱스 할당을 먼저하고, 빌드코어 설정을 나중에 할것.
                 {
                     SendDataToBuildingManager();
                 }
             }
             else
             {
-                GetComponent<BoxCollider2D>().enabled = false;
-                GetComponentInChildren<SpriteRenderer>().enabled = false;
+                this.transform.GetChild(0).gameObject.SetActive(false);
+                this.transform.GetChild(1).gameObject.SetActive(false);
+                this.transform.GetChild(2).gameObject.SetActive(false);
             }
             //Todo: 이 녀석의 건축날짜 등을 저장하고 스프라이트를 출력해야한다.
             //Todo: 이 녀석이 가질수 있는 동물의 종류, 등의 상세 데이터를 저장해야한다.
@@ -70,7 +70,9 @@ class BuildLandObject : MonoBehaviour
                 break;
             }
         }
+        buildingID = Convert.ToInt32(buildingData[listNumber]["BuildingID"]);
         myBuildingData = buildingData[listNumber];
+
     }
 
     public Vector3 doorPosition;
@@ -108,12 +110,49 @@ class BuildLandObject : MonoBehaviour
 
             doorPosition = transform.GetChild(2).transform.position; // 문의 이동위치를 판정하기 위해 로컬이 아닌 좌표값으로 재설정.
 
-            transform.GetChild(2).GetComponent<BoxCollider2D>().size = new Vector2(1,2);
+            transform.GetChild(2).GetComponent<BoxCollider2D>().size = new Vector2(1, 2);
         }
     }
 
     private void SendDataToBuildingManager()
     {
         buildingManager.WhenBuildingMadeAtFarm(this);
+    }
+
+    //================================== handler interface
+
+    private bool green = false;
+    public void JudgeAndColor(MyPlayerCursor cursor)
+    {
+        JudgePointerAnimal(cursor);
+        MakeBuildingColor();
+    }
+
+
+    private void JudgePointerAnimal(MyPlayerCursor cursor)
+    {
+        
+        string[] animals = myBuildingData["AcceptAnimal"].Split(',');
+
+        for(int ix = 0; ix < animals.Length; ix++)
+        {
+            if(cursor.animalName == animals[ix]) // 마우스의 동물 이름이 목록과 같다면.
+            {
+                green = true;
+                break;
+            }
+        }
+    }
+
+    private void MakeBuildingColor()
+    {
+        if (green)
+        {   //건물을 녹색으로.
+            transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
+        }
+        else
+        {   //건물을 적색으로.
+            transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
+        }
     }
 }

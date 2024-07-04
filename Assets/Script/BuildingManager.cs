@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 class BuildingManager : MonoBehaviour
 {   //빌딩 매니저는 현재 존재하는 건축물들을 관리한다.
@@ -10,9 +11,10 @@ class BuildingManager : MonoBehaviour
     //dont destroy이다.
 
     public TextAsset BuildingList; // 건축물 리스트.
+    List<Dictionary<string, string>> BuildingData;
+    public int EnterTobuilding = -1;
 
     [SerializeField] TextAsset BuildingManagerData;
-
     List<Dictionary<string, string>> BuildingIndex = new List<Dictionary<string, string>>();
     //buildLandObject의 index가 0이라면 list[0]에서 정보를 가져오고, 3이라면 list[3]에서 가져온다.
 
@@ -23,18 +25,9 @@ class BuildingManager : MonoBehaviour
 
     private void Awake()
     {
+        EnterTobuilding = -1;
+        BuildingData = new ParseCsvFile().ParseCsv(BuildingList.text);
         BuildingIndex = new ParseCsvFile().ParseCsv(BuildingManagerData.text);
-
-
-
-        //if (BuildingIndex.Count == 0)
-        //{
-        //    BuildingIndex.Add(new Dictionary<string, string>());
-
-        //    Debug.Log(BuildingIndex.Count);
-        //    BuildingIndex[0]["Name"] = "for the king";
-        //    Debug.Log(BuildingIndex[0]["Name"]);
-        //}
     }
     private bool readyToWhenBuildAtInside = false;
     public void WhenBuildingMadeAtFarm(BuildLandObject caller)
@@ -60,50 +53,47 @@ class BuildingManager : MonoBehaviour
         BuildingIndex[i]["Name"] = caller.buildingName;
         //문의 위치 저장.
         BuildingIndex[i]["DoorPositionX"] = caller.doorPosition.x.ToString();
+
+        Debug.Log(caller.doorPosition.x.ToString());
+        Debug.Log(BuildingIndex[i]["DoorPositionX"]);
+
         BuildingIndex[i]["DoorPositionY"] = (caller.doorPosition.y - 1.5f).ToString();
 
-        readyToWhenBuildAtInside = true;
-    }
-    public void WhenBuildingMadeAtInsideHouse()
-    {
-        if (readyToWhenBuildAtInside)
-        {
-            //이름으로inside prefab소환.
-            string buildingPath = BuildingIndex[BuildingIndex.Count - 1]["Name"] + "Inside";
+        BuildingIndex[i]["EntrancePositionX"] = BuildingData[caller.buildingID - 1]["EntranceLocationX"]; // n번째 문이 이동할 위치
+        BuildingIndex[i]["EntrancePositionY"] = BuildingData[caller.buildingID - 1]["EntranceLocationY"];
 
-            //생성. 여기서 생성이 제대로 되어야 리스트 번호를 배정받을 수 있다. Todo:
-            GameObject refEntrance = Instantiate(Resources.Load($"Prefabs/BuildCanvas/{buildingPath}") as GameObject,
-                new Vector3(-20f, 30f * (BuildingIndex.Count - 1))
-                , Quaternion.identity);
-            BuildingIndex[BuildingIndex.Count - 1]["EntrancePositionX"] = refEntrance.transform.position.x.ToString();
-            BuildingIndex[BuildingIndex.Count - 1]["EntrancePositionY"] = (refEntrance.transform.position.y + 1.5f).ToString();
-
-            //Todo: 경계
-        }
-        readyToWhenBuildAtInside = false;
     }
 
-    List<GameObject> buildInsides;
-    public void SetBuildingDataWithBuildingIndexInsideHouse() // 건축물 내부 씬에 생성된 물체들을 저장 하는 방법이 선행되어야 한다.
+    List<Entrance> buildingEntrances;
+    public void SetBuildingDataWithBuildingIndexInsideHouse() // 건축물 내부 에 들어올때 정보 셋팅.
     {
-        BuildInsides[] instBuildIns = FindObjectsOfType<BuildInsides>(); // 내부도 리스트 번호를 가지고 있어야한다.
-                                                                         // 내부가 생성되지 않는 건축물도 있다.
-                                                                         // 내부가 정상적으로 생겨야 내부는 리스트 번호를 가진다.
-
-        for (int ix = 0; ix < instBuildIns.Length; ix++) // 내부가 가진 인덱스 번호를 사용해, entrance의 목적지를 정해준다.
+        if (EnterTobuilding != -1) // 건축물의 문을 통해 건물로 들어 왔을때.
         {
-            instBuildIns[ix].GetComponentInChildren<Entrance>().GoingTo =
-                new Vector3(
-                    Convert.ToInt32(BuildingIndex[instBuildIns[ix].BuildingIndex]["DoorPositionX"]),
-                    Convert.ToInt32(BuildingIndex[instBuildIns[ix].BuildingIndex]["DoorPositionY"]),
-                    0);
+            Entrance[] findentrance = FindObjectsOfType<Entrance>(); // 모든 입구를 찾아서
+
+            int targetindex = 0;
+            for (int ix = 0; ix < findentrance.Length; ix++) //모든 입구의 이름을 들어온 문의 이름과 비교해서
+            {
+                if (BuildingIndex[EnterTobuilding]["Name"] + "Entrance" == findentrance[ix].name)
+                {   //같다면.
+                    targetindex = ix;
+                    break;
+                }
+            }
+            //해당입구가 이동할 위치.
+            findentrance[targetindex].GoingTo = new Vector3(
+                (float)Convert.ToDouble(BuildingIndex[EnterTobuilding]["DoorPositionX"]),
+                (float)Convert.ToDouble(BuildingIndex[EnterTobuilding]["DoorPositionY"]),
+                0);
         }
     }
+
 
 
     List<GameObject> buildCores;
     public void SetBuildingDataWithBuildingIndexAtFarm() //농장으로 나갈 때 건축물의 데이터를 설정하는 방법.
     {
+        buildCores = new List<GameObject>();
         //인덱스 별로 건물을 찾아서 문 or 입구 컴포넌트를 반한.
         BuildLandObject[] instBuildObs = FindObjectsOfType<BuildLandObject>();
 
@@ -115,12 +105,14 @@ class BuildingManager : MonoBehaviour
             }
         }
 
+        if (buildCores == null) { return; }
+
         for (int iy = 0; iy < buildCores.Count; iy++)
         {
             buildCores[iy].transform.GetChild(2).GetComponent<DoorEnter>().GoingTo =
                 new Vector3(
-                    Convert.ToInt32(BuildingIndex[buildCores[iy].GetComponent<BuildLandObject>().buildingIndex]["EntrancePositionX"]),
-                    Convert.ToInt32(BuildingIndex[buildCores[iy].GetComponent<BuildLandObject>().buildingIndex]["EntrancePositionY"]),
+                    (float)Convert.ToDouble(BuildingIndex[buildCores[iy].GetComponent<BuildLandObject>().buildingIndex]["EntrancePositionX"]),
+                    (float)Convert.ToDouble(BuildingIndex[buildCores[iy].GetComponent<BuildLandObject>().buildingIndex]["EntrancePositionY"]),
                     0);
         }
     }

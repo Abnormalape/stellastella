@@ -139,14 +139,14 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
                 {   
                     string tMethodName = data[choiceIndex[i]]["ChoiceEvent"];
                     int instind = choiceIndex[i];
+                    SelectedIndex = instind;
                     GameObject tCaller = this.gameObject;
 
                     SelectionButtons[i].GetComponent<Button>().onClick.
                         AddListener(delegate
                         {
-                            SelectedIndex = instind;
                             methodName = tMethodName;
-                            if (data[choiceIndex[SelectedIndex]]["End"] == "Y")
+                            if (data[choiceIndex[instind]]["End"] == "Y")
                             {
                                 pCon.Conversation(false);
                                 ChatStarted = false;
@@ -273,6 +273,15 @@ public class PrintMessageBox : MonoBehaviour // 대화 가능한 npc에게 삽�
     //bool messageLoad = false;
     private IEnumerator EndConversation()
     {
+        if (data[SelectedIndex]["Dialogue"] == "")
+        {
+            pCon.Conversation(false);
+            ChatStarted = false;
+            Destroy(MessageInstance);
+            yield break;
+        }
+
+
         while (!Input.GetMouseButton(0))
         {
             yield return null;

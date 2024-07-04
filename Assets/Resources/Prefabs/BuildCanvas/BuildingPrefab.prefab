@@ -48,7 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d077240b92e834e9a08b653eae314a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildingID: 0
   buildingName: 
+  buildingIndex: -1
+  doorPosition: {x: 0, y: 0, z: 0}
 --- !u!61 &8073603024670279352
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -189,6 +192,7 @@ GameObject:
   - component: {fileID: 1178033740859809641}
   - component: {fileID: 7772572118169629618}
   - component: {fileID: 4936220841994654443}
+  - component: {fileID: 8485774638458299241}
   m_Layer: 0
   m_Name: PlayerDoor
   m_TagString: Untagged
@@ -240,7 +244,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -269,8 +273,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GoingTo: {x: 0, y: 0, z: 0}
-  GoingScene: 
+  GoingScene: InsideHouse
   ToPlace: 0
+--- !u!114 &8485774638458299241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5864844832061388603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbb4c740dadbf1c439bc4642df90ac18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6544312815235659537
 GameObject:
   m_ObjectHideFlags: 0

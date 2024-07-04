@@ -106,6 +106,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -622,7 +635,7 @@ TextureImporter:
         width: 4
         height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -630,6 +643,90 @@ TextureImporter:
       bones: []
       spriteID: 08a7f9fbfde49fb419d85cbdf3c0ceaf
       internalID: 882758885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chicken
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1791
+        width: 28
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7265cf02de84cfd498c069fb0b2b1043
+      internalID: -2084857061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Duck
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1775
+        width: 24
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 325cf2e084ded694584cec6e70df791b
+      internalID: -2079866615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cow
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 1791
+        width: 21
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3f5c5742e0c9f14ca7f62eac34654bb
+      internalID: 672322669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sheep
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 1776
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db4819aaf23473b46b9bc9fd57c2b319
+      internalID: 1936643101
       vertices: []
       indices: 
       edges: []
@@ -647,7 +744,10 @@ TextureImporter:
     nameFileIdTable:
       BAIT: -436623156
       Bait: 1881814741
+      Chicken: -2084857061
+      Cow: 672322669
       Cursors.ko-KR_0: 1330811667
+      Duck: -2079866615
       Energy: -1510833704
       Fall: 722670015
       GoldGrade: 931050640
@@ -657,6 +757,7 @@ TextureImporter:
       OffInventoryBack: -1766561200
       SellBox: 467135272
       SellBox2: 1318145908
+      Sheep: 1936643101
       SilverGrade: -1759821721
       Spring: 1798538661
       Summer: 466126520

@@ -58,4 +58,11 @@ public class ConversationChoiceManager : MonoBehaviour
         Caller = null;
         CallersPlayer = null;
     }
+
+    public void BuyAnimal() 
+    {
+        Caller.GetComponent<OpeningBuyAnimalWindow>().OpenBuyAnimalWindow(CallersPlayer);
+        Caller = null;
+        CallersPlayer = null;
+    }
 }

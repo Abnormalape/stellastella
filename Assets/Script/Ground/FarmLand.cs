@@ -1,10 +1,10 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 public class FarmLand : MonoBehaviour
-    // 다른 Land들은 자식오브젝트가 없을 때 프리팹을 자식 오브젝트로 만든다
-    // 얘의 기능은 농장외부에선 보물 프리팹은 만드는 역할이고
-    // 괭이질을 받으면, 자신의 스프라이트를 변경하고 작물 스프라이트를 만드는 FarmLandControl을 만든다
-    // 얘는 자신이 속한 GameObject가 자식 오브젝트가 없을때, 괭이질을 하면 경작지 프리팹을 자식오브젝트에 만드는 기능을 한다.
+// 다른 Land들은 자식오브젝트가 없을 때 프리팹을 자식 오브젝트로 만든다
+// 얘의 기능은 농장외부에선 보물 프리팹은 만드는 역할이고
+// 괭이질을 받으면, 자신의 스프라이트를 변경하고 작물 스프라이트를 만드는 FarmLandControl을 만든다
+// 얘는 자신이 속한 GameObject가 자식 오브젝트가 없을때, 괭이질을 하면 경작지 프리팹을 자식오브젝트에 만드는 기능을 한다.
 {
     ItemDB itemDB;
     [SerializeField] GameManager gameManager;
@@ -16,11 +16,12 @@ public class FarmLand : MonoBehaviour
     Sprite[] diggedGround = new Sprite[16]; //땅 스프라이트
     Collider2D[] nearGround; //근처 땅 탐색용
 
-    [SerializeField] public bool digged = false; //본인 상태 확인용, 외부 전달용
-    [SerializeField] bool upDigged = false;
-    [SerializeField] bool downDigged = false;
-    [SerializeField] bool leftDigged = false;
-    [SerializeField] bool rightDigged = false;
+    private bool tDigged = false;
+    public bool digged { get { return tDigged; } set { tDigged = value; DiggedSprite(); } }
+    public bool upDigged = false;
+    public bool downDigged = false;
+    public bool leftDigged = false;
+    public bool rightDigged = false;
 
     public string prefabPath;
     private void Awake() // 게임 시작할 때 초기화
@@ -38,7 +39,9 @@ public class FarmLand : MonoBehaviour
 
     LandControl landControl;
     bool monthChanged;
-    bool dayChanged;
+
+    private bool tDayChanged;
+    public bool dayChanged { get { return tDayChanged; } set { tDayChanged = value; if(value == true)DayChange(); } }
     void HandleAValueUpdated(bool newValue)
     {
         monthChanged = newValue;
@@ -50,12 +53,16 @@ public class FarmLand : MonoBehaviour
     }
     private void Update()
     {
-        DayChange();
+        
+    }
 
-        if (digged) // 스프라이트 관리
+    public void DiggedSprite(GameObject caller = null)
+    {
+        if (digged) // 스프라이트 관리.
         {
-            CheckNearDigged();
-            MakeDigSprite();
+            CheckNearDigged(); // 근처땅이 파였는지 확인하고.
+            //이때 그 옆에 있는 녀석의 digged타입을 바꾸어라.
+            MakeDigSprite(); // 스프라이트를 만들어라.
         }
         else if (!digged)
         {
@@ -98,7 +105,7 @@ public class FarmLand : MonoBehaviour
             currentDate = gameManager.currentDay; // 날짜를 업데이트 하고.
             dayChanged = false;
             monthChanged = false;
-            if (digged) 
+            if (digged)
             {
                 if (this.transform.GetComponentInChildren<FarmLandControl>().seeded == false)
                 {   // 심어지지 않은 상황이라면.
@@ -111,11 +118,11 @@ public class FarmLand : MonoBehaviour
             }
         }
     }
-    
-    private void CheckNearDigged()
+
+    private void CheckNearDigged(GameObject caller = null)
     {
         nearGround = Physics2D.OverlapCircleAll(this.transform.position, 0.6f);
-
+        //Todo:
 
         for (int i = 0; i < nearGround.Length; i++)
         {
@@ -126,6 +133,8 @@ public class FarmLand : MonoBehaviour
                     if (nearGround[i].GetComponent<FarmLand>().digged == true)
                     {
                         rightDigged = true;
+                        nearGround[i].GetComponent<FarmLand>().leftDigged = true;
+                        nearGround[i].GetComponent<FarmLand>().MakeDigSprite();
                     }
                     else
                     {
@@ -137,6 +146,8 @@ public class FarmLand : MonoBehaviour
                     if (nearGround[i].GetComponent<FarmLand>().digged == true)
                     {
                         leftDigged = true;
+                        nearGround[i].GetComponent<FarmLand>().rightDigged = true;
+                        nearGround[i].GetComponent<FarmLand>().MakeDigSprite();
                     }
                     else
                     {
@@ -148,6 +159,8 @@ public class FarmLand : MonoBehaviour
                     if (nearGround[i].GetComponent<FarmLand>().digged == true)
                     {
                         upDigged = true;
+                        nearGround[i].GetComponent<FarmLand>().downDigged = true;
+                        nearGround[i].GetComponent<FarmLand>().MakeDigSprite();
                     }
                     else
                     {
@@ -159,6 +172,8 @@ public class FarmLand : MonoBehaviour
                     if (nearGround[i].GetComponent<FarmLand>().digged == true)
                     {
                         downDigged = true;
+                        nearGround[i].GetComponent<FarmLand>().upDigged = true;
+                        nearGround[i].GetComponent<FarmLand>().MakeDigSprite();
                     }
                     else
                     {

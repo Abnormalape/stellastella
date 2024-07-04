@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 class DoorEnter : MonoBehaviour
 {
-    [SerializeField] public Vector3 GoingTo;
+    [SerializeField] public Vector3 GoingTo = Vector3.zero;
     [SerializeField] public string GoingScene;
     string currentSceneName;
     GameManager gameManager;
@@ -43,6 +43,9 @@ class DoorEnter : MonoBehaviour
 
     void Transporting()
     {
+        Debug.Log(this.gameObject.name);
+        Debug.Log(GoingTo);
+
         gameManager.currentSceneName = GoingScene;
         collisionn.transform.parent.transform.position = GoingTo;
         cameraManager.nowcamera = ToPlace;

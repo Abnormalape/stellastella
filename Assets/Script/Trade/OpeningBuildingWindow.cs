@@ -9,11 +9,6 @@ public class OpeningBuildingWindow : MonoBehaviour//카운터에 말을 걸었�
 
     [SerializeField] GameObject myBuildWindow; // 건물 거래창.
     [SerializeField] TextAsset mySellList; // 건축물 리스트.
-
-    private void Awake()
-    {
-    }
-
     PlayerController pCon;
     [SerializeField] bool CasherOn = false;
 

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 
 class PlayerRightClickCollider : MonoBehaviour
@@ -13,8 +15,6 @@ class PlayerRightClickCollider : MonoBehaviour
     }
     private void Update()
     {
-        motion = pCon.motion;
-        CheckHarvestTerm();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -27,20 +27,19 @@ class PlayerRightClickCollider : MonoBehaviour
                 //텀을 두고 순차적으로 하고 싶은데
                 pCon.Motion(true);
                 motion = true;
+                StartCoroutine(CheckHarvestTerm());
             }
         }
     }
 
-    void CheckHarvestTerm()
+    IEnumerator CheckHarvestTerm()
     {
-        if (motion)
+        while (harvestTerm < 1f)
         {
             harvestTerm += Time.deltaTime;
+            yield return null;
         }
-        if (harvestTerm > 1f)
-        {
-            motion = false;
-            harvestTerm = 0;
-        }
+        motion = false;
+        harvestTerm = 0;
     }
 }

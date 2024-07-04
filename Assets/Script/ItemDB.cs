@@ -1,9 +1,9 @@
 [System.Serializable]
-class ItemDB
+public class ItemDB
 {
     protected int itemID;
-    public int hpRestore=0; // 무기 및 도구류일 경우 데미지로 사용
-    public int staminaRestor=0; // 도구류일 경우 스테미너 소모로 사용
+    public int hpRestore = 0; // 무기 및 도구류일 경우 데미지로 사용
+    public int staminaRestor = 0; // 도구류일 경우 스테미너 소모로 사용
     public int sellPrice = 0;
     public int buyPrice = 0;
     public int grade = 0;
@@ -17,42 +17,49 @@ class ItemDB
 
     // 아이템 속성이 들어간다
 
-    public ItemDB(int itemID)
+    public ItemDB(int tItemID)
     {
-        this.itemID = itemID;
+        this.itemID = tItemID;
         itemSetting();
     }
 
-	public void itemSetting (){
-		switch (itemID)
-		{
+    public void itemSetting(int tItem = -1)
+    {
+
+        int itemmm = 0;
+
+        if (tItem == -1) { itemmm = itemID; }
+        else { itemmm = tItem; itemID = tItem; }
+
+        switch (itemmm)
+        {
             case 0:
                 return;
-			case 1:
-				sellPrice = 5;
-				buyPrice = 10;
-				name = "Wood";
-				type = "Material";
-				return;
-			case 2:
-				sellPrice = 20;
-				buyPrice = 40;
-				name = "HardWood";
-				type = "Material";
-				return;
-			case 3:
-				sellPrice = 1;
-				name = "Sap";
-				type = "Material";
-				return;
-			case 4:
-				name = "Axe";
-				type = "Tool";
-				grade = 1;
-				toolType = 1;
+            case 1:
+                sellPrice = 5;
+                buyPrice = 10;
+                name = "Wood";
+                type = "Material";
+                return;
+            case 2:
+                sellPrice = 20;
+                buyPrice = 40;
+                name = "HardWood";
+                type = "Material";
+                return;
+            case 3:
+                sellPrice = 1;
+                name = "Sap";
+                type = "Material";
+                return;
+            case 4:
+                name = "Axe";
+                type = "Tool";
+                grade = 1;
+                toolType = 1;
                 staminaRestor = 1;
                 hpRestore = 1;
-				return;
+                return;
             case 5:
                 name = "Hoe";
                 type = "Tool";
@@ -440,6 +447,12 @@ class ItemDB
                 type = "Fish";
                 eatable = true;
                 return;
+            case 500:
+                name = "Hay";
+                sellPrice = 3;
+                buyPrice = 5;
+                type = "Material";
+                return;
         }
-	}
+    }
 }

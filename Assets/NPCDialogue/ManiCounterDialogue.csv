@@ -1,0 +1,7 @@
+﻿Level,Weather,Season,Time,Place,Date,Year,WeekNum,MainID,SubID,Dialogue,ChoiceYN,ChoiceIndex,Choices,GoTo,ChoiceEvent,End
+-1,-1,-1,-1,-1,-1,-1,-1,1,,무엇을 할테야,Y,3,,,,
+,,,,,,,,,,,,,물건을 구매한다,,BuyItem,Y
+,,,,,,,,,,,,,동물을 구매한다,,BuyAnimal,Y
+,,,,,,,,,,,,,대화한다,"""1,2""",GoTo,
+,,,,,,,,,1,동물은 참 좋아,,,,,,Y
+,,,,,,,,,2,농장 일은 어때?,,,,,,Y

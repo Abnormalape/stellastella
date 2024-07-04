@@ -1,0 +1,5 @@
+﻿AniamlID,AnimalName,GoldNeed,PlayerFarmOption,Option2,Option3,Option4
+1,Chicken,800,,,,
+2,Duck,1200,HasBigCoop,,,
+3,Cow,1200,,,,
+4,Sheep,1800,HasBigBarn,,,
