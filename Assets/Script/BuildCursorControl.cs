@@ -54,16 +54,6 @@ class BuildCursorControl : MonoBehaviour
                     childCursorElement[ix].touchedLand.GetComponent<BuildLand>().builded = true; //이 시점에서 건축물이 생성된다.
                 }
                 
-                //세워진 건축물이 몇번째 건축물인지 저장한다 (buildManager.CoreIndex = i).
-                //세워진 건축물의 이름을 저장한다. (buildManager.buildingName[i] = this.buildingName).
-                //세워진 건축물의 문의 위치를 저장한다. (buildManager.DoorPosition[i] = 뭐 아무튼 그거).
-
-
-
-
-
-
-
                 //원래 씬으로 복귀.
                 Invoke("GotoOriginScene", 0.5f);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,6 +12,9 @@ class BuildLandObject : MonoBehaviour
                                 // 상세정보는 얘가 core일때만 기능한다.
 
     TextAsset myBuildingList;
+    AnimalManager animalManager;
+    GameManager gameManager;
+    CameraManager cameraManager;
 
     public int buildingIndex = -1; // 건축물의 순서.
 
@@ -25,6 +29,9 @@ class BuildLandObject : MonoBehaviour
             tBuildCore = value;
 
             CallBuildingData(buildingName); // 데이터를 뽑았으니.
+            animalManager = FindFirstObjectByType<AnimalManager>();
+            gameManager = FindFirstObjectByType<GameManager>();
+            cameraManager = FindFirstObjectByType<CameraManager>();
 
             if (value == true)
             {
@@ -122,21 +129,28 @@ class BuildLandObject : MonoBehaviour
     //================================== handler interface
 
     private bool green = false;
-    public void JudgeAndColor(MyPlayerCursor cursor)
+    public void JudgeAndColor(MyPlayerCursor cursor) // 마우스가 올라왔다는 뜻.
     {
         JudgePointerAnimal(cursor);
         MakeBuildingColor();
+        hoveringAnimalName = cursor.animalName;
+
+        if (coroutinePlayed == false)
+        {
+            coroutinePlayed = true;
+            StartCoroutine(CheckMouseInputWhenMouseHover());
+        }
     }
 
-
+    MyPlayerCursor mycusor;
     private void JudgePointerAnimal(MyPlayerCursor cursor)
     {
-        
+        mycusor = cursor;
         string[] animals = myBuildingData["AcceptAnimal"].Split(',');
 
-        for(int ix = 0; ix < animals.Length; ix++)
+        for (int ix = 0; ix < animals.Length; ix++)
         {
-            if(cursor.animalName == animals[ix]) // 마우스의 동물 이름이 목록과 같다면.
+            if (cursor.animalName == animals[ix]) // 마우스의 동물 이름이 목록과 같다면.
             {
                 green = true;
                 break;
@@ -154,5 +168,71 @@ class BuildLandObject : MonoBehaviour
         {   //건물을 적색으로.
             transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
         }
+    }
+
+    public void ResetColler() //마우스가 내려 갔다는 뜻.
+    {
+        hoveringAnimalName = "";
+        transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+        green = false;
+        if (!clickEnd)
+        { EndCoroutine = true; }
+        else { clickEnd = false; }
+        mycusor = null;
+    }
+
+    //===========================================
+    bool EndCoroutine = false;
+    bool coroutinePlayed = false;
+    bool clickEnd = false;
+    string hoveringAnimalName = "";
+    private IEnumerator CheckMouseInputWhenMouseHover() //마우스 클릭 입력을 대기하는 코루틴.
+    {
+        while (!Input.GetMouseButtonDown(0))
+        {
+            if (EndCoroutine)
+            {
+                EndCoroutine = false;
+                coroutinePlayed = false;
+                yield break;
+            }
+            yield return null;
+        }
+        yield return null;
+        if (green)
+        {   //동물 입주 가능이면.
+            Debug.Log("동물이 들어갈수 있는 건물 입니다.");
+            //해당 건물의 동물 상한을 확인해서 동물 입주가 가능한지 판단한다.
+            if (buildingManager.CheckAnimalCounts(this, buildingIndex))
+            {   //동물추가
+                animalManager.AddNewAnimal(hoveringAnimalName, buildingIndex);
+
+
+                //Todo: 씬을 복구 시키고 돈을 차감한다.
+                Invoke("GotoOriginScene", 0.5f);
+
+            }
+            else
+            {
+                Debug.Log("동물이 가득 찼습니다.");
+            }
+        }
+        else if (!green)
+        {
+            Debug.Log("동물이 들어갈수 없는 건물 입니다.");
+        }
+
+        coroutinePlayed = false;
+        EndCoroutine = false;
+        clickEnd = true;
+    }
+
+    void GotoOriginScene()
+    {
+        //cameraManager.nowcamera = nowLocation.ManiHouse;
+        mycusor.player.SetActive(true);
+        mycusor.player.GetComponent<PlayerController>().Conversation(false);
+        gameManager.currentSceneName = "InsideHouse";
+        gameManager.needSubCam = false;
     }
 }

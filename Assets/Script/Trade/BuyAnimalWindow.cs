@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +31,7 @@ class BuyAnimalWindow : MonoBehaviour
         myPlayerCursor = FindFirstObjectByType<MyPlayerCursor>();
         cameraManager = FindFirstObjectByType<CameraManager>();
         cam = Camera.main;
-        
+
 
         CanSellList(); // 판매가능한 목록의 index를 받아온다.
         MakeSprite(); // 화면에 보여준다. 
@@ -77,7 +78,7 @@ class BuyAnimalWindow : MonoBehaviour
     {
         int childcount = transform.GetChild(0).transform.Find("Grid").childCount;
 
-        
+
 
         animalImage = new GameObject[childcount];
 
@@ -112,27 +113,12 @@ class BuyAnimalWindow : MonoBehaviour
                     (delegate
                     {
                         //동물을 클릭하면.
-                        //1. 씬이 바뀐다.
-                        //1-1. 동물의 정보를 마우스에 올린다.
                         myPlayerCursor.animalName = instAnimalName;
-                        gameManager.currentSceneName = "Farm";
-                        //2. 건물에 마우스를 올릴수 있다.
-                        //3. 건물에 동물을 수용가능하면 초록색, 아니면 붉은색.
-                        //4. esc혹은 초록색 건문에 좌클릭하면 돌아온다.
-                        //5. 배송했다고 메세지를 띄운다.
-
-                        //건물 호버시.
-                        //1.건물의 index를 알아본다.
-                        //2.index로 건물 정보를 조회한다.
-                        //3.고른 동물이 건물정보에서 수용하는 동물인지 확인한다.(AcceptAnimal)
-                        //4.아니라면 빨갛게, 맞다면 초록색.
-
-                        //건물에 좌클릭시.
-                        //1.건물의 index를 알아본다.
-                        //2.index로 건물 정보를 조회한다.
-                        //3.동물 수용량이 넘었는지 확인한다.
-                        //4.넘었다면 불가능 메세지를 띄운다.
-                        //5.넘지 않았다면 동물리스트에 고른 동물을 ADD한다.
+                        cameraManager.nowcamera = nowLocation.Farm;
+                        FindFirstObjectByType<MyPlayerCursor>().player = pCon.gameObject;
+                        gameManager.needSubCam = true;
+                        pCon.gameObject.SetActive(false);
+                        gameManager.SubCamLocation = "Farm";
                     });
             }
         }

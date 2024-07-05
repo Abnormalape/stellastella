@@ -15,13 +15,14 @@ class MyPlayerCursor : MonoBehaviour
     GameObject buildGrid;
     GameObject gridImage;
     public string instBuildingName;
+    GameManager gameManager;
     //================================
     private string tAnimalName;
     public string animalName
     {
         get { return tAnimalName; }
         set { tAnimalName = value;
-            if (value != "") { StartCoroutine(HoveringAnimal()); }
+            if (value != "") { myCollider.enabled = true; StartCoroutine(HoveringAnimal()); }
         }
     }
 
@@ -54,8 +55,13 @@ class MyPlayerCursor : MonoBehaviour
         firstGrid.GetComponent<BuildCursorElement>().firstElement = true;
     }
 
+    CircleCollider2D myCollider;
     private void Awake()
     {
+        myCollider = GetComponent<CircleCollider2D>();
+        myCollider.enabled = false;
+        gameManager = FindFirstObjectByType<GameManager>();
+
         if (Camera.main != null)
         {
             mainCamera = Camera.main;
@@ -103,31 +109,74 @@ class MyPlayerCursor : MonoBehaviour
     {
         while(animalName != "")
         {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                animalName = "";
+                Invoke("GotoOriginScene",0.5f);
+                yield break;
+            }
             ShootRayWithAnimal();
             yield return null;
         }
     }
 
     GameObject touchedBuildLandObject;
-    private void ShootRayWithAnimal()
+    GameObject savedBuldingObject;
+    private void ShootRayWithAnimal() // mouse enter와 exit을 관장하는...
     {
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Collider2D[] hit = Physics2D.OverlapPointAll(mousePosition);
+        bool foundCore = false;
 
-        for(int ix = 0;  ix < hit.Length; ix++)
+        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Collider2D[] touches = Physics2D.OverlapPointAll(mousePosition);
+
+        for (int ix = 0; ix < touches.Length; ix++)
         {
-            if (hit[ix].GetComponent<BuildLandObject>())
+            if (touches[ix].GetComponent<BuildLandObject>())
             {
-                if(hit[ix].GetComponent<BuildLandObject>().buildCore == true)
+                if (touches[ix].GetComponent<BuildLandObject>().buildCore)
                 {
-                    if(touchedBuildLandObject == null)
-                    {
-                        touchedBuildLandObject = hit[ix].gameObject;
-                    }
-                    hit[ix].GetComponent<BuildLandObject>().JudgeAndColor(this);
+                    touchedBuildLandObject = touches[ix].gameObject;
+                    foundCore = true;
+                    break;
                 }
             }
         }
+
+        if(!foundCore) { touchedBuildLandObject = null; }
+
+        if(savedBuldingObject == null && touchedBuildLandObject == null)
+        {
+
+        }
+        else if (savedBuldingObject != null && touchedBuildLandObject == null)
+        {
+            savedBuldingObject.GetComponent<BuildLandObject>().ResetColler();
+        }
+        else if (savedBuldingObject == null && touchedBuildLandObject != null)
+        {
+            touchedBuildLandObject.GetComponent<BuildLandObject>().JudgeAndColor(this);
+        }
+        else if (savedBuldingObject != null && touchedBuildLandObject !=null && savedBuldingObject == touchedBuildLandObject)
+        {
+
+        }
+        else if (savedBuldingObject != null && touchedBuildLandObject != null && savedBuldingObject != touchedBuildLandObject)
+        {
+            savedBuldingObject.GetComponent<BuildLandObject>().ResetColler();
+            touchedBuildLandObject.GetComponent<BuildLandObject>().JudgeAndColor(this);
+        }
+
+        if (touchedBuildLandObject == null) savedBuldingObject = null;
+        else if (touchedBuildLandObject != null) savedBuldingObject = touchedBuildLandObject;
+    }
+
+    void GotoOriginScene()
+    {
+        //cameraManager.nowcamera = nowLocation.ManiHouse;
+        player.SetActive(true);
+        player.GetComponent<PlayerController>().Conversation(false);
+        gameManager.currentSceneName = "InsideHouse";
+        gameManager.needSubCam = false;
     }
 }
 

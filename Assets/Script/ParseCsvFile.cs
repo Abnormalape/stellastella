@@ -14,10 +14,10 @@ public class ParseCsvFile
         // 줄 단위로 분리.
         string[] lines = csvContent.Split('\n');
 
-        // 첫 열을 헤더로 사용.
+        // 첫 열을 키로 사용.
         if (lines.Length <= 1) { return data; } // 데이터가 없을 경우 빈 리스트를 반환.
 
-        // 첫 열을 쉼표로 나누어 헤더로 저장.
+        // 첫 열을 쉼표로 나누어 키로 저장.
         string[] headers = lines[0].Split(',');
 
         // 각 줄마다 데이터를 쪼개고 저장.

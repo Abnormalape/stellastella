@@ -11,7 +11,6 @@ class FarmBuildingDoor : MonoBehaviour
     {
         if(collision.tag == "RightClick")
         {
-            Debug.Log(GetComponentInParent<BuildLandObject>().buildingIndex + " 문짝의 인덱스");
             buildingManager.EnterTobuilding = GetComponentInParent<BuildLandObject>().buildingIndex;
         }
     }

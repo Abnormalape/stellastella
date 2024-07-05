@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
+using UnityEngine.Animations;
 
 class BuildingManager : MonoBehaviour
 {   //빌딩 매니저는 현재 존재하는 건축물들을 관리한다.
@@ -12,11 +11,37 @@ class BuildingManager : MonoBehaviour
 
     public TextAsset BuildingList; // 건축물 리스트.
     List<Dictionary<string, string>> BuildingData;
+    AnimalManager animalManager;
+
+    public class BuildingDataModel
+    {
+        public BuildingDataModel(string name, string doorPositionX, string doorPositionY, string enterancePositionX, string enterancePositionY, string currentAnimals)
+        {
+            this.Name = name;
+            this.DoorPositionX = doorPositionX;
+            this.DoorPositionY = doorPositionY;
+            this.EntrancePositionX = enterancePositionX;
+            this.EntrancePositionY = enterancePositionY;
+            this.CurrentAnimals = currentAnimals;
+        }
+
+        public string Name;
+        public string DoorPositionX;
+        public string DoorPositionY;
+        public string EntrancePositionX;
+        public string EntrancePositionY;
+        public string CurrentAnimals;
+    }
+    //List<BuildingDataModel> buildingDataList = new List<BuildingDataModel>();
+
+
     public int EnterTobuilding = -1;
 
     [SerializeField] TextAsset BuildingManagerData;
-    List<Dictionary<string, string>> BuildingIndex = new List<Dictionary<string, string>>();
+
+    List<Dictionary<string, string>> BuildingIndex; //저장된 건축물
     //buildLandObject의 index가 0이라면 list[0]에서 정보를 가져오고, 3이라면 list[3]에서 가져온다.
+    //데이터를 저장 할 땐, dictionary를 사용하지 말자. 지금 이 코드에 엄청난 폭탄이 있는데, 그거 해결 못했다.
 
     int BuildingIndexCount = 0;
 
@@ -28,6 +53,12 @@ class BuildingManager : MonoBehaviour
         EnterTobuilding = -1;
         BuildingData = new ParseCsvFile().ParseCsv(BuildingList.text);
         BuildingIndex = new ParseCsvFile().ParseCsv(BuildingManagerData.text);
+        animalManager = FindFirstObjectByType<AnimalManager>();
+
+        string[] inddd = BuildingManagerData.text.Split(',');
+        for (int i = 0; i < inddd.Length; i++){
+            Debug.Log(inddd[i]);
+        }
     }
     private bool readyToWhenBuildAtInside = false;
     public void WhenBuildingMadeAtFarm(BuildLandObject caller)
@@ -45,6 +76,12 @@ class BuildingManager : MonoBehaviour
             i = BuildingIndex.Count;
         }
         BuildingIndex.Add(new Dictionary<string, string>()); // 그리고 새로운 딕셔너리를 추가한다.
+        //buildingDataList.Add(new BuildingDataModel
+        //    (
+        //        name: caller.buildingName,
+        //        doorPositionX: caller.doorPosition.x.ToString(),
+        //        doorPositionY: caller.doorPosition.y.ToString(),
+        //    ));
         BuildingIndexCount++;
 
         Debug.Log("insideSaving");
@@ -85,6 +122,8 @@ class BuildingManager : MonoBehaviour
                 (float)Convert.ToDouble(BuildingIndex[EnterTobuilding]["DoorPositionX"]),
                 (float)Convert.ToDouble(BuildingIndex[EnterTobuilding]["DoorPositionY"]),
                 0);
+
+            animalManager.SetAnimalsInsideFarm(targetindex);
         }
     }
 
@@ -115,5 +154,23 @@ class BuildingManager : MonoBehaviour
                     (float)Convert.ToDouble(BuildingIndex[buildCores[iy].GetComponent<BuildLandObject>().buildingIndex]["EntrancePositionY"]),
                     0);
         }
+    }
+
+    public bool CheckAnimalCounts(BuildLandObject Caller, int CallersIndex) //caller는 호출한 오브젝트, index는 caller의 건축물 번호.
+    {
+        if (BuildingIndex[CallersIndex].ContainsKey("CurrentAnimals") == false)
+        {
+            BuildingIndex[CallersIndex]["CurrentAnimals"] = "0";
+        }
+
+        if (Convert.ToInt32(BuildingIndex[CallersIndex]["CurrentAnimals"]) < Convert.ToInt32(BuildingData[CallersIndex]["MaxAnimals"]))
+        {   //현재 동물의 숫자가 최대 수용량보다 적다면.
+            BuildingIndex[CallersIndex]["CurrentAnimals"]
+                = (Convert.ToInt32(BuildingIndex[CallersIndex]["CurrentAnimals"]) + 1).ToString();
+
+            Debug.Log(BuildingIndex[CallersIndex]["CurrentAnimals"]);
+            return true;
+        }   //현재 동물의 숫자가 최대 수용량 이상이라면.
+        else return false;
     }
 }

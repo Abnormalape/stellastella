@@ -305,7 +305,6 @@ public class BuildingWindow : MonoBehaviour
         FindFirstObjectByType<MyPlayerCursor>().showBuildingGrid(true, Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["Length"]), Convert.ToInt32(buildingData[canBuildIndex[currentPage]]["Height"]));
         FindFirstObjectByType<MyPlayerCursor>().player = pCon.gameObject;
 
-
         gameManager.needSubCam = true;
 
         pCon.gameObject.SetActive(false);
